@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { z } from 'zod';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/shared/components/atomics/button';
 
 const userSchema = z.object({
   name: z.string().min(2, '이름은 2글자 이상이어야 합니다.'),

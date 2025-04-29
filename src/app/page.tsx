@@ -1,5 +1,5 @@
-import { TodoList } from '@/components/Todo';
-import { UserForm } from '@/components/UserForm';
+import { TodoList } from '@/shared/components/Todo';
+import { UserForm } from '@/shared/components/UserForm';
 
 export default function Home() {
   return (

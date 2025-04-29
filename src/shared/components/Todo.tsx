@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/shared/components/atomics/button';
 import { useTodoStore } from '@/store/todoStore';
 
 export function TodoList() {
