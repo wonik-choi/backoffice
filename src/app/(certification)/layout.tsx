@@ -1,10 +1,15 @@
-import NavigationList from '@/widgets/navigation/ui/NavigationList';
+import NavigationSidebar from '@/widgets/navigation/ui/NavigationSidebar';
+
+import { SidebarProvider, SidebarTrigger } from '@/shared/components/atomics/sidebar';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="container mx-auto py-10">
-      <NavigationList />
-      {children}
+    <div className="size-full">
+      <SidebarProvider>
+        <NavigationSidebar />
+        <SidebarTrigger className="ml-2 mt-2" />
+        <main className="p-2">{children}</main>
+      </SidebarProvider>
     </div>
   );
 };
