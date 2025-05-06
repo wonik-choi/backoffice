@@ -1,19 +1,5 @@
 import { ColumnDef, RowSelectionState, Table, ColumnFilter, Row } from '@tanstack/react-table';
 import { StatusOption, DeviceRentalOption } from './const/freeTrialUserStatus';
-/**
- * @description
- * 기본 테이블 데이터 타입
- */
-export interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-  title?: string;
-  subtitle?: string;
-  isLoading?: boolean;
-  filterKey?: string;
-  defaultRowCount?: number;
-  onRowSelection?: (rowSelection: RowSelectionState) => void;
-}
 
 /**
  * @description
@@ -22,7 +8,7 @@ export interface DataTableProps<TData, TValue> {
 export interface ExpandedRowData {
   id: string;
   status?: string;
-  lastGrade?: string;
+  latestRecord?: string;
   registrationDate?: Date;
   enterancePath?: string;
   name?: string;
@@ -42,6 +28,15 @@ export interface ExpandedRowData {
   };
 }
 
+// 객체의 모든 가능한 경로를 추출하는 타입
+type NestedKeyOf<T> = T extends object
+  ? {
+      [K in keyof T]: K extends string ? K | `${K}.${NestedKeyOf<T[K]>}` : never;
+    }[keyof T & string]
+  : never;
+
+export type ExpandedRowDataKeys = NestedKeyOf<ExpandedRowData>;
+
 /**
  * @description
  * 상담기록
@@ -57,17 +52,4 @@ export interface CounselingRecord {
 export interface ExpandedUserInfoProps<TData extends ExpandedRowData> {
   row: Row<TData>;
   counselingRecords: CounselingRecord[];
-}
-
-/**
- * @description
- * 무료체험 상태 타입
- */
-export interface FreeTrialState {
-  userKeyword: string;
-  columnFilters: Array<ColumnFilter>;
-  setKeyword: (keyword: string) => void;
-  toggleColumnFilter: (columnId: string, value: string) => void;
-  checkFilterChecked: (columnId: string, value: string) => boolean;
-  resetColumnFilters: () => void;
 }

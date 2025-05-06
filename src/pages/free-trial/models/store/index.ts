@@ -1,7 +1,7 @@
 'use client';
 
 import { create } from 'zustand';
-import { FreeTrialState } from '@/pages/free-trial/models/interface';
+import { FreeTrialState } from '@/pages/free-trial/models/store/interface';
 
 export const useFreeTrialStore = create<FreeTrialState>((set, get) => ({
   userKeyword: '',
