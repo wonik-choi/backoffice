@@ -33,12 +33,7 @@ const SingleDatePicker = ({ dateLabel, selectedDate, onSelect, disabled }: Singl
           {dateLabel}
         </Button>
       </PopoverTrigger>
-      <PopoverContent
-        className="w-auto p-0"
-        align="start"
-        onPointerDownOutside={(e) => e.preventDefault()}
-        {...({ portalled: false } as React.ComponentProps<typeof PopoverContent>)}
-      >
+      <PopoverContent className="w-auto p-0" align="start" onPointerDownOutside={(e) => e.preventDefault()}>
         <Calendar mode="single" selected={selectedDate} onSelect={onSelect} disabled={disabled} />
       </PopoverContent>
     </Popover>
