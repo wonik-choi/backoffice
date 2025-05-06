@@ -1,13 +1,13 @@
 import { HTMLAttributes } from 'react';
 
-interface PeopleTop extends HTMLAttributes<SVGElement> {}
+interface ClockCircle extends HTMLAttributes<SVGElement> {}
 
-const PeopleTop = ({ className, ...props }: PeopleTop) => {
+const ClockCircle = ({ className, ...props }: ClockCircle) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
+      width="18"
+      height="18"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -17,10 +17,10 @@ const PeopleTop = ({ className, ...props }: PeopleTop) => {
       className={className}
       {...props}
     >
-      <circle cx="12" cy="8" r="5" />
-      <path d="M20 21a8 8 0 1 0-16 0" />
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
     </svg>
   );
 };
 
-export default PeopleTop;
+export default ClockCircle;

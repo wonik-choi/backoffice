@@ -23,20 +23,22 @@ export interface ExpandedRowData {
   id: string;
   status?: string;
   lastGrade?: string;
-  registrationDate?: string;
+  registrationDate?: Date;
+  enterancePath?: string;
   name?: string;
   phone?: string;
   checkPeriod?: {
-    startDate?: string;
-    endDate?: string;
+    startDate?: Date;
+    endDate?: Date;
     duration?: string;
     status?: string;
   };
   upgrade?: {
-    deviceRental?: string;
+    deviceRentalAddress?: string;
     completionStatus?: string;
-    rentalDate?: string;
+    rentalDate?: Date;
     returnStatus?: string;
+    returnDate?: Date;
   };
 }
 

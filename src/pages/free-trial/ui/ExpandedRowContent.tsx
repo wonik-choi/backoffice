@@ -7,6 +7,15 @@ import Message from '@/shared/components/svgs/message/Message';
 import PeopleTop from '@/shared/components/svgs/people-top/PeopleTop';
 import CirclePlus from '@/shared/components/svgs/circle-plus/CirclePlus';
 
+// features
+import EditFreeTrialStudentDialog from '@/features/edit-free-trial-student/ui/EditFreeTrialStudentDialog';
+
+// pages
+import ChangeUserStateButton from '@/pages/free-trial/ui/buttons/change-user-state-button/ChangeUserStateButton';
+import ExpandedRowUserInfo from '@/pages/free-trial/ui/ExpandedRowUserInfo';
+import ExpandedRowCounselingRecord from '@/pages/free-trial/ui/ExpandedRowCounselingRecord';
+import ExpandedRowMessageRecord from '@/pages/free-trial/ui/ExpandedRowMessageRecord';
+
 import { ExpandedRowData } from '@/pages/free-trial/models/interface';
 import { ExpandedUserInfoProps } from '@/pages/free-trial/models/interface';
 
@@ -72,22 +81,20 @@ const ExpandedRowContentNavigation = ({ activeTab, setActiveTab }: ExpandedRowCo
   ];
 
   return (
-    <div className="flex justify-between items-center border-b border-gray-200 mb-6">
-      <nav className="flex flex-wrap gap-2 -mb-px">
-        {navigationItems.map((item) => {
-          return (
-            <ExpandedRowContentNavigationItem
-              key={item.label}
-              label={item.label}
-              type={item.type}
-              active={item.type === activeTab}
-              icon={item.icon}
-              changeNavigation={setActiveTab}
-            />
-          );
-        })}
-      </nav>
-    </div>
+    <nav className="flex flex-wrap gap-2 mb-px">
+      {navigationItems.map((item) => {
+        return (
+          <ExpandedRowContentNavigationItem
+            key={item.label}
+            label={item.label}
+            type={item.type}
+            active={item.type === activeTab}
+            icon={item.icon}
+            changeNavigation={setActiveTab}
+          />
+        );
+      })}
+    </nav>
   );
 };
 
@@ -99,6 +106,38 @@ const ExpandedRowContent = <TData extends ExpandedRowData>({
 
   const userInfo = row.original;
   const userId = userInfo.id.toString();
+
+  // TODO: 추후 정책이 정해지면 변경 예정
+  const exampleStudent = {
+    name: userInfo.name,
+    phone: userInfo.phone,
+    registrationDate: userInfo.registrationDate,
+    enterancePath: userInfo.enterancePath,
+    testPeriod: {
+      startDate: userInfo.checkPeriod?.startDate,
+      endDate: userInfo.checkPeriod?.endDate,
+    },
+    deviceRental: {
+      deviceRentalAddress: userInfo.upgrade?.deviceRentalAddress,
+      rentalDate: userInfo.upgrade?.rentalDate,
+      returnDate: userInfo.upgrade?.returnDate,
+    },
+  };
+
+  return (
+    <div className="p-4 bg-gray-50">
+      <div className="flex justify-between items-center border-b border-gray-200 mb-6">
+        <ExpandedRowContentNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
+        <div className="flex gap-2">
+          <EditFreeTrialStudentDialog student={exampleStudent} />
+          <ChangeUserStateButton row={row} />
+        </div>
+      </div>
+      {activeTab === 'basic' && <ExpandedRowUserInfo row={row} />}
+      {activeTab === 'counseling' && <ExpandedRowCounselingRecord />}
+      {activeTab === 'notification' && <ExpandedRowMessageRecord />}
+    </div>
+  );
 };
 
 export default ExpandedRowContent;

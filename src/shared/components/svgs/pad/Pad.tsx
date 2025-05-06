@@ -1,13 +1,13 @@
 import { HTMLAttributes } from 'react';
 
-interface PeopleTop extends HTMLAttributes<SVGElement> {}
+interface Pad extends HTMLAttributes<SVGElement> {}
 
-const PeopleTop = ({ className, ...props }: PeopleTop) => {
+const Pad = ({ className, ...props }: Pad) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
+      width="18"
+      height="18"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -17,10 +17,12 @@ const PeopleTop = ({ className, ...props }: PeopleTop) => {
       className={className}
       {...props}
     >
-      <circle cx="12" cy="8" r="5" />
-      <path d="M20 21a8 8 0 1 0-16 0" />
+      <rect width="16" height="20" x="4" y="2" rx="2" />
+      <path d="M9 22v-4h6v4" />
+      <path d="M8 6h8" />
+      <path d="M8 10h8" />
     </svg>
   );
 };
 
-export default PeopleTop;
+export default Pad;
