@@ -106,12 +106,7 @@ export const freeTrialTableColumns: ColumnDef<ExpandedRowData>[] = [
     header: '대여여부',
     cell: ({ row }) => row.original.upgrade?.deviceRentalAddress || '미대여',
   },
-  {
-    id: 'upgrade.completionStatus',
-    accessorFn: (row) => row.upgrade?.completionStatus,
-    header: '대여여부',
-    cell: ({ row }) => row.original.upgrade?.completionStatus || '-',
-  },
+
   {
     id: 'upgrade.rentalDate',
     accessorFn: (row) => row.upgrade?.rentalDate,
@@ -123,5 +118,11 @@ export const freeTrialTableColumns: ColumnDef<ExpandedRowData>[] = [
     accessorFn: (row) => row.upgrade?.returnDate,
     header: '반납일',
     cell: ({ row }) => row.original.upgrade?.returnDate?.toLocaleDateString('ko-KR') || '-',
+  },
+  {
+    id: 'upgrade.completionStatus',
+    accessorFn: (row) => row.upgrade?.completionStatus,
+    header: '상태',
+    cell: ({ row }) => row.original.upgrade?.completionStatus || '-',
   },
 ];

@@ -31,7 +31,7 @@ const NavigationSidebar = () => {
   const pathname = usePathname();
   return (
     <Sidebar>
-      <SidebarContent>
+      <SidebarContent className="bg-white">
         <SidebarGroup>
           <SidebarGroupLabel className="font-semibold text-lg mb-4">Backoffice</SidebarGroupLabel>
           <SidebarGroupContent>

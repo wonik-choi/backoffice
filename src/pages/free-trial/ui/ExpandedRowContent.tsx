@@ -126,9 +126,9 @@ const ExpandedRowContent = <TData extends ExpandedRowData>({
 
   return (
     <div className="p-4 bg-gray-50">
-      <div className="flex justify-between items-center border-b border-gray-200 mb-6">
+      <div className="flex justify-between items-center pb-2 border-b border-gray-200 mb-6">
         <ExpandedRowContentNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
           <EditFreeTrialStudentDialog student={exampleStudent} />
           <ChangeUserStateButton row={row} />
         </div>

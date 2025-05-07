@@ -22,7 +22,7 @@ const FreeTrialTable = ({ columns, tableData }: FreeTrialTableUsecaseProps<Expan
                 return (
                   <TableHead
                     key={group.name}
-                    className="text-center py-3 font-semibold text-gray-900 border-r last:border-r-0"
+                    className=" text-center py-3 font-semibold text-gray-900 border-r last:border-r-0"
                     colSpan={group.colSpan}
                   >
                     {group.name}
@@ -39,9 +39,9 @@ const FreeTrialTable = ({ columns, tableData }: FreeTrialTableUsecaseProps<Expan
                     return (
                       <TableHead
                         key={header.id}
-                        className="text-center whitespace-nowrap py-3 text-sm font-medium text-gray-700 border-r last:border-r-0"
+                        className=" text-center whitespace-nowrap py-3 text-sm font-medium text-gray-700 border-r last:border-r-0"
                       >
-                        <div className="flex justify-items-center">
+                        <div className="flex justify-center items-center">
                           {flexRender(header.column.columnDef.header, header.getContext())}
                         </div>
                       </TableHead>

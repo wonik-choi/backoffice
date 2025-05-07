@@ -36,7 +36,11 @@ const ChangeUserStateButton = ({ row }: { row: Row<any> }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm" className="bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100">
+        <Button
+          variant="outline"
+          size="sm"
+          className="p-[18px] bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100"
+        >
           작업
           <ChevronDown className="ml-1" />
         </Button>
