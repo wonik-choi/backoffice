@@ -1,120 +1,98 @@
-## Getting Started
+## 무료체험 진행 구조도
 
 ```mermaid
 sequenceDiagram
-  Actor Customer as User
-  participant 배송업체 as 배송업체
-  participant 관리자(배송) as 관리자(배송)
-  participant 렌딩페이지 as 렌딩페이지
-  participant 백오피스 as 백오피스(무료체험페이지)
-  participant 관리자 as 관리자
-  participant 서버 as 서버
+  %% ───── 참가자 선언 ─────
+  actor    Customer        as "사용자"
+  participant Landing      as "렌딩페이지"
+  participant Backoffice   as "백오피스(무료체험)"
+  participant Manager      as "관리자"
+  participant DeliveryComp as "배송업체"
+  participant DeliveryAdmin as "관리자(배송)"
+  participant Server       as "서버"
 
-  Customer ->> 렌딩페이지: 입력폼 제출(이름, 전화번호)
-  렌딩페이지 ->> 서버: 입력정보 전달
-  alt Successful
-    서버 ->> 백오피스: 유저 생성
-  else Failed
-  서버 ->> 렌딩페이지: 입력 실패 메시지 전달
+  %% 1) 기본 입력
+  Customer  ->> Landing  : 입력폼 제출(이름·전화번호)
+  Landing   ->> Server   : 입력 정보 전달
+
+  alt 입력 성공
+      Server  ->> Backoffice : 유저 생성
+  else 입력 실패
+      Server  ->> Landing    : 실패 메시지
   end
+
+  %% 2) 1차 상담
   alt 상담 실패(부재중)
-    관리자 ->> Customer: 1차 상담 전화 요청
-    Customer ->> 관리자: 부정적 대응(부재중 및 기타)
-    관리자 ->> 백오피스: 상담기록 저장(부재중..)
-    백오피스 ->> 서버: 상담기록 저장 및 상태 전달
-    서버 ->> 백오피스: 상담기록 및 유저 상태 변경
-    관리자 ->> Customer: 2차 상담 전화 요청
+      Manager  ->> Customer : 1차 상담 요청
+      Customer ->> Manager  : 부재중
+      Manager  ->> Backoffice : 상담 기록(부재중)
+      Backoffice ->> Server : 상태 업데이트
+      Server ->> Backoffice : 확정
+      Manager  ->> Customer : 2차 상담 요청
   else 상담 성공
-    관리자 ->> Customer: 1차 상담 전화 요청
-    Customer ->> 관리자: 상담 결과 긍정적
-    관리자 ->> 백오피스: 상담기록작성(체험 확정)
-    백오피스 ->> 서버: 상담기록 저장 및 상태 전달
-    서버 ->> 백오피스: 상담기록 및 유저 상태 변경
-    서버 ->> Customer: 알림톡 전달
-    서버 ->> 서버: 발송 시점 저장
-end
-alt 유저의 폼 제출 실패
-    Customer ->> 백오피스: 입력폼 미제출
-    서버 ->> 서버: 2일 경과
-    서버 ->> Customer: 2차 알림톡 발송
-end
-alt 유저의 폼 제출 실패
-    Customer ->> 백오피스: 입력폼 미제출
-    서버 ->> 서버: 2일 경과
-    서버 ->> Customer: 3차 알림톡 발송
-end
-alt 유저의 폼 제출 실패
-    Customer ->> 백오피스: 입력폼 미제출
-    서버 ->> 서버: 2일 경과
-    서버 ->> 서버: 해당 유저 취소 처리
-    서버 ->> 백오피스 : 해당 유저에 대한 상태 변경
-end
-alt 입력폼 제출
-    Customer ->> 백오피스 : 입력폼 작성 및 제출
-    백오피스 ->> 서버 : 유저 정보 사항 전달
-    서버 ->> 백오피스 : 변경된 유저 정보 업데이트
-    서버 ->> 서버 : 해당 유저에 대한 학습시작일 및 일정 결정
-    서버 ->> Customer: 신청완료 알림톡 발송
-    서버 ->> 관리자 : 아이패드 발송 알림톡
-end
-관리자 ->> 배송업체 : 유저에게 아이패드 배송 요청
-alt 특정 이유로 학습시작일 연기시
-    Customer ->> 관리자 : 연기사유 전달
-    관리자 ->> 백오피스 : 유저 정보 수정(학습시작일 변경)
-    백오피스 ->> 서버 : 변경된 학습시작일 반영
-    서버 ->> 백오피스 : 관리자 확인 시 변경사항 반영
-end
-alt 학습시작 3일전까지 송장번호 미입력시
-    서버 ->> 서버 : 해당학생 상태 -> 긴급
-    서버 ->> 관리자 : 긴급학생에 대한 알림톡
-    관리자 ->> 관리자 : 배송관련 처리
-    alt 학습시작일 연기시
-        관리자 ->> 백오피스 : 해당 학생 학습시작일 변경
-        백오피스 ->> 서버 : 변경사항 전달
-        서버 ->> 서버 : 변경 학습시작일 기점으로 일정 재산출 및 긴급상태 변경
-        서버 ->> 백오피스 : 관리자 확인 시 변경사항 갱신
-    end
-else 정상적인 송장번호 입력
-    관리자(배송) ->> 백오피스 : 송장번호 입력
-    백오피스 ->> 서버 : 송장번호 전달
-    서버 ->> 배송업체 : 특정시간 간격으로 배송조회(송장번호기준)
-    배송업체 ->> 서버 : 조회정보 전달
-    alt 배송완료
-        서버 ->> 서버 : 학생상태 변경(배송완료)
-    end
-end
-alt 학습시작 1일 전
-    서버 ->> 관리자 : 오픈채팅방 생성 필요 알림톡
-    관리자 ->> Customer : 학생 생성된 오픈채팅방 초대
-end
-alt 체험 학습 7일 후
-    관리자 ->> 백오피스 : 체험일정 만료 학생 확인 후 상태 변경
-    alt 입학
-        관리자 ->> 백오피스 : 학생 상태 '입학' 변경
-        백오피스 ->> 서버 : 학생 상태 업데이트 요청
-        서버 ->> 서버 : 유료회원 전환 및 무료체험 내 삭제상태로 변경
-        서버 ->> 백오피스 : 관리자 접근시 화면 갱신
-    end
-    alt 체험 종료
-        관리자 ->> 백오피스 : 학생 상태 '체험 종료' 변경
-        백오피스 ->> 서버 : 학생 상태 업데이트 요청
-        서버 ->> 서버 : 무료체험 내 삭제상태로 변경
-        서버 ->> 백오피스 : 관리자 접근시 화면 갱신
-    end
-    alt 무료체험 중지(취소)
-        관리자 ->> 백오피스 : 학생 상태 '중지(취소)' 변경 및 취소사유 작성
-        백오피스 ->> 서버 : 학생 상태 업데이트 요청
-        서버 ->> 서버 : 무료체험 내 삭제상태로 변경
-        서버 ->> 백오피스 : 관리자 접근시 화면 갱신
-    end
-end
+      Manager  ->> Customer : 1차 상담 요청
+      Customer ->> Manager  : 긍정적 응답
+      Manager  ->> Backoffice : 상담 기록(체험 확정)
+      Backoffice ->> Server  : 상태 업데이트
+      Server ->> Backoffice : 확정
+      Server ->> Customer   : 알림톡
+      Server ->> Server     : 발송 시점 저장
+  end
 
+  %% 3) 폼 미제출 알림 3‑스텝 루프
+  loop 유저 폼 미제출 → 2일 경과 × 3회
+      Server  ->> Customer : 알림톡 발송
+  end
+  alt 지속적인 무응답
+    Server ->> Server : 3회 경과 → 유저 취소
+    Server ->> Backoffice : 상태 "취소" 반영
+  end
 
+  %% 4) 폼 제출 후
+  Customer ->> Backoffice : 입력폼 작성·제출
+  Backoffice ->> Server   : 정보 전달
+  Server ->> Backoffice   : 정보 업데이트
+  Server ->> Server       : 학습 시작일 산정
+  Server ->> Customer     : 신청완료 알림톡
+  Server ->> DeliveryAdmin: 아이패드 배송 알림
 
+  DeliveryAdmin ->> DeliveryComp : 아이패드 배송 요청
 
+  %% 5) 송장번호 흐름
+  alt 학습 시작 3일 전 송장번호 없음
+      Server ->> Server   : 상태 "긴급"
+      Server ->> Manager  : 긴급 알림톡
+      opt 학습 시작일 연기
+          Manager ->> Backoffice : 시작일 변경
+          Backoffice ->> Server  : 변경사항 전달
+          Server ->> Server      : 일정 재산출
+      end
+  else 정상 송장 입력
+      DeliveryAdmin ->> Backoffice : 송장 입력
+      Backoffice    ->> Server     : 송장 전달
+      loop 배송 조회 (단위시간 미정)
+        Server        ->> DeliveryComp : 배송 조회(주기)
+      end
+      DeliveryComp  ->> Server     : 배송 완료 응답
+      Server        ->> Server     : 상태 "배송완료"
+  end
 
+  %% 6) 오픈채팅 안내
+  alt 학습 1일 전
+    Server ->> Manager  : 오픈채팅 생성 알림
+  end
 
-
-
+  %% 7) 체험 7일 후 상태 결정
+  alt 입학
+      Manager ->> Backoffice : 상태 '입학'
+      Backoffice ->> Server  : 상태 업데이트
+      Server ->> Server      : 유료 전환
+  else 체험 종료
+      Manager ->> Backoffice : 상태 '체험 종료'
+      Backoffice ->> Server  : 상태 업데이트
+  else 무료체험 중단
+      Manager ->> Backoffice : 상태 '중단' + 사유
+      Backoffice ->> Server  : 상태 업데이트
+  end
 
 ```
