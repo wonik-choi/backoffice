@@ -168,3 +168,4 @@ sequenceDiagram
 - 고객 응답 속도 향상으로 **이탈률 감소** 기대
 - 초기 투자 대비 약 **1 년 내** 충분한 비용 절감 효과
 - [스마트 택배 API](https://tracking.sweettracker.co.kr/#price)
+- [오픈소스 택배 API](https://tracker.delivery/#/kr.cjlogistics/111111111111%20%EC%B6%9C%EC%B2%98:%20https://development-pro.tistory.com/entry/%ED%83%9D%EB%B0%B0%EC%82%AC%EC%A1%B0%ED%9A%8C%EA%B0%81-%ED%83%9D%EB%B0%B0%EC%82%AC-%EB%B0%8F-%EB%8C%80%ED%95%9C%ED%86%B5%EC%9A%B4-API-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%20[%EA%B0%9C%EB%B0%9C%EC%9E%90%EC%9D%98%20%EC%82%B6:%ED%8B%B0%EC%8A%A4%ED%86%A0%EB%A6%AC])
