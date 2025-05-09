@@ -1,4 +1,4 @@
-import { ExpandedRowDataKeys, ExpandedRowData } from '@/pages/free-trial/models/interface';
+import { ExpandedRowDataKeys, ExpandedRowData } from '@/views/free-trial/models/interface';
 import { ColumnDef } from '@tanstack/react-table';
 
 export interface TableColumnGroup {

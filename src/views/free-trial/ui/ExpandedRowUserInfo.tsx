@@ -4,7 +4,7 @@ import PeopleTop from '@/shared/components/svgs/people-top/PeopleTop';
 import ClockCircle from '@/shared/components/svgs/clock-circle/ClockCircle';
 import Pad from '@/shared/components/svgs/pad/Pad';
 
-import { ExpandedRowData } from '@/pages/free-trial/models/interface';
+import { ExpandedRowData } from '@/views/free-trial/models/interface';
 
 interface UserInfoCardProps {
   title: string;

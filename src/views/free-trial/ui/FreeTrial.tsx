@@ -2,14 +2,14 @@
 
 import { useState } from 'react';
 
-import FreeTrialFilterSection from '@/pages/free-trial/ui/FreeTrialFilterSection';
-import WrappingExportButton from '@/pages/free-trial/ui/buttons/wrapping-export-button/WrappingExportButton';
+import FreeTrialFilterSection from '@/views/free-trial/ui/FreeTrialFilterSection';
+import WrappingExportButton from '@/views/free-trial/ui/buttons/wrapping-export-button/WrappingExportButton';
 import EditFreeTrialStudentDialog from '@/features/edit-free-trial-student/ui/EditFreeTrialStudentDialog';
-import FreeTrialTable from '@/pages/free-trial/ui/FreeTrialTable';
+import FreeTrialTable from '@/views/free-trial/ui/FreeTrialTable';
 
-import { useInitialFreeTrialTable } from '@/pages/free-trial/services/usecase/useInitialFreeTrialTable';
-import { freeTrialTableColumns } from '@/pages/free-trial/models/const/table';
-import { ExpandedRowData } from '@/pages/free-trial/models/interface';
+import { useInitialFreeTrialTable } from '@/views/free-trial/services/usecase/useInitialFreeTrialTable';
+import { freeTrialTableColumns } from '@/views/free-trial/models/const/table';
+import { ExpandedRowData } from '@/views/free-trial/models/interface';
 
 const data: ExpandedRowData[] = [
   {

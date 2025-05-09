@@ -1,5 +1,5 @@
 import { ColumnDef, Table } from '@tanstack/react-table';
-import { ExpandedRowData } from '@/pages/free-trial/models/interface';
+import { ExpandedRowData } from '@/views/free-trial/models/interface';
 
 /**
  * @description 내보내기 버튼 컴포넌트의 타입 정의

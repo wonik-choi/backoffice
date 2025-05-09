@@ -2,8 +2,8 @@
 import { Filter } from 'lucide-react';
 
 // pages
-import { useFreeTrialStore } from '@/pages/free-trial/models/store';
-import { USER_STATUS, USER_DEVICE_RENTAL_STATUS } from '@/pages/free-trial/models/const/freeTrialUserStatus';
+import { useFreeTrialStore } from '@/views/free-trial/models/store';
+import { USER_STATUS, USER_DEVICE_RENTAL_STATUS } from '@/views/free-trial/models/const/freeTrialUserStatus';
 
 // shared
 import { Button } from '@/shared/components/atomics/button';
@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/shared/components/atomics/dropdown-menu';
-import { deviceRentalOptions, statusOptions } from '@/pages/free-trial/models/const/freeTrialUserStatus';
+import { deviceRentalOptions, statusOptions } from '@/views/free-trial/models/const/freeTrialUserStatus';
 
 function DataFilterButton() {
   const { columnFilters, toggleColumnFilter, checkFilterChecked } = useFreeTrialStore();

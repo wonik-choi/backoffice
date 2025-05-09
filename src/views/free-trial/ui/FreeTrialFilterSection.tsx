@@ -1,6 +1,6 @@
 import AddFreeTrialStudentDialog from '@/features/add-new-free-trial-student/ui/AddFreeTrialStudentDialog';
-import SearchFreeTrial from '@/pages/free-trial/ui/SearchFreeTrial';
-import TableFilter from '@/pages/free-trial/ui/TableFilter';
+import SearchFreeTrial from '@/views/free-trial/ui/SearchFreeTrial';
+import TableFilter from '@/views/free-trial/ui/TableFilter';
 
 const FreeTrialFilterSection = () => {
   return (

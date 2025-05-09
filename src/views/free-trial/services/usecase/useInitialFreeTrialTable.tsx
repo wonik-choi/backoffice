@@ -14,9 +14,9 @@ import { Badge } from '@/shared/components/atomics/badge';
 // features
 
 // pages
-import { useFreeTrialStore } from '@/pages/free-trial/models/store';
-import { COLUMN_GROUPS } from '@/pages/free-trial/models/const/table';
-import type { FreeTrialTableUsecaseProps } from '@/pages/free-trial/models/converter/interface';
+import { useFreeTrialStore } from '@/views/free-trial/models/store';
+import { COLUMN_GROUPS } from '@/views/free-trial/models/const/table';
+import type { FreeTrialTableUsecaseProps } from '@/views/free-trial/models/converter/interface';
 
 // TODO: 추후 dto 를 받아와 처리할 수 있도록 변경될 예정이며 현재는 mock data 로 임시 처리합니다.
 export const useInitialFreeTrialTable = <TData, TValue>({

@@ -4,8 +4,8 @@ import React from 'react';
 import { flexRender, Row } from '@tanstack/react-table';
 
 // pages
-import ExpandedRowContent from '@/pages/free-trial/ui/ExpandedRowContent';
-import type { ExpandedRowData } from '@/pages/free-trial/models/interface';
+import ExpandedRowContent from '@/views/free-trial/ui/ExpandedRowContent';
+import type { ExpandedRowData } from '@/views/free-trial/models/interface';
 
 // shared
 import { TableCell, TableRow } from '@/shared/components/atomics/table';

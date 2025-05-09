@@ -1,6 +1,6 @@
 import React from 'react';
 import { ColumnDef, CellContext, Table } from '@tanstack/react-table';
-import { ExpandedRowData } from '@/pages/free-trial/models/interface';
+import { ExpandedRowData } from '@/views/free-trial/models/interface';
 
 // UTF-8 BOM 문자
 const BOM = '\uFEFF';

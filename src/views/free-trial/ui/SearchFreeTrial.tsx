@@ -5,7 +5,7 @@ import Search from '@/shared/components/svgs/search/Search';
 import { Input } from '@/shared/components/atomics/input';
 
 // model
-import { useFreeTrialStore } from '@/pages/free-trial/models/store';
+import { useFreeTrialStore } from '@/views/free-trial/models/store';
 
 const SearchFreeTrial = () => {
   const { userKeyword, setKeyword } = useFreeTrialStore();

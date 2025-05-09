@@ -1,8 +1,8 @@
 // pages
-import FreeTrialTableBodyRow from '@/pages/free-trial/ui/FreeTrialTableBodyRow';
-import { useInitialFreeTrialTable } from '@/pages/free-trial/services/usecase/useInitialFreeTrialTable';
-import type { FreeTrialTableUsecaseProps } from '@/pages/free-trial/models/converter/interface';
-import { ExpandedRowData } from '@/pages/free-trial/models/interface';
+import FreeTrialTableBodyRow from '@/views/free-trial/ui/FreeTrialTableBodyRow';
+import { useInitialFreeTrialTable } from '@/views/free-trial/services/usecase/useInitialFreeTrialTable';
+import type { FreeTrialTableUsecaseProps } from '@/views/free-trial/models/converter/interface';
+import { ExpandedRowData } from '@/views/free-trial/models/interface';
 
 // shared
 import { Table, TableHeader, TableRow, TableHead, TableCell, TableBody } from '@/shared/components/atomics/table';

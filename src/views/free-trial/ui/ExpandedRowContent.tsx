@@ -11,13 +11,13 @@ import CirclePlus from '@/shared/components/svgs/circle-plus/CirclePlus';
 import EditFreeTrialStudentDialog from '@/features/edit-free-trial-student/ui/EditFreeTrialStudentDialog';
 
 // pages
-import ChangeUserStateButton from '@/pages/free-trial/ui/buttons/change-user-state-button/ChangeUserStateButton';
-import ExpandedRowUserInfo from '@/pages/free-trial/ui/ExpandedRowUserInfo';
-import ExpandedRowCounselingRecord from '@/pages/free-trial/ui/ExpandedRowCounselingRecord';
-import ExpandedRowMessageRecord from '@/pages/free-trial/ui/ExpandedRowMessageRecord';
+import ChangeUserStateButton from '@/views/free-trial/ui/buttons/change-user-state-button/ChangeUserStateButton';
+import ExpandedRowUserInfo from '@/views/free-trial/ui/ExpandedRowUserInfo';
+import ExpandedRowCounselingRecord from '@/views/free-trial/ui/ExpandedRowCounselingRecord';
+import ExpandedRowMessageRecord from '@/views/free-trial/ui/ExpandedRowMessageRecord';
 
-import { ExpandedRowData } from '@/pages/free-trial/models/interface';
-import { ExpandedUserInfoProps } from '@/pages/free-trial/models/interface';
+import { ExpandedRowData } from '@/views/free-trial/models/interface';
+import { ExpandedUserInfoProps } from '@/views/free-trial/models/interface';
 
 interface ExpandedRowContentNavigationItemProps {
   label: string;
