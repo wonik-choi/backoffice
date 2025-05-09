@@ -1,3 +1,70 @@
+# 기존 구조
+
+```mermaid
+sequenceDiagram
+  actor    Customer        as "사용자"
+  participant Landing      as "렌딩페이지"
+  participant Manager      as "관리자"
+  Participant Excel        as "시트"
+  participant DeliveryComp as "배송업체"
+  participant DeliveryAdmin as "관리자(배송)"
+
+  Customer  ->> Manager  : 입력폼 제출(이름·전화번호);
+
+  Manager ->> Manager : 유저 확인
+
+  alt 상담 실패(부재중)
+      Manager  ->> Customer : 1차 상담 요청
+      Customer ->> Manager  : 부재중
+      Manager  ->> Excel : 해피콜 상태 변경
+      Manager  ->> Customer : 2차 상담 요청
+  else 상담 성공
+      Manager  ->> Customer : 1차 상담 요청
+      Customer ->> Manager  : 긍정적 응답
+      Manager  ->> Excel : 해피콜 상태 변경
+      Manager ->> Customer   : 알림톡
+      Manager ->> Excel     : 발송 시점 저장
+  end
+  loop 유저 폼 미제출 → 2일 경과 × 3회
+      Manager  ->> Customer : 알림톡 발송
+  end
+  alt 지속적인 무응답
+    Manager ->> Excel : 3회 경과 → 유저 취소
+    Manager ->> Excel : 상태 "취소" 반영
+  end
+  Customer ->> Manager : 입력폼 작성·제출
+
+  Manager ->> Excel   : 정보 업데이트
+  Manager ->> Excel       : 학습 시작일 산정
+  Manager ->> Customer     : 신청완료 알림톡
+  Manager ->> DeliveryComp : 아이패드 배송 요청
+  alt 학습 시작 3일 전 송장번호 없음
+      Manager ->> Excel   : 상태 "긴급"
+      opt 학습 시작일 연기
+          Manager ->> Excel : 시작일 변경
+          Manager ->> Excel      : 일정 재산출
+      end
+  else 정상 송장 입력
+      DeliveryAdmin ->> Excel : 송장 입력
+      loop 배송 조회 (단위시간 미정)
+        Manager        ->> DeliveryComp : 배송 조회(주기)
+      end
+      Manager        ->> Excel     : 상태 "배송완료"
+  end
+  alt 학습 1일 전
+    Manager ->> Customer  : 오픈채팅 생성 알림
+  end
+  alt 입학
+      Manager ->> Excel : 상태 '입학'
+      Manager ->> Excel      : 유료 전환
+  else 체험 종료
+      Manager ->> Excel : 상태 '체험 종료'
+  else 무료체험 중단
+      Manager ->> Excel : 상태 '중단' + 사유
+  end
+
+```
+
 # 무료체험 진행 구조도
 
 ```mermaid
