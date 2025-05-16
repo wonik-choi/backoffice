@@ -19,6 +19,8 @@ import {
 } from '@/shared/components/atomics/drawer';
 import { Search } from 'lucide-react';
 
+import BottomDrawer from '@/features/search-address/ui/BottmDrawer';
+
 interface Address {
   zipCode: string;
   address1: string;
@@ -126,8 +128,17 @@ export function AddressInformation() {
     setSearchResults(mockAddresses);
   };
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     // In a real implementation, this would call the Korean address search API
+    const searchAddress = await fetch(`https://dapi.kakao.com/v2/local/search/address.json?query=${searchTerm}`, {
+      headers: {
+        Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_CLIENT_KEY}`,
+      },
+    });
+
+    const data = await searchAddress.json();
+
+    console.log(data);
     // For now, we'll filter our mock data
     if (searchTerm.length > 0) {
       const results = mockAddresses.filter(
@@ -195,9 +206,7 @@ export function AddressInformation() {
               {errors.zipCode && <p className="text-sm text-red-500">{errors.zipCode}</p>}
             </div>
             <div className="flex items-end">
-              <Button type="button" variant="outline" onClick={handleSearchAddress} className="h-10 whitespace-nowrap">
-                주소 검색
-              </Button>
+              <BottomDrawer setForm={setFormData} />
             </div>
           </div>
 
