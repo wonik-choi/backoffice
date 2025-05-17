@@ -68,6 +68,7 @@ export type RegisterFreeTrialState = {
   semester: Semester;
   device: Device;
   currentStep: FormStep;
+  currentDerection: 1 | -1;
   formSessionToken: string | null;
   isSubmitting: boolean;
   isSubmitted: boolean;

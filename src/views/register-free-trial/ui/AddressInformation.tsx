@@ -20,7 +20,7 @@ import {
 import { Search } from 'lucide-react';
 
 import BottomDrawer from '@/features/search-address/ui/BottmDrawer';
-
+import RentalDeviceTerms from '@/views/register-free-trial/ui/RentalDeviceTerms';
 interface Address {
   zipCode: string;
   address1: string;
@@ -122,49 +122,6 @@ export function AddressInformation() {
     }
   };
 
-  const handleSearchAddress = () => {
-    setIsSearchDrawerOpen(true);
-    // Pre-populate search results with all mock addresses
-    setSearchResults(mockAddresses);
-  };
-
-  const handleSearch = async () => {
-    // In a real implementation, this would call the Korean address search API
-    const searchAddress = await fetch(`https://dapi.kakao.com/v2/local/search/address.json?query=${searchTerm}`, {
-      headers: {
-        Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_CLIENT_KEY}`,
-      },
-    });
-
-    const data = await searchAddress.json();
-
-    console.log(data);
-    // For now, we'll filter our mock data
-    if (searchTerm.length > 0) {
-      const results = mockAddresses.filter(
-        (address) => address.address1.includes(searchTerm) || address.zipCode.includes(searchTerm)
-      );
-      setSearchResults(results);
-    } else {
-      setSearchResults(mockAddresses); // Show all results when search term is empty
-    }
-  };
-
-  const handleSelectAddress = (address: Address) => {
-    // Update the form data with the selected address
-    setFormData({
-      ...formData,
-      zipCode: address.zipCode,
-      address1: address.address1,
-    });
-    setTouched((prev) => ({
-      ...prev,
-      zipCode: true,
-      address1: true,
-    }));
-    setIsSearchDrawerOpen(false);
-  };
-
   const handleAgreeTerms = () => {
     setDevice({
       ...device,
@@ -246,90 +203,11 @@ export function AddressInformation() {
       </RegisterFreeTrialLayout>
 
       {/* Terms Drawer */}
-      <Drawer open={isTermsDrawerOpen} onOpenChange={setIsTermsDrawerOpen}>
-        <DrawerContent className="max-w-3xl mx-auto w-full">
-          <div className="p-4 w-full">
-            <DrawerHeader>
-              <DrawerTitle>기기 대여 약관</DrawerTitle>
-              <DrawerDescription>아래 약관에 동의하시면 기기 대여가 가능합니다.</DrawerDescription>
-            </DrawerHeader>
-
-            <div className="h-[50vh] overflow-y-auto p-4 text-sm">
-              <h3 className="font-medium">기기 대여 약관</h3>
-              <p className="mt-2">1. 대여 기간은 학기 시작일부터 종료일까지입니다.</p>
-              <p className="mt-2">2. 대여 기기는 반드시 수업에만 사용해야 합니다.</p>
-              <p className="mt-2">3. 기기 파손 시 수리비용은 본인 부담입니다.</p>
-              <p className="mt-2">4. 기기 분실 시 전액 배상해야 합니다.</p>
-              <p className="mt-2">5. 학기 종료 후 7일 이내에 반납해야 합니다.</p>
-              <p className="mt-2">6. 반납 시 초기화를 진행해야 합니다.</p>
-              <p className="mt-2">7. 대여 기간 연장은 별도 신청이 필요합니다.</p>
-              <p className="mt-2">8. 타인에게 대여 기기를 양도할 수 없습니다.</p>
-              <p className="mt-2">9. 기기 상태 확인을 위해 정기 점검이 있을 수 있습니다.</p>
-              <p className="mt-2">10. 약관 위반 시 대여가 중단될 수 있습니다.</p>
-            </div>
-
-            <DrawerFooter>
-              <Button onClick={handleAgreeTerms} className="w-full bg-blue-500 hover:bg-blue-600">
-                약관에 동의합니다
-              </Button>
-            </DrawerFooter>
-          </div>
-        </DrawerContent>
-      </Drawer>
-
-      {/* Address Search Drawer */}
-      <Drawer open={isSearchDrawerOpen} onOpenChange={setIsSearchDrawerOpen}>
-        <DrawerContent className="max-w-3xl mx-auto w-full">
-          <div className="p-4 w-full">
-            <DrawerHeader>
-              <DrawerTitle>주소 검색</DrawerTitle>
-              <DrawerDescription>도로명, 건물명 또는 지번으로 검색하세요</DrawerDescription>
-            </DrawerHeader>
-
-            <div className="space-y-4 p-4 w-full">
-              <div className="flex gap-2 w-full">
-                <Input
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="검색어를 입력하세요"
-                  className="flex-1"
-                />
-                <Button type="button" onClick={handleSearch} variant="outline" className="whitespace-nowrap">
-                  <Search className="h-4 w-4 mr-2" />
-                  검색
-                </Button>
-              </div>
-
-              <div className="h-[40vh] overflow-y-auto w-full">
-                {searchResults.length > 0 ? (
-                  <div className="space-y-2 w-full">
-                    {searchResults.map((address, index) => (
-                      <div
-                        key={index}
-                        className="p-3 border rounded-md cursor-pointer hover:bg-gray-50 w-full"
-                        onClick={() => handleSelectAddress(address)}
-                      >
-                        <p className="font-medium">{address.address1}</p>
-                        <p className="text-sm text-gray-500">우편번호: {address.zipCode}</p>
-                      </div>
-                    ))}
-                  </div>
-                ) : searchTerm.length > 0 ? (
-                  <p className="text-center text-gray-500 py-4">검색 결과가 없습니다</p>
-                ) : (
-                  <p className="text-center text-gray-500 py-4">검색어를 입력하세요</p>
-                )}
-              </div>
-            </div>
-
-            <DrawerFooter>
-              <Button onClick={() => setIsSearchDrawerOpen(false)} className="w-full">
-                취소
-              </Button>
-            </DrawerFooter>
-          </div>
-        </DrawerContent>
-      </Drawer>
+      <RentalDeviceTerms
+        openState={isTermsDrawerOpen}
+        setOpenState={setIsTermsDrawerOpen}
+        agreeTerms={handleAgreeTerms}
+      />
     </>
   );
 }
