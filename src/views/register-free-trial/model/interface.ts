@@ -6,3 +6,19 @@ export interface DeviceRentalTermsProps {
   setOpenState: Dispatch<SetStateAction<boolean>>;
   agreeTerms: () => void;
 }
+
+/** scheduleSelection */
+export interface ScheduleSectionLayoutProps {
+  title: string;
+  subTitle?: string;
+  children: React.ReactNode;
+}
+
+/** badge */
+export interface FreeTrialPageBadge<T> {
+  label: string;
+  badgeValue: T;
+  selected?: boolean;
+  disabled?: boolean;
+  onClick: () => void;
+}

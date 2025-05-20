@@ -1,213 +1,145 @@
 'use client';
 
 import type React from 'react';
-import { useEffect } from 'react';
+import { z } from 'zod';
+import { useForm } from '@tanstack/react-form';
 
 import { useState } from 'react';
-import { Button } from '@/shared/components/atomics/button';
-import { Input } from '@/shared/components/atomics/input';
-import { Label } from '@/shared/components/atomics/label';
 import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
 import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFreeTrialLayout';
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerFooter,
-  DrawerTitle,
-  DrawerDescription,
-} from '@/shared/components/atomics/drawer';
-import { Search } from 'lucide-react';
 
-import BottomDrawer from '@/features/search-address/ui/BottmDrawer';
-import RentalDeviceTerms from '@/views/register-free-trial/ui/RentalDeviceTerms';
-interface Address {
-  zipCode: string;
-  address1: string;
-}
+// features
+import { rentalSchema } from '@/features/register-free-trial/config/schema';
+import { SearchAddressDrawer } from '@/features/search-address/ui/SearchAddressDrawer';
+import type { DaumPostcodeResultDto } from '@/features/search-address/model/dtos';
 
-// Mock address data for demonstration
-const mockAddresses: Address[] = [
-  { zipCode: '06164', address1: '서울특별시 강남구 테헤란로 427' },
-  { zipCode: '06159', address1: '서울특별시 강남구 테헤란로 521' },
-  { zipCode: '06168', address1: '서울특별시 강남구 테헤란로 311' },
-  { zipCode: '06194', address1: '서울특별시 강남구 테헤란로 142' },
-  { zipCode: '06035', address1: '서울특별시 강남구 가로수길 5' },
-  { zipCode: '06123', address1: '서울특별시 강남구 논현로 508' },
-  { zipCode: '06082', address1: '서울특별시 강남구 선릉로 428' },
-  { zipCode: '06178', address1: '서울특별시 강남구 삼성로 212' },
-];
+// view
+import { RentalDeviceTerms } from '@/views/register-free-trial/ui/RentalDeviceTerms';
+import { Input } from '@/views/register-free-trial/ui/components/Input';
+import { ButtonInput } from '@/views/register-free-trial/ui/components/ButtonInput';
+import { Label } from '@/views/register-free-trial/ui/components/Label';
+import { Button } from '@/views/register-free-trial/ui/components/Button';
+
+import { motion } from 'framer-motion';
+
+type AddressFormValues = z.infer<typeof rentalSchema>;
 
 export function AddressInformation() {
-  const { device, setDevice, nextStep, prevStep } = useRegisterFreeTrialStore();
+  const { nextStep, prevStep } = useRegisterFreeTrialStore();
   const [isTermsDrawerOpen, setIsTermsDrawerOpen] = useState(false);
-  const [isSearchDrawerOpen, setIsSearchDrawerOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchResults, setSearchResults] = useState<Address[]>([]);
-  const [formData, setFormData] = useState({
-    zipCode: device.address?.zipCode || '',
-    address1: device.address?.address1 || '',
-    address2: device.address?.address2 || '',
-  });
-  const [errors, setErrors] = useState<{
-    zipCode?: string;
-    address1?: string;
-    address2?: string;
-  }>({});
-  const [touched, setTouched] = useState({
-    zipCode: false,
-    address1: false,
-    address2: false,
-  });
 
-  // Update form data when device address changes (after address search)
-  useEffect(() => {
-    if (device.address) {
-      setFormData({
-        zipCode: device.address.zipCode || '',
-        address1: device.address.address1 || '',
-        address2: device.address.address2 || '',
-      });
-    }
-  }, [device.address]);
-
-  // Real-time validation
-  useEffect(() => {
-    const newErrors: {
-      zipCode?: string;
-      address1?: string;
-      address2?: string;
-    } = {};
-
-    if (!formData.zipCode && touched.zipCode) {
-      newErrors.zipCode = '우편번호를 입력해주세요';
-    }
-
-    if (!formData.address1 && touched.address1) {
-      newErrors.address1 = '주소를 입력해주세요';
-    }
-
-    if (!formData.address2 && touched.address2) {
-      newErrors.address2 = '상세주소를 입력해주세요';
-    }
-
-    setErrors(newErrors);
-  }, [formData, touched]);
-
-  const isFormValid = () => {
-    // Check if all fields are valid regardless of touched state
-    return formData.zipCode && formData.address1 && formData.address2;
+  const defaultValue: AddressFormValues = {
+    zonecode: '',
+    address: '',
+    addressType: 'R',
+    detailAddress: '',
+    agreeTerms: [],
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const form = useForm({
+    defaultValues: defaultValue,
+    onSubmit: async ({ value }) => {
+      console.log('form', value);
+      nextStep();
+    },
+  });
 
-    // Mark all fields as touched
-    setTouched({
-      zipCode: true,
-      address1: true,
-      address2: true,
-    });
-
-    if (isFormValid()) {
-      setDevice({
-        ...device,
-        address: {
-          zipCode: formData.zipCode,
-          address1: formData.address1,
-          address2: formData.address2,
-        },
-      });
-      setIsTermsDrawerOpen(true);
-    }
+  /**
+   * @description 주소 검색 시 데이터 적용
+   */
+  const setSearchAddress = (data: DaumPostcodeResultDto) => {
+    const { address, zonecode, addressType } = data;
+    form.setFieldValue('address', address);
+    form.setFieldValue('zonecode', zonecode);
+    form.setFieldValue('addressType', addressType);
   };
 
-  const handleAgreeTerms = () => {
-    setDevice({
-      ...device,
-      agreedToTerms: true,
-    });
-    setIsTermsDrawerOpen(false);
-    nextStep();
+  /**
+   * @description 다음 버튼 클릭 시
+   */
+  const handleSubmit = () => {
+    setIsTermsDrawerOpen(true);
   };
 
   return (
-    <>
-      <RegisterFreeTrialLayout
-        title="수령하실 주소를 알려주세요"
-        onBack={prevStep}
-        progressStep={4}
-        totalSteps={5}
-        actionButton={
-          <Button type="button" onClick={handleSubmit} className="w-full bg-blue-500 hover:bg-blue-600">
-            다음
-          </Button>
-        }
+    <RegisterFreeTrialLayout title={'아이패드를 받을\n주소지를 입력해주세요'} progressStep={6} totalSteps={8}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          form.handleSubmit();
+        }}
+        className="space-y-4 w-full h-full"
       >
-        <div className="space-y-4 w-full">
-          <div className="flex gap-2 w-full">
-            <div className="flex-1 space-y-2">
-              <Label htmlFor="zipCode">우편번호</Label>
-              <Input
-                id="zipCode"
-                value={formData.zipCode}
-                onChange={(e) => {
-                  setFormData({ ...formData, zipCode: e.target.value });
-                  setTouched((prev) => ({ ...prev, zipCode: true }));
-                }}
-                onBlur={() => setTouched((prev) => ({ ...prev, zipCode: true }))}
-                placeholder="우편번호"
-                readOnly
-                className="h-10 w-full"
-              />
-              {errors.zipCode && <p className="text-sm text-red-500">{errors.zipCode}</p>}
-            </div>
-            <div className="flex items-end">
-              <BottomDrawer setForm={setFormData} />
-            </div>
-          </div>
+        <div className="flex flex-1 flex-col justify-start items-start h-full relative overflow-hidden">
+          <motion.div
+            className="w-full space-y-4"
+            initial={{ y: 30, opacity: 0 }}
+            animate={{
+              y: 0, // 단순히 아래로 이동만
+              opacity: 1,
+              pointerEvents: 'auto',
+            }}
+            transition={{ duration: 0.3, ease: 'easeIn', delay: 0.4 }}
+            tabIndex={-1}
+          >
+            <form.Field name="address">
+              {(field) => (
+                <div className="space-y-2 w-full">
+                  <Label htmlFor="address">주소</Label>
+                  <SearchAddressDrawer setForm={setSearchAddress}>
+                    <ButtonInput
+                      id="address"
+                      value={field.state.value ? `(${form.getFieldValue('zonecode')}) ${field.state.value}` : ''}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      onBlur={field.handleBlur}
+                      handleClick={() => {}}
+                      placeholder="주소 검색"
+                      className="w-full m-0"
+                    />
+                  </SearchAddressDrawer>
+                </div>
+              )}
+            </form.Field>
 
-          <div className="space-y-2 w-full">
-            <Label htmlFor="address1">주소</Label>
-            <Input
-              id="address1"
-              value={formData.address1}
-              onChange={(e) => {
-                setFormData({ ...formData, address1: e.target.value });
-                setTouched((prev) => ({ ...prev, address1: true }));
-              }}
-              onBlur={() => setTouched((prev) => ({ ...prev, address1: true }))}
-              placeholder="주소"
-              readOnly
-              className="w-full"
-            />
-            {errors.address1 && <p className="text-sm text-red-500">{errors.address1}</p>}
-          </div>
+            <form.Field name="detailAddress">
+              {(field) => (
+                <div className="space-y-2 w-full">
+                  <Input
+                    id="detailAddress"
+                    type="text"
+                    value={field.state.value}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    onBlur={field.handleBlur}
+                    placeholder="상세주소를 기입해주세요"
+                    className="w-full m-0"
+                  />
+                </div>
+              )}
+            </form.Field>
+          </motion.div>
 
-          <div className="space-y-2 w-full">
-            <Label htmlFor="address2">상세주소</Label>
-            <Input
-              id="address2"
-              value={formData.address2}
-              onChange={(e) => {
-                setFormData({ ...formData, address2: e.target.value });
-                setTouched((prev) => ({ ...prev, address2: true }));
-              }}
-              onBlur={() => setTouched((prev) => ({ ...prev, address2: true }))}
-              placeholder="상세주소를 입력하세요"
-              className="w-full"
-            />
-            {errors.address2 && <p className="text-sm text-red-500">{errors.address2}</p>}
+          <div className="w-full mt-auto pt-6">
+            <form.Subscribe selector={(state) => [state.values.address, state.values.detailAddress]}>
+              {([address, detailAddress]) => (
+                <div className="flex justify-center gap-[0.8rem] w-full">
+                  <Button variant="empty" type="button" onClick={prevStep} className="w-[7.8rem] ">
+                    이전
+                  </Button>
+                  <Button type="button" onClick={handleSubmit} disabled={!address || !detailAddress}>
+                    {'다음'}
+                  </Button>
+                </div>
+              )}
+            </form.Subscribe>
           </div>
         </div>
-      </RegisterFreeTrialLayout>
+      </form>
 
-      {/* Terms Drawer */}
       <RentalDeviceTerms
         openState={isTermsDrawerOpen}
         setOpenState={setIsTermsDrawerOpen}
-        agreeTerms={handleAgreeTerms}
+        agreeTerms={form.handleSubmit}
       />
-    </>
+    </RegisterFreeTrialLayout>
   );
 }

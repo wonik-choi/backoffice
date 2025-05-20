@@ -1,124 +1,108 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@/shared/components/atomics/button';
+import { motion } from 'framer-motion';
+
+// shared
+
 import { Card, CardContent } from '@/shared/components/atomics/card';
-import { Label } from '@/shared/components/atomics/label';
 import { RadioGroup, RadioGroupItem } from '@/shared/components/atomics/radio-group';
-import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
-import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFreeTrialLayout';
 import { cn } from '@/shared/lib/utils';
+
+// features
+import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
 import { FormStep } from '@/features/register-free-trial/model/store/interface';
 
-export function DeviceSelection() {
-  const { device, setDevice, nextStep, prevStep, goToStep } = useRegisterFreeTrialStore();
-  const [selectedDevice, setSelectedDevice] = useState<string | null>(device.deviceType || null);
-  const [isRenting, setIsRenting] = useState(device.isRenting);
+// views
+import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFreeTrialLayout';
+import { Button } from '@/views/register-free-trial/ui/components/Button';
+import { Label } from '@/views/register-free-trial/ui/components/Label';
 
-  const handleSelect = (value: string) => {
-    if (value === 'none') {
-      setIsRenting(false);
-      setSelectedDevice(null);
-    } else {
-      setIsRenting(true);
-      setSelectedDevice(value);
-    }
+export function DeviceSelection() {
+  const { nextStep, prevStep, goToStep } = useRegisterFreeTrialStore();
+  const [answer, setAnswer] = useState<'yes' | 'no'>('yes');
+
+  const decisionRenting = (value: 'yes' | 'no') => {
+    // yse 이면 대여를 한다.
+    setAnswer(value);
   };
 
-  const handleNext = () => {
-    if (isRenting && selectedDevice) {
-      setDevice({
-        ...device,
-        isRenting: true,
-        deviceType: selectedDevice,
-      });
-      nextStep(); // Go to address entry
+  /**
+   * @description 대여 여부에 따라 위치 이동
+   */
+  const submitRentalAnswer = () => {
+    // 1. 대여를 진행한다.
+    if (answer === 'yes') {
+      nextStep();
     } else {
-      setDevice({
-        ...device,
-        isRenting: false,
-        deviceType: undefined,
-        agreedToTerms: true, // Auto-agree to terms since no rental
-      });
-      goToStep(FormStep.Completion); // Skip directly to completion
+      // 2. 대여를 진행하지 않는다.
+      goToStep(FormStep.Promotion);
     }
   };
 
   return (
-    <RegisterFreeTrialLayout
-      title="아이패드 기기를 선호하시나요?"
-      onBack={prevStep}
-      progressStep={3}
-      totalSteps={5}
-      actionButton={
-        <Button onClick={handleNext} className="w-full bg-blue-500 hover:bg-blue-600">
-          다음
-        </Button>
-      }
-    >
-      <RadioGroup value={selectedDevice || 'none'} onValueChange={handleSelect} className="space-y-4 w-full">
-        <div className="space-y-2 w-full">
-          <RadioGroupItem value="iPad" id="iPad" className="peer sr-only" />
-          <Label htmlFor="iPad" className="block w-full cursor-pointer">
-            <Card
-              className={cn(
-                'border-2 transition-all w-full',
-                selectedDevice === 'iPad' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'
-              )}
-            >
-              <CardContent className="flex items-center p-4">
-                <div className="flex-1">
-                  <h3 className="font-medium">iPad 10th</h3>
-                  <p className="text-sm text-gray-500">64GB / 10.9인치 / 2022년형</p>
-                </div>
-                <div className="h-24 w-24 relative">
-                  <div className="h-24 w-24 bg-gray-100 rounded-md flex items-center justify-center">iPad</div>
-                </div>
-              </CardContent>
-            </Card>
-          </Label>
-        </div>
+    <RegisterFreeTrialLayout title={'학습 기기를\n가지고 있으신가요?'} progressStep={5} totalSteps={8}>
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+        tabIndex={-1}
+        className="flex flex-1 flex-col w-full h-full justify-between  relative overflow-hidden"
+      >
+        <RadioGroup value={answer} onValueChange={decisionRenting} className="w-full">
+          <div className="space-y-2 w-full">
+            <RadioGroupItem value="no" id="no" className="peer sr-only" />
+            <Label htmlFor="no" className="block w-full cursor-pointer">
+              <motion.div whileTap={{ scale: 0.95 }} transition={{ duration: 0.2, ease: 'easeIn' }}>
+                <Card
+                  className={cn(
+                    'border-1 transition-all w-full shadow-sm',
+                    answer === 'no'
+                      ? 'border-susimdal-button-primary-fill bg-susimdal-element-primary-light/20'
+                      : 'border-gray-200'
+                  )}
+                >
+                  <CardContent className="flex flex-col items-start justify-center gap-[0.8rem] p-[1.6rem]">
+                    <h3 className="text-[1.6rem] font-bold text-susimdal-text-basic">아이패드나 갤럭시탭이 있어요</h3>
+                    <p className="text-[1.2rem] font-normal text-susimdal-text-basic">
+                      최상의 학습 환경을 위해 아이패드를 권장합니다.
+                    </p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </Label>
+          </div>
 
-        <div className="space-y-2 w-full">
-          <RadioGroupItem value="Galaxy" id="Galaxy" className="peer sr-only" />
-          <Label htmlFor="Galaxy" className="block w-full cursor-pointer">
-            <Card
-              className={cn(
-                'border-2 transition-all w-full',
-                selectedDevice === 'Galaxy' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'
-              )}
-            >
-              <CardContent className="flex items-center p-4">
-                <div className="flex-1">
-                  <h3 className="font-medium">Galaxy Tab 2</h3>
-                  <p className="text-sm text-gray-500">128GB / 11인치 / 2023년형</p>
-                </div>
-                <div className="h-24 w-24 relative">
-                  <div className="h-24 w-24 bg-gray-100 rounded-md flex items-center justify-center">Galaxy</div>
-                </div>
-              </CardContent>
-            </Card>
-          </Label>
+          <div className="space-y-2 w-full">
+            <RadioGroupItem value="yes" id="yes" className="peer sr-only" />
+            <Label htmlFor="yes" className="block w-full cursor-pointer">
+              <motion.div whileTap={{ scale: 0.95 }} transition={{ duration: 0.2, ease: 'easeIn' }}>
+                <Card
+                  className={cn(
+                    'border-1 transition-all w-full shadow-sm',
+                    answer === 'yes'
+                      ? 'border-susimdal-button-primary-fill bg-susimdal-element-primary-light/20'
+                      : 'border-gray-200'
+                  )}
+                >
+                  <CardContent className="flex flex-col items-start justify-center gap-[0.8rem] p-[1.6rem]">
+                    <h3 className="text-[1.6rem] font-bold text-susimdal-text-basic">기기를 무료 대여할게요</h3>
+                    <p className="text-[1.2rem] font-normal text-susimdal-text-basic">아이패드를 대여해드려요.</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </Label>
+          </div>
+        </RadioGroup>
+        <div className="flex justify-center gap-[0.8rem] w-full">
+          <Button variant="empty" type="button" onClick={prevStep} className="w-[7.8rem] ">
+            이전
+          </Button>
+          <Button type="button" onClick={submitRentalAnswer}>
+            다음
+          </Button>
         </div>
-
-        <div className="space-y-2 w-full">
-          <RadioGroupItem value="none" id="none" className="peer sr-only" />
-          <Label htmlFor="none" className="block w-full cursor-pointer">
-            <Card
-              className={cn(
-                'border-2 transition-all w-full',
-                selectedDevice === null && !isRenting ? 'border-blue-500 bg-blue-50' : 'border-gray-200'
-              )}
-            >
-              <CardContent className="p-4">
-                <div className="text-center">
-                  <h3 className="font-medium">기기 대여 안함</h3>
-                </div>
-              </CardContent>
-            </Card>
-          </Label>
-        </div>
-      </RadioGroup>
+      </motion.div>
     </RegisterFreeTrialLayout>
   );
 }

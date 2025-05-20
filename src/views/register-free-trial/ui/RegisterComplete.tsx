@@ -1,94 +1,77 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/shared/components/atomics/button';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+
+// shared
+
+import { useCustomLottie } from '@/shared/hooks/useLottie';
+import registerCompleteAnimation from '@/shared/lotties/register-complete-animation.json';
+import { formatKoreanTitle, decodeQueryDate } from '@/shared/lib/date-fns/utls';
+// features
 import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
-import { actionSubmitFreeTrialForm } from '@/features/register-free-trial/services/actions/actionSubmitFreeTrialForm';
-import { CheckCircle } from 'lucide-react';
+
+// views
+import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFreeTrialLayout';
+import { Button } from '@/views/register-free-trial/ui/components/Button';
 
 export function Completion() {
-  const router = useRouter();
-  const {
-    student,
-    parent,
-    school,
-    schedule,
-    startDate,
-    semester,
-    device,
-    formSessionToken,
-    isSubmitting,
-    isSubmitted,
-    setIsSubmitting,
-    setIsSubmitted,
-    resetForm,
-  } = useRegisterFreeTrialStore();
+  const { resetForm, prevStep, freeTrial } = useRegisterFreeTrialStore();
 
-  useEffect(() => {
-    const submit = async () => {
-      if (!isSubmitted && !isSubmitting && formSessionToken) {
-        setIsSubmitting(true);
+  const completeLottieOption = {
+    animationData: registerCompleteAnimation,
+    loop: false,
+    autoplay: true,
+    style: {
+      width: '200px',
+      height: '200px',
+    },
+  };
 
-        try {
-          await actionSubmitFreeTrialForm({
-            student,
-            parent,
-            school,
-            schedule,
-            startDate: startDate!,
-            semester,
-            device,
-            formSessionToken,
-          });
+  const { View: CompleteLottie } = useCustomLottie(completeLottieOption);
 
-          setIsSubmitted(true);
-        } catch (error) {
-          console.error('Form submission error:', error);
-        } finally {
-          setIsSubmitting(false);
-        }
-      }
-    };
-
-    submit();
-  }, []);
-
-  // Reset form on page load/refresh
-  useEffect(() => {
-    window.addEventListener('beforeunload', () => {
-      resetForm();
-    });
-
-    return () => {
-      window.removeEventListener('beforeunload', () => {
-        resetForm();
-      });
-    };
-  }, [resetForm]);
+  const startDate = formatKoreanTitle(decodeQueryDate(freeTrial.startDate));
 
   return (
-    <div className="flex flex-col items-center justify-center h-full space-y-6 py-12">
-      <div className="w-24 h-24 rounded-full bg-green-100 flex items-center justify-center">
-        <CheckCircle className="h-12 w-12 text-green-600" />
-      </div>
-
-      <div className="space-y-2 text-center">
-        <h1 className="text-2xl font-bold">신청이 완료되었습니다!</h1>
-        <p className="text-gray-500">
-          입력하신 정보로 무료체험 신청이 완료되었습니다. 담당자가 확인 후 연락드리겠습니다.
-        </p>
-      </div>
-
-      <Button
-        onClick={() => {
-          resetForm();
-          router.push('/register-free-trial');
-        }}
-        className="bg-blue-500 hover:bg-blue-600"
+    <RegisterFreeTrialLayout title={'무료체험 신청이\n완료되었습니다'} progressStep={8} totalSteps={8}>
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.4 }}
+        tabIndex={-1}
+        className="flex flex-1 flex-col w-full h-full justify-between  relative overflow-hidden"
       >
-        홈으로 돌아가기
-      </Button>
-    </div>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.5 }}
+          tabIndex={-1}
+          className="flex flex-col justify-center items-center w-full gap-[1rem] my-auto"
+        >
+          {CompleteLottie}
+          <p className="text-[1.4rem] font-medium text-susimdal-text-basic">{`${startDate}에 수심달과 만나요!`}</p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.6 }}
+          tabIndex={-1}
+          className="flex flex-col justify-center items-center w-full mt-auto pt-6 gap-[0.8rem]"
+        >
+          <Link href={'https://class.susimdal.com/company'} className="w-full">
+            <Button type="button" className="w-full">
+              수심달 클래스 자세히 보기
+            </Button>
+          </Link>
+
+          {/* <Link href={'https://class.susimdal.com/'} className="w-full"> */}
+          <Button variant="border" type="button" className="w-full" onClick={prevStep}>
+            홈으로
+          </Button>
+          {/* </Link> */}
+        </motion.div>
+      </motion.div>
+    </RegisterFreeTrialLayout>
   );
 }

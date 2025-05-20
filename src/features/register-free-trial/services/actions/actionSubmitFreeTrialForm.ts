@@ -1,40 +1,45 @@
-'use server';
-
+import type { FreeTrialUserRequestDto } from '@/entities/free-trial-user/models/dtos';
 import type {
-  Student,
-  Parent,
-  School,
-  Schedule,
-  Semester,
-  Device,
-} from '@/features/register-free-trial/model/store/interface';
+  User,
+  FreeTrial,
+  Rental,
+  Promotion,
+  UserInStore,
+  FreeTrialInStore,
+} from '@/features/register-free-trial/config/schema';
 
-type FormData = {
-  student: Student;
-  parent: Parent;
-  school: School;
-  schedule: Schedule;
-  startDate: Date;
-  semester: Semester;
-  device: Device;
-  formSessionToken: string;
-};
+import {
+  freeTrialSchema,
+  promotionSchema,
+  rentalSchema,
+  userSchema,
+} from '@/features/register-free-trial/config/schema';
 
-export async function actionSubmitFreeTrialForm(formData: FormData) {
+interface FreeTrialFormData {
+  user: UserInStore;
+  freeTrial: FreeTrialInStore;
+  rental?: Rental;
+  promotion?: Promotion;
+}
+
+export async function actionSubmitFreeTrialForm(formData: FreeTrialFormData) {
+  const { user, freeTrial, rental, promotion } = formData;
+
   try {
+    // 검증
+    const validatedUser = userSchema.parse(user);
+    const validatedFreeTrial = freeTrialSchema.parse(freeTrial);
+    const validatedRental = rentalSchema.parse(rental);
+    const validatedPromotion = promotionSchema.parse(promotion);
+
+    const requestBody: FreeTrialUserRequestDto = {
+      user: validatedUser,
+      freeTrial: validatedFreeTrial,
+      rental: validatedRental,
+      promotion: validatedPromotion,
+    };
     // Simulate a delay for the API call
     await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    // Here you would typically send the data to your backend
-    // const response = await fetch('/api/submit-form', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(formData),
-    // })
-
-    // if (!response.ok) {
-    //   throw new Error('Failed to submit form')
-    // }
 
     // const data = await response.json()
 

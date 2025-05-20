@@ -1,73 +1,63 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 
-import { FormStep, RegisterFreeTrialState } from './interface';
+import { FormStep, FreeTrialUserState } from './interface';
+import { FreeTrialUserGrade, Semester } from '@/entities/free-trial-user/models/enums';
+import { Promotion, Rental, UserInStore, FreeTrialInStore } from '../../config/schema';
 
-export const useRegisterFreeTrialStore = create<RegisterFreeTrialState>()(
-  persist(
-    (set) => ({
-      student: {
+export const useRegisterFreeTrialStore = create<FreeTrialUserState>()((set) => ({
+  user: {
+    name: '',
+    phoneNumber: '',
+    parrentName: '',
+    parrentPhoneNumber: '',
+    school: '',
+    grade: null,
+  },
+  freeTrial: {
+    startDate: '',
+    schedule: [],
+    semester: null,
+  },
+  rental: undefined,
+  promotion: undefined,
+  currentStep: FormStep.StudentInfo,
+  currentDirection: 1,
+
+  // Actions
+  setName: (name: string) => set((state) => ({ user: { ...state.user, name } })),
+  setPhoneNumber: (phoneNumber: string) => set((state) => ({ user: { ...state.user, phoneNumber } })),
+  setParentName: (parentName: string) => set((state) => ({ user: { ...state.user, parentName } })),
+  setParentPhoneNumber: (parentPhoneNumber: string) => set((state) => ({ user: { ...state.user, parentPhoneNumber } })),
+  setStudentInformation: (student: Partial<UserInStore>) => set((state) => ({ user: { ...state.user, ...student } })),
+  setSchool: (school: string) => set((state) => ({ user: { ...state.user, school } })),
+  setGrade: (grade: FreeTrialUserGrade) => set((state) => ({ user: { ...state.user, grade } })),
+  setSchoolInformation: (school: Partial<UserInStore>) => set((state) => ({ user: { ...state.user, ...school } })),
+  setFreeTrialStartDate: (startDate: string) => set((state) => ({ freeTrial: { ...state.freeTrial, startDate } })),
+  setFreeTrialSchedule: (schedule: FreeTrialInStore['schedule']) =>
+    set((state) => ({ freeTrial: { ...state.freeTrial, schedule } })),
+  setSemester: (semester: Semester) => set((state) => ({ freeTrial: { ...state.freeTrial, semester } })),
+  setRental: (rental: Rental) => set({ rental }),
+  setPromotion: (promotion: Promotion) => set({ promotion }),
+  nextStep: () => set((state) => ({ ...state, currentStep: state.currentStep + 1, currentDirection: 1 })),
+  prevStep: () => set((state) => ({ ...state, currentStep: state.currentStep - 1, currentDirection: -1 })),
+  goToStep: (step) => set({ currentStep: step }),
+  resetForm: () =>
+    set({
+      user: {
         name: '',
         phoneNumber: '',
+        parrentName: '',
+        parrentPhoneNumber: '',
+        grade: FreeTrialUserGrade.ELEMENTARY4,
       },
-      parent: {
-        name: '',
-        phoneNumber: '',
+      freeTrial: {
+        startDate: '',
+        schedule: [],
+        semester: Semester.M1S1,
       },
-      school: {
-        name: '',
-        grade: '',
-      },
-      schedule: {
-        selectedSlots: [],
-      },
-      startDate: null,
-      semester: {
-        year: new Date().getFullYear(),
-        semester: 1,
-      },
-      device: {
-        isRenting: false,
-        deviceType: undefined,
-        address: undefined,
-        agreedToTerms: false,
-      },
+      rental: undefined,
+      promotion: undefined,
       currentStep: FormStep.StudentInfo,
-      currentDerection: 1,
-      formSessionToken: null,
-      isSubmitting: false,
-      isSubmitted: false,
-
-      // Actions
-      setStudent: (student) => set({ student }),
-      setParent: (parent) => set({ parent }),
-      setSchool: (school) => set({ school }),
-      setSchedule: (schedule) => set({ schedule }),
-      setStartDate: (startDate) => set({ startDate }),
-      setSemester: (semester) => set({ semester }),
-      setDevice: (device) => set({ device }),
-      nextStep: () => set((state) => ({ currentStep: state.currentStep + 1, currentDerection: 1 })),
-      prevStep: () => set((state) => ({ currentStep: state.currentStep - 1, currentDerection: -1 })),
-      goToStep: (step) => set({ currentStep: step }),
-      setFormSessionToken: (formSessionToken) => set({ formSessionToken }),
-      setIsSubmitting: (isSubmitting) => set({ isSubmitting }),
-      setIsSubmitted: (isSubmitted) => set({ isSubmitted }),
-      resetForm: () =>
-        set({
-          student: { name: '', phoneNumber: '' },
-          parent: { name: '', phoneNumber: '' },
-          school: { name: '', grade: '' },
-          schedule: { selectedSlots: [] },
-          startDate: null,
-          semester: { year: new Date().getFullYear(), semester: 1 },
-          device: { isRenting: false, deviceType: undefined, address: undefined, agreedToTerms: false },
-          currentStep: FormStep.StudentInfo,
-          isSubmitting: false,
-          isSubmitted: false,
-        }),
+      currentDirection: 1,
     }),
-    {
-      name: 'detail-form-storage',
-    }
-  )
-);
+}));

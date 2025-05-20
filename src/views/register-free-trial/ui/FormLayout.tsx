@@ -1,10 +1,12 @@
 'use client';
 
 import type React from 'react';
-import { useEffect } from 'react';
-import { useSearchParams, usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+
+// features
 import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
+
+// shared
 import { cn } from '@/shared/lib/utils';
 
 interface FormLayoutProps {
@@ -13,10 +15,8 @@ interface FormLayoutProps {
 }
 
 export function FormLayout({ children, className }: FormLayoutProps) {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const setFormSessionToken = useRegisterFreeTrialStore((state) => state.setFormSessionToken);
-  const currentDerection = useRegisterFreeTrialStore((state) => state.currentDerection);
+  const currentDirection = useRegisterFreeTrialStore((state) => state.currentDirection);
+  console.log('currentDirection', useRegisterFreeTrialStore.getState().currentDirection);
 
   const variants = {
     enter: (direction: number) => ({
@@ -33,29 +33,25 @@ export function FormLayout({ children, className }: FormLayoutProps) {
     }),
   };
 
-  useEffect(() => {
-    const token = searchParams.get('formSessionToken');
-    if (token) {
-      setFormSessionToken(token);
-    }
-  }, [searchParams, setFormSessionToken]);
-
   return (
     <div className="h-[100lvh] bg-white flex flex-col overflow-hidden w-full">
       <div className="relative flex-1 flex flex-col w-full mx-auto px-6 py-6 h-full overflow-hidden max-w-[100%] ">
-        <AnimatePresence mode="sync" custom={currentDerection} initial={false}>
+        <AnimatePresence mode="sync" custom={currentDirection} initial={false}>
           <motion.div
-            key={useRegisterFreeTrialStore((state) => state.currentStep) + pathname}
-            custom={currentDerection}
+            key={useRegisterFreeTrialStore((state) => state.currentStep)}
+            custom={currentDirection}
             variants={variants}
             initial="enter"
             animate="center"
             exit="exit"
             transition={{
-              x: { type: 'spring', stiffness: 500, damping: 30 },
+              x: { type: 'spring', stiffness: 400, damping: 30 },
               opacity: { duration: 0.2 },
             }}
-            className={cn('absolute top-0 left-0 p-6 w-full flex-1 flex flex-col h-full overflow-hidden', className)}
+            className={cn(
+              'absolute top-0 left-0 pb-[1.6rem] w-full flex-1 flex flex-col h-full overflow-hidden',
+              className
+            )}
           >
             {children}
           </motion.div>

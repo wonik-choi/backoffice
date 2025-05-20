@@ -1,91 +1,61 @@
-// Define the steps based on the requirements
+// entities
+import { FreeTrialUserGrade, Semester } from '@/entities/free-trial-user/models/enums';
+
+// features
+import { UserInStore, FreeTrialInStore, Rental, Promotion } from '@/features/register-free-trial/config/schema';
+
 export enum FormStep {
-  // 1. Student information entry → Parent information entry
   StudentInfo = 0,
-  ParentInfo = 1,
-  // 2. Student school information entry
-  SchoolInfo = 2,
-  // 3. Free trial start date entry → Free trial schedule creation → Free trial semester selection
-  StartDate = 3,
-  Schedule = 4,
-  Semester = 5,
-  // 4. iPad rental option selection → If renting, address entry
-  DeviceSelection = 6,
-  AddressEntry = 7,
-  // Completion
+  SchoolInfo = 1,
+  StartDate = 2,
+  Schedule = 3,
+  Semester = 4,
+  DeviceSelection = 5,
+  AddressEntry = 6,
+  Promotion = 7,
   Completion = 8,
 }
 
-// Define our types
-export type Student = {
-  name: string;
-  phoneNumber: string;
-};
-
-export type Parent = {
-  name: string;
-  phoneNumber: string;
-};
-
-export type School = {
-  name: string;
-  grade: string;
-};
-
-export type TimeSlot = {
-  day: number;
-  time: number;
-};
-
-export type Schedule = {
-  selectedSlots: TimeSlot[];
-};
-
-export type Semester = {
-  year: number;
-  semester: number;
-};
-
-export type Address = {
-  zipCode: string;
-  address1: string;
-  address2: string;
-};
-
-export type Device = {
-  isRenting: boolean;
-  deviceType?: string;
-  address?: Address;
-  agreedToTerms: boolean;
-};
-
-export type RegisterFreeTrialState = {
-  student: Student;
-  parent: Parent;
-  school: School;
-  schedule: Schedule;
-  startDate: Date | null;
-  semester: Semester;
-  device: Device;
+export interface FreeTrialUserState {
+  /** Request 기반 schema */
+  user: UserInStore;
+  freeTrial: FreeTrialInStore;
+  rental: Rental;
+  promotion: Promotion;
+  /** 상세 입력폼 UI 연동 */
   currentStep: FormStep;
-  currentDerection: 1 | -1;
-  formSessionToken: string | null;
-  isSubmitting: boolean;
-  isSubmitted: boolean;
+  currentDirection: 1 | -1;
 
-  // Actions
-  setStudent: (student: Student) => void;
-  setParent: (parent: Parent) => void;
-  setSchool: (school: School) => void;
-  setSchedule: (schedule: Schedule) => void;
-  setStartDate: (date: Date) => void;
+  /** action */
+  /**
+   * @description
+   * 개별적인 업데이트가 필요한 경우가 존재할 수 있고, 그렇기에 전체적인 업데이트와 구별할 예정
+   */
+  setName: (name: string) => void;
+  setPhoneNumber: (phoneNumber: string) => void;
+  setParentName: (parentName: string) => void;
+  setParentPhoneNumber: (parentPhoneNumber: string) => void;
+  setStudentInformation: (student: Partial<UserInStore>) => void;
+  setSchool: (school: string) => void;
+  setGrade: (grade: FreeTrialUserGrade) => void;
+  setSchoolInformation: (school: Partial<UserInStore>) => void;
+  setFreeTrialStartDate: (date: FreeTrialInStore['startDate']) => void;
+  setFreeTrialSchedule: (schedule: FreeTrialInStore['schedule']) => void;
   setSemester: (semester: Semester) => void;
-  setDevice: (device: Device) => void;
+  setRental: (rental: Rental) => void;
+  setPromotion: (promotion: Promotion) => void;
+
+  /**
+   * @description
+   * 폼 이동 관련 상태
+   */
   nextStep: () => void;
   prevStep: () => void;
   goToStep: (step: FormStep) => void;
-  setFormSessionToken: (token: string) => void;
-  setIsSubmitting: (isSubmitting: boolean) => void;
-  setIsSubmitted: (isSubmitted: boolean) => void;
+
+  /**
+   * @description
+   * 폼 초기화 관련 상태
+   */
   resetForm: () => void;
-};
+}

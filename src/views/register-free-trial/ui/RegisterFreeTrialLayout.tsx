@@ -1,53 +1,58 @@
-import { Button } from '@/shared/components/atomics/button';
-import { cn } from '@/shared/lib/utils';
-import { ChevronLeft } from 'lucide-react';
+// shared
+import { SusimdalLogo } from '@/shared/components/svgs/susimdal-logo/SusimdalLogo';
+import { Progress } from '@/shared/components/atomics/progress';
+import { SplitTitleText } from '@/shared/components/animation/SplitTitleText';
+
+import { motion } from 'framer-motion';
 
 interface PageLayoutProps {
   title: string;
   subtitle?: string;
   children: React.ReactNode;
-  actionButton: React.ReactNode;
-  onBack?: () => void;
   progressStep: number;
   totalSteps?: number;
 }
 
-const RegisterFreeTrialLayout = ({
-  title,
-  subtitle,
-  children,
-  actionButton,
-  onBack,
-  progressStep,
-  totalSteps = 5,
-}: PageLayoutProps) => {
+const RegisterFreeTrialLayout = ({ title, subtitle, children, progressStep, totalSteps = 5 }: PageLayoutProps) => {
   return (
     <div className="flex flex-col h-full w-full">
-      {/* Header */}
-      <nav className="mb-6 w-full">
-        {onBack && (
-          <Button variant="ghost" size="icon" onClick={onBack} className="mb-2 -ml-3" aria-label="뒤로 가기">
-            <ChevronLeft className="h-7 w-7" />
-          </Button>
-        )}
-        <div className="space-y-1">
-          <h1 className="text-xl font-bold">{title}</h1>
-          {subtitle && <p className="text-sm text-gray-500">{subtitle}</p>}
+      <nav className="mb-[8px] w-full bg-susimdal-element-primary-light">
+        <div className="flex h-[32px] p-[8px] justify-center items-center self-stretch">
+          <div className="flex justify-center items-center gap-[4px]">
+            <div className="w-[16px] h-[16px]">
+              <SusimdalLogo />
+            </div>
+            <p className="text-[12px] font-normal text-black">수심달 무료체험을 환영합니다!</p>
+          </div>
         </div>
       </nav>
 
-      {/* Content - make it scrollable if needed */}
-      <div className="flex-1 overflow-y-auto w-full">{children}</div>
+      <div className="flex flex-col w-full h-full px-[2rem] bg-white">
+        {totalSteps !== progressStep ? (
+          <div className="flex items-center gap-[1.6rem] self-stretch mb-[1.6rem]">
+            <Progress value={((progressStep + 1) / totalSteps) * 100} />
+            <p className="text-[1.2rem] font-normal text-susimdal-text-subtle whitespace-nowrap">{`${
+              progressStep + 1
+            } / ${totalSteps}`}</p>
+          </div>
+        ) : (
+          <div className="w-full h-[1.2rem] mb-[1.6rem]"></div>
+        )}
 
-      {/* Footer - fixed at the bottom */}
-      <div className="mt-4 pt-4 sticky bottom-0 bg-white w-full">
-        {actionButton}
-
-        <div className="flex justify-center space-x-2 pt-4">
-          {Array.from({ length: totalSteps }).map((_, i) => (
-            <div key={i} className={cn('h-2 w-8 rounded-full', i === progressStep ? 'bg-blue-500' : 'bg-gray-200')} />
-          ))}
+        <div className="flex flex-col gap-[1.2rem] items-start justify-start mb-[3.2rem]">
+          <motion.h1
+            key={title}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+            className="text-[2rem] font-bold text-susimdal-text-basic leading-[150%] whitespace-pre-wrap"
+          >
+            {title}
+          </motion.h1>
+          {subtitle && <p className="text-[1.2rem] text-susimdal-text-basic/50">{subtitle}</p>}
         </div>
+
+        <div className="flex-1 overflow-y-auto w-full">{children}</div>
       </div>
     </div>
   );

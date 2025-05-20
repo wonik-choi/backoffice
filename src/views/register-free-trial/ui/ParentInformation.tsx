@@ -1,94 +1,41 @@
 'use client';
-
+import { useState } from 'react';
 import type React from 'react';
+import { motion } from 'framer-motion';
+import { z } from 'zod';
+import { useForm } from '@tanstack/react-form';
 
-import { useState, useEffect } from 'react';
-import { Button } from '@/shared/components/atomics/button';
-import { Input } from '@/shared/components/atomics/input';
-import { Label } from '@/shared/components/atomics/label';
+// features
+import { userSchema } from '@/features/register-free-trial/config/schema';
 import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
 import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFreeTrialLayout';
 
+// views
+import { Label } from '@/views/register-free-trial/ui/components/Label';
+import { Input } from '@/views/register-free-trial/ui/components/Input';
+import { Em } from '@/views/register-free-trial/ui/components/Em';
+import { Button } from '@/views/register-free-trial/ui/components/Button';
+
+// Zod 스키마 정의
+const parentSchema = userSchema.pick({
+  parrentName: true,
+  parrentPhoneNumber: true,
+});
+
+type ParentFormValues = z.infer<typeof parentSchema>;
+
 export function ParentInformation() {
-  const { parent, setParent, nextStep, prevStep } = useRegisterFreeTrialStore();
-  const [formData, setFormData] = useState({
-    name: parent.name || '',
-    phoneNumber: parent.phoneNumber || '',
-  });
-  const [errors, setErrors] = useState<{
-    name?: string;
-    phoneNumber?: string;
-  }>({});
-  const [touched, setTouched] = useState({
-    name: false,
-    phoneNumber: false,
-  });
+  const { user, setStudentInformation, nextStep } = useRegisterFreeTrialStore();
 
-  // Real-time validation
-  useEffect(() => {
-    const newErrors: {
-      name?: string;
-      phoneNumber?: string;
-    } = {};
-
-    if (!formData.name && touched.name) {
-      newErrors.name = '부모님 이름을 입력해주세요';
-    }
-
-    if (touched.phoneNumber) {
-      if (!formData.phoneNumber) {
-        newErrors.phoneNumber = '전화번호를 입력해주세요';
-      } else if (!/^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/.test(formData.phoneNumber)) {
-        newErrors.phoneNumber = '올바른 전화번호 형식이 아닙니다 (예: 010-1234-5678)';
-      }
-    }
-
-    setErrors(newErrors);
-  }, [formData, touched]);
-
-  const isFormValid = () => {
-    // Check if all fields are valid regardless of touched state
-    const validationErrors: {
-      name?: string;
-      phoneNumber?: string;
-    } = {};
-
-    if (!formData.name) {
-      validationErrors.name = '부모님 이름을 입력해주세요';
-    }
-
-    if (!formData.phoneNumber) {
-      validationErrors.phoneNumber = '전화번호를 입력해주세요';
-    } else if (!/^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/.test(formData.phoneNumber)) {
-      validationErrors.phoneNumber = '올바른 전화번호 형식이 아닙니다 (예: 010-1234-5678)';
-    }
-
-    return Object.keys(validationErrors).length === 0;
+  const defaultValue: ParentFormValues = {
+    parrentName: user.parrentName || '',
+    parrentPhoneNumber: user.parrentPhoneNumber || '',
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Mark all fields as touched
-    setTouched({
-      name: true,
-      phoneNumber: true,
-    });
-
-    if (isFormValid()) {
-      setParent({
-        name: formData.name,
-        phoneNumber: formData.phoneNumber,
-      });
-      nextStep();
-    }
-  };
-
+  // 전화번호 포맷팅 함수
   const formatPhoneNumber = (value: string) => {
-    // Remove all non-digits
     const digits = value.replace(/\D/g, '');
 
-    // Format the phone number as XXX-XXXX-XXXX or XXX-XXX-XXXX
     if (digits.length <= 7) {
       return digits.replace(/(\d{3})(\d{1,4})/, '$1-$2');
     } else {
@@ -96,54 +43,104 @@ export function ParentInformation() {
     }
   };
 
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const formatted = formatPhoneNumber(e.target.value);
-    setFormData({ ...formData, phoneNumber: formatted });
-    setTouched((prev) => ({ ...prev, phoneNumber: true }));
+  const form = useForm({
+    defaultValues: defaultValue,
+    onSubmit: async ({ value }) => {
+      setStudentInformation({
+        parrentName: value.parrentName,
+        parrentPhoneNumber: value.parrentPhoneNumber,
+      });
+      nextStep();
+    },
+    validators: {
+      onChange: parentSchema,
+    },
+  });
+
+  const handleSubmit = () => {
+    form.handleSubmit();
   };
 
   return (
-    <RegisterFreeTrialLayout
-      title="부모님의 정보를 적어주세요"
-      onBack={prevStep}
-      progressStep={0}
-      totalSteps={5}
-      actionButton={
-        <Button type="button" onClick={handleSubmit} className="w-full bg-blue-500 hover:bg-blue-600">
-          다음
-        </Button>
-      }
-    >
-      <form onSubmit={handleSubmit} className="space-y-4 w-full">
-        <div className="space-y-2 w-full">
-          <Label htmlFor="name">이름</Label>
-          <Input
-            id="name"
-            value={formData.name}
-            onChange={(e) => {
-              setFormData({ ...formData, name: e.target.value });
-              setTouched((prev) => ({ ...prev, name: true }));
+    <RegisterFreeTrialLayout title={'자녀의 정보를\n입력해주세요'} progressStep={0} totalSteps={8}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          form.handleSubmit();
+        }}
+        className="space-y-4 w-full h-full"
+      >
+        <div className="flex flex-1 flex-col justify-start items-start h-full relative overflow-hidden">
+          {/* 학부모 정보 섹션 */}
+          <motion.div
+            className="w-full space-y-4 absolute top-0 left-0"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{
+              y: 0,
+              opacity: 1,
+              pointerEvents: 'auto',
             }}
-            onBlur={() => setTouched((prev) => ({ ...prev, name: true }))}
-            placeholder="이름을 입력하세요"
-            className="w-full"
-          />
-          {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
-        </div>
+            transition={{
+              duration: 0.4,
+              delay: 0.1, // 약간의 지연
+              ease: 'easeIn',
+            }}
+            tabIndex={-1}
+          >
+            <form.Field name="parrentName">
+              {(field) => (
+                <div className="space-y-2 w-full">
+                  <Label htmlFor="parrentName">부모님 성함</Label>
+                  <Input
+                    id="parrentName"
+                    value={field.state.value}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    onBlur={field.handleBlur}
+                    placeholder="이름을 입력하세요"
+                    className="w-full"
+                  />
+                  <div className="w-full h-[1.2rem]">
+                    {field.state.value && field.state.meta.isTouched && field.state.meta.errors.length > 0 && (
+                      <Em>{[...new Set(field.state.meta.errors)].map((error) => error?.message)}</Em>
+                    )}
+                  </div>
+                </div>
+              )}
+            </form.Field>
 
-        <div className="space-y-2 w-full">
-          <Label htmlFor="phoneNumber">전화번호</Label>
-          <Input
-            id="phoneNumber"
-            type="tel"
-            value={formData.phoneNumber}
-            onChange={handlePhoneChange}
-            onBlur={() => setTouched((prev) => ({ ...prev, phoneNumber: true }))}
-            placeholder="010-1234-5678"
-            pattern="[0-9]{3}-[0-9]{3,4}-[0-9]{4}"
-            className="w-full"
-          />
-          {errors.phoneNumber && <p className="text-sm text-red-500">{errors.phoneNumber}</p>}
+            <form.Field name="parrentPhoneNumber">
+              {(field) => (
+                <div className="space-y-2 w-full">
+                  <Label htmlFor="parrentPhoneNumber">부모님 전화번호</Label>
+                  <Input
+                    id="parrentPhoneNumber"
+                    type="tel"
+                    value={field.state.value}
+                    onChange={(e) => field.handleChange(formatPhoneNumber(e.target.value))}
+                    onBlur={field.handleBlur}
+                    placeholder="010-1234-5678"
+                    pattern="[0-9]{3}-[0-9]{3,4}-[0-9]{4}"
+                    className="w-full"
+                  />
+                  <div className="w-full h-[1.2rem]">
+                    {field.state.value && field.state.meta.isTouched && field.state.meta.errors.length > 0 && (
+                      <Em>{[...new Set(field.state.meta.errors)].map((error) => error?.message)}</Em>
+                    )}
+                  </div>
+                </div>
+              )}
+            </form.Field>
+          </motion.div>
+
+          <div className="w-full mt-auto pt-6">
+            <form.Subscribe selector={(state) => [state.canSubmit]}>
+              {([canSubmit]) => (
+                <Button type="button" onClick={handleSubmit} disabled={!canSubmit}>
+                  {'다음'}
+                </Button>
+              )}
+            </form.Subscribe>
+          </div>
         </div>
       </form>
     </RegisterFreeTrialLayout>

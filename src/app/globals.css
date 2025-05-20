@@ -41,9 +41,27 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /** susimdal */
+  --color-susimdal-text-subtle: var(--susimdal-text-subtle);
+  --color-susimdal-text-basic: var(--susimdal-text-basic);
+  --color-susimdal-text-disabled-on: var(--susimdal-text-disabled-on);
+  --color-susimdal-text-danger: var(--susimdal-text-danger);
+  --color-susimdal-text-primary: var(--susimdal-text-primary);
+  --color-susimdal-element-primary-light: var(--susimdal-element-primary-light);
+  --color-susimdal-element-disabled-light: var(--susimdal-element-disabled-light);
+  --color-susimdal-button-gray-fill: var(--susimdal-button-gray-fill);
+  --color-susimdal-button-primary-fill: var(--susimdal-button-primary-fill);
+  --color-susimdal-border-gray-darker: var(--susimdal-border-gray-darker);
+  --color-susimdal-border-gray: var(--susimdal-border-gray);
+  --color-susimdal-border-gray-light: var(--susimdal-border-gray-light);
+  --color-susimdal-border-primary: var(--susimdal-border-primary);
+  --color-susimdal-icon-danger: var(--susimdal-icon-danger);
+  --color-susimdal-icon-gray-light: var(--susimdal-icon-gray-light);
 }
 
 :root {
+  --font-pretendard: 'Pretendard', system-ui, sans-serif;
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -76,6 +94,24 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /** susimdal */
+
+  --susimdal-text-subtle: #85898a;
+  --susimdal-text-basic: #2f2f31;
+  --susimdal-text-disabled-on: #a4a6a6;
+  --susimdal-text-primary: #e0505c;
+  --susimdal-element-primary-light: #ffcdd0;
+  --susimdal-element-disabled-light: #ebebeb;
+  --susimdal-button-gray-fill: #ebebeb;
+  --susimdal-button-primary-fill: #ff6971;
+  --susimdal-border-gray-darker: #85898a;
+  --susimdal-border-gray-light: #f4f4f3;
+  --susimdal-border-gray: #ebebeb;
+  --susimdal-border-primary: #ff6971;
+  --susimdal-icon-danger: #ff3b30;
+  --susimdal-icon-gray-light: #a4a6a6;
+  --susimdal-text-danger: #de0008;
 }
 
 .dark {
@@ -120,7 +156,20 @@
     @apply bg-background text-foreground;
   }
 
+  html {
+    font-family: var(--font-pretendard);
+    font-size: 62.5%;
+    padding: 0;
+    margin: 0;
+  }
+
   body {
-    font-family: 'Nanum Gothic', sans-serif;
+    box-sizing: border-box;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
   }
 }
