@@ -7,7 +7,7 @@ interface ClientConfig extends Partial<KyOptions> {
 export const createKyClient = (config: ClientConfig): KyInstance => {
   return ky.create({
     headers: { 'Content-Type': 'application/json', ...config.headers },
-    retry: { limit: 3, methods: ['get', 'post', 'put', 'delete'] },
+    retry: { limit: 3, methods: ['get'] },
     ...config,
   });
 };

@@ -12,6 +12,7 @@ export interface ScheduleSectionLayoutProps {
   title: string;
   subTitle?: string;
   children: React.ReactNode;
+  delay?: number;
 }
 
 /** badge */

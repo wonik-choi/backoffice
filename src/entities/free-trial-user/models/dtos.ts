@@ -1,50 +1,3 @@
-import { Semester, DayOfWeek, FreeTrialUserGrade } from './enums';
-
-/** requestdto */
-export interface FreeTrialUserRequestDto {
-  user: {
-    name: string;
-    phoneNumber?: string;
-    parrentName: string;
-    parrentPhoneNumber: string;
-    grade: FreeTrialUserGrade;
-  };
-  freeTrial: {
-    startDate: string;
-    schedule: {
-      dayOfWeek: DayOfWeek;
-      startTime: {
-        hour: number;
-        minute: number;
-      };
-      todayRunningTime: number;
-    }[];
-    semester: Semester;
-  };
-  rental:
-    | {
-        zonecode: string;
-        address: string;
-        detailAddress: string;
-        addressType: string;
-        agreeTerms: {
-          code: string;
-          agreed: boolean;
-        }[];
-      }
-    | undefined;
-  promotion:
-    | {
-        id: string;
-        optionId: string[];
-        agreeTerms: {
-          code: string;
-          agreed: boolean;
-        }[];
-      }
-    | undefined;
-}
-
 export interface FreeTrialApplicationsResponseDto {
   freeTrialUserEventUserId: string;
   freeTrialUserEventHistoryId: number;
@@ -52,4 +5,29 @@ export interface FreeTrialApplicationsResponseDto {
   rentalId: number;
   promotionParticipantIds: number[];
   userTermAgreementIds: number[];
+}
+
+export interface PromotionOptionDto {
+  id: number;
+  payload: {
+    title: string;
+    copies: number;
+    months: number;
+    magazineType: string;
+  };
+  createdAt: string | null;
+}
+
+export interface PromotionDto {
+  id: number;
+  promotionCode: string;
+  name: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  options: PromotionOptionDto[];
+}
+
+export interface GetFreeTrialPromotionsResponseDto {
+  promotions: PromotionDto[];
 }

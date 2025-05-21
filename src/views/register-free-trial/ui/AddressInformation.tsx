@@ -25,7 +25,7 @@ import { motion } from 'framer-motion';
 type AddressFormValues = z.infer<typeof rentalSchema>;
 
 export function AddressInformation() {
-  const { nextStep, prevStep } = useRegisterFreeTrialStore();
+  const { nextStep, prevStep, setRental } = useRegisterFreeTrialStore();
   const [isTermsDrawerOpen, setIsTermsDrawerOpen] = useState(false);
 
   const defaultValue: AddressFormValues = {
@@ -33,13 +33,24 @@ export function AddressInformation() {
     address: '',
     addressType: 'R',
     detailAddress: '',
-    agreeTerms: [],
+    terms: [],
   };
 
   const form = useForm({
     defaultValues: defaultValue,
     onSubmit: async ({ value }) => {
-      console.log('form', value);
+      setRental({
+        address: value.address,
+        addressType: value.addressType,
+        zonecode: value.zonecode,
+        detailAddress: value.detailAddress,
+        terms: [
+          {
+            termCode: 'RENTAL_001',
+            agreed: true,
+          },
+        ],
+      });
       nextStep();
     },
   });
@@ -62,7 +73,7 @@ export function AddressInformation() {
   };
 
   return (
-    <RegisterFreeTrialLayout title={'아이패드를 받을\n주소지를 입력해주세요'} progressStep={6} totalSteps={8}>
+    <RegisterFreeTrialLayout title={'아이패드를 받을\n주소지를 입력해주세요'} progressStep={6} totalSteps={9}>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -73,7 +84,7 @@ export function AddressInformation() {
         <div className="flex flex-1 flex-col justify-start items-start h-full relative overflow-hidden">
           <motion.div
             className="w-full space-y-4"
-            initial={{ y: 30, opacity: 0 }}
+            initial={{ y: -30, opacity: 0 }}
             animate={{
               y: 0, // 단순히 아래로 이동만
               opacity: 1,
@@ -118,7 +129,15 @@ export function AddressInformation() {
             </form.Field>
           </motion.div>
 
-          <div className="w-full mt-auto pt-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+              pointerEvents: 'auto',
+            }}
+            transition={{ duration: 0.3, ease: 'easeIn', delay: 0.7 }}
+            className="w-full mt-auto pt-6"
+          >
             <form.Subscribe selector={(state) => [state.values.address, state.values.detailAddress]}>
               {([address, detailAddress]) => (
                 <div className="flex justify-center gap-[0.8rem] w-full">
@@ -131,7 +150,7 @@ export function AddressInformation() {
                 </div>
               )}
             </form.Subscribe>
-          </div>
+          </motion.div>
         </div>
       </form>
 

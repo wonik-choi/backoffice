@@ -58,6 +58,8 @@
   --color-susimdal-border-primary: var(--susimdal-border-primary);
   --color-susimdal-icon-danger: var(--susimdal-icon-danger);
   --color-susimdal-icon-gray-light: var(--susimdal-icon-gray-light);
+  --color-susimdal-icon-gray: var(--susimdal-icon-gray);
+  --color-susimdal-text-danger: var(--susimdal-text-danger);
 }
 
 :root {
@@ -101,7 +103,7 @@
   --susimdal-text-basic: #2f2f31;
   --susimdal-text-disabled-on: #a4a6a6;
   --susimdal-text-primary: #e0505c;
-  --susimdal-element-primary-light: #ffcdd0;
+  --susimdal-element-primary-light: #ffedee;
   --susimdal-element-disabled-light: #ebebeb;
   --susimdal-button-gray-fill: #ebebeb;
   --susimdal-button-primary-fill: #ff6971;
@@ -111,6 +113,7 @@
   --susimdal-border-primary: #ff6971;
   --susimdal-icon-danger: #ff3b30;
   --susimdal-icon-gray-light: #a4a6a6;
+  --susimdal-icon-gray: #85898a;
   --susimdal-text-danger: #de0008;
 }
 

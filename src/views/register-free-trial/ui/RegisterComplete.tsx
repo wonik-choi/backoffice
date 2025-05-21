@@ -2,11 +2,12 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useEffect } from 'react';
 
 // shared
 
 import { useCustomLottie } from '@/shared/hooks/useLottie';
-import registerCompleteAnimation from '@/shared/lotties/register-complete-animation.json';
+import kidsAnimation from '@/shared/lotties/kids-animation.json';
 import { formatKoreanTitle, decodeQueryDate } from '@/shared/lib/date-fns/utls';
 // features
 import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
@@ -19,8 +20,8 @@ export function Completion() {
   const { resetForm, prevStep, freeTrial } = useRegisterFreeTrialStore();
 
   const completeLottieOption = {
-    animationData: registerCompleteAnimation,
-    loop: false,
+    animationData: kidsAnimation,
+    loop: true,
     autoplay: true,
     style: {
       width: '200px',
@@ -33,18 +34,18 @@ export function Completion() {
   const startDate = formatKoreanTitle(decodeQueryDate(freeTrial.startDate));
 
   return (
-    <RegisterFreeTrialLayout title={'무료체험 신청이\n완료되었습니다'} progressStep={8} totalSteps={8}>
+    <RegisterFreeTrialLayout title={'무료체험 신청이\n완료되었습니다'} progressStep={8} totalSteps={9} titleDelay={1.3}>
       <motion.div
-        initial={{ opacity: 0, x: -20 }}
+        initial={{ opacity: 0, x: -10 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.4 }}
         tabIndex={-1}
         className="flex flex-1 flex-col w-full h-full justify-between  relative overflow-hidden"
       >
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.5 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.3 }}
           tabIndex={-1}
           className="flex flex-col justify-center items-center w-full gap-[1rem] my-auto"
         >
@@ -53,9 +54,9 @@ export function Completion() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.6 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 1.3 }}
           tabIndex={-1}
           className="flex flex-col justify-center items-center w-full mt-auto pt-6 gap-[0.8rem]"
         >

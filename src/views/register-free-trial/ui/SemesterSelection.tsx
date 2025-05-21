@@ -1,14 +1,18 @@
 'use client';
-import type React from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { z } from 'zod';
 import { useForm } from '@tanstack/react-form';
+
+// shared
+import { RadioGroup, RadioGroupItem } from '@/shared/components/atomics/radio-group';
+import { Label } from '@/shared/components/atomics/label';
 
 // entities
 import { Semester } from '@/entities/free-trial-user/models/enums';
 
 // features
-import { freeTrialSchema } from '@/features/register-free-trial/config/schema';
+import { freeTrialSchemaInStore } from '@/features/register-free-trial/config/schema';
 import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
 import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFreeTrialLayout';
 
@@ -16,10 +20,10 @@ import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFree
 import { SEMESTER_OPTIONS } from '@/views/register-free-trial/config/const';
 
 import { Button } from '@/views/register-free-trial/ui/components/Button';
-import { RadioChip } from '@/views/register-free-trial/ui/components/RadioChip';
+import { RadioItem } from '@/views/register-free-trial/ui/components/RadioItem';
 
 // Zod 스키마 정의
-const semesterSchema = freeTrialSchema.pick({
+const semesterSchema = freeTrialSchemaInStore.pick({
   semester: true,
 });
 
@@ -29,7 +33,7 @@ export function SemesterSelection() {
   const { freeTrial, setSemester, nextStep, prevStep } = useRegisterFreeTrialStore();
 
   const defaultValue: SemesterFormValues = {
-    semester: freeTrial.semester || Semester.M1S1,
+    semester: freeTrial.semester,
   };
 
   const form = useForm({
@@ -51,7 +55,7 @@ export function SemesterSelection() {
   };
 
   return (
-    <RegisterFreeTrialLayout title={'어떤 학기를\n공부할까요?'} progressStep={4} totalSteps={8}>
+    <RegisterFreeTrialLayout title={'어떤 학기를\n공부할까요?'} progressStep={4} totalSteps={9}>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -69,27 +73,54 @@ export function SemesterSelection() {
           >
             <form.Field name="semester">
               {(field) => (
-                <div className="space-y-2 w-full">
-                  <div className="grid grid-cols-2 gap-[0.8rem]">
-                    {SEMESTER_OPTIONS.map((option) => (
-                      <RadioChip
-                        key={option.value}
-                        label={option.label}
-                        value={option.value}
-                        checked={field.state.value === option.value}
-                        onValueChange={() => {
-                          field.handleChange(option.value);
-                          console.log('semester', form.getFieldValue('semester'));
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
+                <motion.div
+                  initial={{ y: -20, opacity: 0 }}
+                  animate={{
+                    y: 0,
+                    opacity: 1,
+                    pointerEvents: 'auto',
+                  }}
+                  transition={{ duration: 0.3, ease: 'easeIn', delay: 0.4 }}
+                  className="space-y-2 w-full"
+                >
+                  <RadioGroup
+                    name={field.name}
+                    value={field.state.value}
+                    onValueChange={(value) => field.handleChange(value as unknown as Semester)}
+                    className="w-full mt-[1.8rem]"
+                  >
+                    <div className="grid grid-cols-2 w-full gap-x-[2rem] gap-y-[4rem]">
+                      {SEMESTER_OPTIONS.map((option) => (
+                        <React.Fragment key={option.value}>
+                          <RadioGroupItem
+                            value={String(option.value)}
+                            id={String(option.value)}
+                            className="peer sr-only"
+                          />
+                          <Label htmlFor={String(option.value)} className="block w-full cursor-pointer">
+                            <RadioItem
+                              label={option.label}
+                              checked={String(field.state.value) === String(option.value)}
+                            />
+                          </Label>
+                        </React.Fragment>
+                      ))}
+                    </div>
+                  </RadioGroup>
+                </motion.div>
               )}
             </form.Field>
           </motion.div>
 
-          <div className="w-full mt-auto pt-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+              pointerEvents: 'auto',
+            }}
+            transition={{ duration: 0.3, ease: 'easeIn', delay: 0.7 }}
+            className="w-full mt-auto pt-6"
+          >
             <form.Subscribe selector={(state) => [state.canSubmit, state.values.semester]}>
               {([canSubmit, semester]) => (
                 <div className="flex justify-center gap-[0.8rem] w-full">
@@ -102,7 +133,7 @@ export function SemesterSelection() {
                 </div>
               )}
             </form.Subscribe>
-          </div>
+          </motion.div>
         </div>
       </form>
     </RegisterFreeTrialLayout>

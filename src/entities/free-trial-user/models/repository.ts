@@ -1,43 +1,50 @@
+import { FreeTrialApplicationsResponseDto, GetFreeTrialPromotionsResponseDto } from './dtos';
 import { FreeTrialUserGrade, DayOfWeek, Semester } from './enums';
 
 export interface FreeTrialUserRequestDto {
   user: {
     name: string;
     phoneNumber?: string;
-    parrentName: string;
-    parrentPhoneNumber: string;
-    school: string;
+    parentName: string;
+    parentPhoneNumber: string;
     grade: FreeTrialUserGrade;
   };
   freeTrial: {
     startDate: string;
-    schedule: {
+    schedules: {
       dayOfWeek: DayOfWeek;
-      startTime: {
+      startAt: {
         hour: number;
         minute: number;
+        timezone: string;
       };
-      todayRunningTime: number;
+      todayLearningTime: number;
     }[];
     semester: Semester;
   };
-  rental:
-    | {
-        zonecode: string;
-        address: string;
-        detailAddress: string;
-        addressType: string;
-        agreeTerms: boolean;
-      }
-    | undefined;
-  promotion:
-    | {
-        id: string;
-        optionId: string;
-        agreeTerms: boolean;
-      }
-    | undefined;
+  rental?: {
+    zonecode: string;
+    address: string;
+    detailAddress: string;
+    addressType: string;
+    terms: {
+      termCode: string;
+      agreed: boolean;
+    }[];
+  };
+  promotion?: {
+    promotionCode: string;
+    optionIds: number[];
+    terms: {
+      termCode: string;
+      agreed: boolean;
+    }[];
+  };
 }
 
 /** repository */
-// 추후 진행 예정
+
+export interface FreeTrialUserRepository {
+  createFreeTrialUser: (request: FreeTrialUserRequestDto) => Promise<FreeTrialApplicationsResponseDto>;
+  getPromotions: () => Promise<GetFreeTrialPromotionsResponseDto>;
+}

@@ -38,7 +38,7 @@ export function SplitTitleText({ text, className = '' }: SplitTextProps) {
       // Animate each word with a spring effect, staggered
       animate(
         words,
-        { opacity: [0, 1], y: [10, 0] },
+        { opacity: [0, 1], y: [-20, 0] },
         {
           type: 'spring',
           duration: 0.5,

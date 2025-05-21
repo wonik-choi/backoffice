@@ -39,19 +39,34 @@ export const DongaSciencePromotion = () => {
   const [selectedPromotionOption, setSelectedPromotionOption] = useState<'1' | '2' | '3'>('1');
   const [isTermsDrawerOpen, setIsTermsDrawerOpen] = useState(false);
   const [isDetailDrawerOpen, setIsDetailDrawerOpen] = useState(false);
-  const { setPromotion, rental: beforeAgreeRentalDevice, prevStep, nextStep, goToStep } = useRegisterFreeTrialStore();
+  const { setPromotion, rental: beforeAgreeRentalDevice, prevStep, nextStep, backToStep } = useRegisterFreeTrialStore();
+
+  /** mutation */
   const freeTrialUserState = useRegisterFreeTrialStore((state) => state);
-  const { submitFreeTrialUserForm, isPending } = usePostFreeTrialUserForm({ store: freeTrialUserState });
+  const { submitFreeTrialUserForm, isPending } = usePostFreeTrialUserForm({
+    store: freeTrialUserState,
+    onSuccessCallback: () => {
+      nextStep();
+    },
+    onErrorCallback: () => {
+      console.log('form', freeTrialUserState);
+      console.log('error');
+    },
+  });
+
   const decisionPromotionOption = (value: '1' | '2' | '3') => {
     // yse 이면 대여를 한다.
     setSelectedPromotionOption(value);
   };
 
+  /**
+   * @description 뒤로가기 시 조건 분리
+   */
   const moveConditionalPrevStep = () => {
     if (beforeAgreeRentalDevice) {
       prevStep();
     } else {
-      goToStep(FormStep.DeviceSelection);
+      backToStep(FormStep.DeviceSelection);
     }
   };
 
@@ -60,8 +75,10 @@ export const DongaSciencePromotion = () => {
    * 최종 폼 제출 함수
    */
   const submitUserDetailForm = async () => {
-    // 폼 제출 요청 진행 함수 (추후 작성 예정)
-    console.log('form submit');
+    // if (isPending) return;
+    // // 폼 제출 요청 진행 함수 (추후 작성 예정)
+    // submitFreeTrialUserForm();
+    nextStep();
   };
 
   /**
@@ -70,17 +87,16 @@ export const DongaSciencePromotion = () => {
    *  */
   const earnPromotionTermsAgreement = async () => {
     setPromotion({
-      id: '1', // 지정값을 받을 예정,
-      optionId: [selectedPromotionOption],
-      agreeTerms: [
+      promotionCode: '1', // 지정값을 받을 예정,
+      optionIds: [Number(selectedPromotionOption)],
+      terms: [
         {
-          code: 'donga',
+          termCode: 'donga',
           agreed: true,
         },
       ],
     });
     await submitUserDetailForm();
-    nextStep();
   };
 
   /**
@@ -100,7 +116,7 @@ export const DongaSciencePromotion = () => {
   };
 
   return (
-    <PromotionLayout progressStep={7} totalSteps={8}>
+    <PromotionLayout progressStep={7} totalSteps={9}>
       <motion.section
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -109,11 +125,27 @@ export const DongaSciencePromotion = () => {
         className="flex flex-1 flex-col w-full h-full justify-start relative overflow-hidden"
       >
         <div className="w-full flex flex-col justify-start items-start gap-[0.8rem] mb-[1.2rem]">
-          <p className="text-[1.2rem] font-bold text-susimdal-text-primary">(~6/15) 가정의달 EVENT!</p>
-          <h1 className="text-[2rem] font-bold text-susimdal-text-basic leading-[3rem] whitespace-pre-wrap">{`과학수학동아 구독권을\n무료로 드려요`}</h1>
+          <motion.p
+            initial={{ opacity: 0, y: -10, scale: 1.02 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ type: 'spring', duration: 0.3, ease: 'easeIn', bounce: 0.3, delay: 0.6 }}
+            tabIndex={-1}
+            className="text-[1.2rem] font-bold text-susimdal-text-primary"
+          >
+            (~6/15) 가정의달 EVENT!
+          </motion.p>
+          <motion.h1
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: 'easeIn', delay: 0.7 }}
+            tabIndex={-1}
+            className="text-[2rem] font-bold text-susimdal-text-basic leading-[3rem] whitespace-pre-wrap"
+          >{`과학수학동아 구독권을\n무료로 드려요`}</motion.h1>
           <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
             whileTap={{ scale: 0.98 }}
-            transition={{ type: 'spring', duration: 0.1, bounce: 5 }}
+            transition={{ type: 'spring', duration: 0.1, bounce: 5, delay: 0.7 }}
             className="flex justify-start items-center gap-[0.2rem] cursor-pointer [&>p]:text-susimdal-text-subtle [&>svg]:text-susimdal-text-subtle active:[&>p]:text-susimdal-text-primary active:[&>svg]:text-susimdal-text-primary "
           >
             <p className="text-[1.2rem] font-normal" onClick={openDetailDrawer}>
@@ -123,7 +155,13 @@ export const DongaSciencePromotion = () => {
           </motion.div>
         </div>
 
-        <div className="w-full flex justify-center items-center mb-[1.2rem]">
+        <motion.div
+          initial={{ opacity: 0, y: 0, scale: 1.05 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.5, ease: 'easeIn', delay: 0.1 }}
+          tabIndex={-1}
+          className="w-full flex justify-center items-center mb-[1.2rem]"
+        >
           <div className="relative w-[25rem] h-[20rem]">
             <motion.div
               animate={{ rotate: [0, 360] }}
@@ -142,14 +180,26 @@ export const DongaSciencePromotion = () => {
               style={{ objectFit: 'cover' }}
             />
           </div>
-        </div>
+        </motion.div>
 
-        <div className="w-full flex justify-start items-center mb-[1.2rem]">
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: 'easeIn', delay: 0.8 }}
+          tabIndex={-1}
+          className="w-full flex justify-start items-center mb-[1.2rem]"
+        >
           <p className="text-[1.2rem] font-noraml text-susimdal-text-basic">
             아래 구독권 중 원하시는 1개를 선택해주세요
           </p>
-        </div>
-        <div className="w-full flex flex-col gap-[0.8rem]">
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: 'easeIn', delay: 0.9 }}
+          tabIndex={-1}
+          className="w-full flex flex-col gap-[0.8rem]"
+        >
           <RadioGroup value={selectedPromotionOption} onValueChange={decisionPromotionOption} className="w-full">
             <RadioGroupItem value="1" id="1" className="peer sr-only" />
             <Label htmlFor="1" className="block w-full cursor-pointer">
@@ -170,10 +220,16 @@ export const DongaSciencePromotion = () => {
               <PromotionOptionLabel promotionOption="과학동아 3개월 (3권)" checked={selectedPromotionOption === '3'} />
             </Label>
           </RadioGroup>
-        </div>
+        </motion.div>
 
         <div className="flex flex-col gap-[1.2rem] w-full items-center mt-auto">
-          <div className="flex justify-center items-center gap-[0,4rem]">
+          <motion.div
+            initial={{ opacity: 0, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: 'easeIn', delay: 2 }}
+            tabIndex={-1}
+            className="flex justify-center items-center gap-[0,4rem]"
+          >
             <motion.p
               whileTap={{ scale: 0.98 }}
               transition={{ type: 'spring', duration: 0.1, bounce: 5 }}
@@ -181,15 +237,21 @@ export const DongaSciencePromotion = () => {
             >
               다음에 참여할께요
             </motion.p>
-          </div>
-          <div className="flex justify-center gap-[0.8rem] w-full">
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: 'easeIn', delay: 1 }}
+            tabIndex={-1}
+            className="flex justify-center gap-[0.8rem] w-full"
+          >
             <Button variant="empty" type="button" onClick={moveConditionalPrevStep} className="w-[7.8rem] ">
               이전
             </Button>
             <Button type="button" onClick={openTermsDrawer} disabled={isPending}>
               {isPending ? '...' : '다음'}
             </Button>
-          </div>
+          </motion.div>
         </div>
       </motion.section>
       <DongaScienceTerms

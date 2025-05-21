@@ -8,19 +8,19 @@ export const useRegisterFreeTrialStore = create<FreeTrialUserState>()((set) => (
   user: {
     name: '',
     phoneNumber: '',
-    parrentName: '',
-    parrentPhoneNumber: '',
+    parentName: '',
+    parentPhoneNumber: '',
     school: '',
     grade: null,
   },
   freeTrial: {
     startDate: '',
-    schedule: [],
+    schedules: [],
     semester: null,
   },
   rental: undefined,
   promotion: undefined,
-  currentStep: FormStep.StudentInfo,
+  currentStep: FormStep.ParentInfo,
   currentDirection: 1,
 
   // Actions
@@ -33,31 +33,32 @@ export const useRegisterFreeTrialStore = create<FreeTrialUserState>()((set) => (
   setGrade: (grade: FreeTrialUserGrade) => set((state) => ({ user: { ...state.user, grade } })),
   setSchoolInformation: (school: Partial<UserInStore>) => set((state) => ({ user: { ...state.user, ...school } })),
   setFreeTrialStartDate: (startDate: string) => set((state) => ({ freeTrial: { ...state.freeTrial, startDate } })),
-  setFreeTrialSchedule: (schedule: FreeTrialInStore['schedule']) =>
-    set((state) => ({ freeTrial: { ...state.freeTrial, schedule } })),
+  setFreeTrialSchedule: (schedules: FreeTrialInStore['schedules']) =>
+    set((state) => ({ freeTrial: { ...state.freeTrial, schedules } })),
   setSemester: (semester: Semester) => set((state) => ({ freeTrial: { ...state.freeTrial, semester } })),
   setRental: (rental: Rental) => set({ rental }),
   setPromotion: (promotion: Promotion) => set({ promotion }),
   nextStep: () => set((state) => ({ ...state, currentStep: state.currentStep + 1, currentDirection: 1 })),
   prevStep: () => set((state) => ({ ...state, currentStep: state.currentStep - 1, currentDirection: -1 })),
-  goToStep: (step) => set({ currentStep: step }),
+  goToStep: (step) => set({ currentStep: step, currentDirection: 1 }),
+  backToStep: (step) => set({ currentStep: step, currentDirection: -1 }),
   resetForm: () =>
     set({
       user: {
         name: '',
         phoneNumber: '',
-        parrentName: '',
-        parrentPhoneNumber: '',
-        grade: FreeTrialUserGrade.ELEMENTARY4,
+        parentName: '',
+        parentPhoneNumber: '',
+        grade: null,
       },
       freeTrial: {
         startDate: '',
-        schedule: [],
-        semester: Semester.M1S1,
+        schedules: [],
+        semester: null,
       },
       rental: undefined,
       promotion: undefined,
-      currentStep: FormStep.StudentInfo,
+      currentStep: FormStep.ParentInfo,
       currentDirection: 1,
     }),
 }));

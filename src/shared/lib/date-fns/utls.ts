@@ -23,9 +23,16 @@ export const convertISOString = (date: Date) => {
   return formattedISODate;
 };
 
-export const formatKoreanTitle = (date: Date, formatString: string = 'MM월 dd일') => {
+export const formatKoreanTitle = (date: Date, formatString: string = 'M월 dd일') => {
   const adjustedTimezone = new TZDate(date, 'Asia/Seoul');
   const formattedISODate = format(adjustedTimezone, formatString);
 
   return formattedISODate;
+};
+
+export const addDayToToday = (addDay: number) => {
+  const today = new TZDate(new Date(), 'Asia/Seoul');
+  const addDate = addDays(today, addDay);
+
+  return addDate;
 };

@@ -31,14 +31,14 @@ export function ScheduleSelection() {
     setSelectedStartTime,
     determineSchedule,
     filterDisabledStartTime,
-    caculateRunningTime,
+    caculateLearningTime,
     convertHoursToHoursAndMinutes,
     mappingStartTimeHourToSchedule,
   } = useDeterminUserSchedule();
 
   const defaultValues: SchedulePageValues = {
-    days: freeTrial.schedule?.map((s) => s.dayOfWeek) || [],
-    startTime: freeTrial.schedule?.[0]?.startTime || '',
+    days: freeTrial.schedules?.map((s) => s.dayOfWeek) || [],
+    startTime: freeTrial.schedules?.[0]?.startAt || '',
   };
 
   const form = useForm({
@@ -52,13 +52,13 @@ export function ScheduleSelection() {
   });
 
   // 요일 선택 후 실행
-  const runningTime = caculateRunningTime(selectedWeekDays);
-  const runningTimeHoursAndMinutes = runningTime
-    ? convertHoursToHoursAndMinutes(runningTime)
+  const learningTime = caculateLearningTime(selectedWeekDays);
+  const learningTimeHoursAndMinutes = learningTime
+    ? convertHoursToHoursAndMinutes(learningTime)
     : { hours: 0, minutes: 0 };
-  const displayRunningTime =
-    runningTimeHoursAndMinutes.hours > 0
-      ? `선택하신 시각부터 ${runningTimeHoursAndMinutes.hours}시간 ${runningTimeHoursAndMinutes.minutes}분 동안 수업해요`
+  const displayLearningTime =
+    learningTimeHoursAndMinutes.hours > 0
+      ? `선택하신 시각부터 ${learningTimeHoursAndMinutes.hours}시간 ${learningTimeHoursAndMinutes.minutes}분 동안 수업해요`
       : `요일을 2개 이상 4개 이하로 선택해주세요`;
 
   // 요일 선택 후 disabledTimes 생성
@@ -91,7 +91,7 @@ export function ScheduleSelection() {
   };
 
   return (
-    <RegisterFreeTrialLayout title={`수심달에서 공부할\n6시간을 설정해주세요`} progressStep={3} totalSteps={8}>
+    <RegisterFreeTrialLayout title={`수심달에서 공부할\n6시간을 설정해주세요`} progressStep={3} totalSteps={9}>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -107,7 +107,7 @@ export function ScheduleSelection() {
             transition={{ duration: 0.4 }}
           >
             {/* 요일 선택 */}
-            <SubSectionLayout title="요일 선택">
+            <SubSectionLayout title="요일 선택" delay={0.5}>
               <form.Field name="days">
                 {(field) => {
                   return (
@@ -126,7 +126,7 @@ export function ScheduleSelection() {
                 }}
               </form.Field>
             </SubSectionLayout>
-            <SubSectionLayout title="시간 선택" subTitle={displayRunningTime}>
+            <SubSectionLayout title="시간 선택" subTitle={displayLearningTime} delay={0.7}>
               <form.Field name="startTime">
                 {(field) => {
                   return (
@@ -149,7 +149,15 @@ export function ScheduleSelection() {
           </motion.div>
 
           {/* 이전/다음 버튼 */}
-          <div className="w-full mt-auto pt-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+              pointerEvents: 'auto',
+            }}
+            transition={{ duration: 0.3, ease: 'easeIn', delay: 0.9 }}
+            className="w-full mt-auto pt-6"
+          >
             <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
               {([canSubmit]) => (
                 <div className="flex justify-center gap-[0.8rem] w-full">
@@ -170,7 +178,7 @@ export function ScheduleSelection() {
                 </div>
               )}
             </form.Subscribe>
-          </div>
+          </motion.div>
         </div>
       </form>
     </RegisterFreeTrialLayout>

@@ -13,7 +13,7 @@ const RadioButtonVariants = cva('rounded-full border-[0.06rem] border-susimdal-b
     },
     checked: {
       true: 'border-susimdal-border-primary',
-      false: 'border-susimdal-border-gray',
+      false: 'border-susimdal-border-gray-darker',
     },
   },
   defaultVariants: {

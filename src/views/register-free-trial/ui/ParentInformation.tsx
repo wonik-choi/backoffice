@@ -1,12 +1,11 @@
 'use client';
-import { useState } from 'react';
 import type React from 'react';
 import { motion } from 'framer-motion';
 import { z } from 'zod';
 import { useForm } from '@tanstack/react-form';
 
 // features
-import { userSchema } from '@/features/register-free-trial/config/schema';
+import { userSchemaInStore } from '@/features/register-free-trial/config/schema';
 import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
 import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFreeTrialLayout';
 
@@ -17,9 +16,9 @@ import { Em } from '@/views/register-free-trial/ui/components/Em';
 import { Button } from '@/views/register-free-trial/ui/components/Button';
 
 // Zod 스키마 정의
-const parentSchema = userSchema.pick({
-  parrentName: true,
-  parrentPhoneNumber: true,
+const parentSchema = userSchemaInStore.pick({
+  parentName: true,
+  parentPhoneNumber: true,
 });
 
 type ParentFormValues = z.infer<typeof parentSchema>;
@@ -28,8 +27,8 @@ export function ParentInformation() {
   const { user, setStudentInformation, nextStep } = useRegisterFreeTrialStore();
 
   const defaultValue: ParentFormValues = {
-    parrentName: user.parrentName || '',
-    parrentPhoneNumber: user.parrentPhoneNumber || '',
+    parentName: user.parentName || '',
+    parentPhoneNumber: user.parentPhoneNumber || '',
   };
 
   // 전화번호 포맷팅 함수
@@ -47,12 +46,14 @@ export function ParentInformation() {
     defaultValues: defaultValue,
     onSubmit: async ({ value }) => {
       setStudentInformation({
-        parrentName: value.parrentName,
-        parrentPhoneNumber: value.parrentPhoneNumber,
+        parentName: value.parentName,
+        parentPhoneNumber: value.parentPhoneNumber,
       });
+      console.log('parentPhoneNumber', value.parentPhoneNumber);
       nextStep();
     },
     validators: {
+      onMount: parentSchema,
       onChange: parentSchema,
     },
   });
@@ -62,7 +63,7 @@ export function ParentInformation() {
   };
 
   return (
-    <RegisterFreeTrialLayout title={'자녀의 정보를\n입력해주세요'} progressStep={0} totalSteps={8}>
+    <RegisterFreeTrialLayout title={'부모님의 정보를\n입력해주세요'} progressStep={0} totalSteps={9}>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -74,7 +75,7 @@ export function ParentInformation() {
           {/* 학부모 정보 섹션 */}
           <motion.div
             className="w-full space-y-4 absolute top-0 left-0"
-            initial={{ y: 20, opacity: 0 }}
+            initial={{ y: -20, opacity: 0 }}
             animate={{
               y: 0,
               opacity: 1,
@@ -82,12 +83,12 @@ export function ParentInformation() {
             }}
             transition={{
               duration: 0.4,
-              delay: 0.1, // 약간의 지연
+              delay: 0.4,
               ease: 'easeIn',
             }}
             tabIndex={-1}
           >
-            <form.Field name="parrentName">
+            <form.Field name="parentName">
               {(field) => (
                 <div className="space-y-2 w-full">
                   <Label htmlFor="parrentName">부모님 성함</Label>
@@ -108,7 +109,7 @@ export function ParentInformation() {
               )}
             </form.Field>
 
-            <form.Field name="parrentPhoneNumber">
+            <form.Field name="parentPhoneNumber">
               {(field) => (
                 <div className="space-y-2 w-full">
                   <Label htmlFor="parrentPhoneNumber">부모님 전화번호</Label>
@@ -116,10 +117,9 @@ export function ParentInformation() {
                     id="parrentPhoneNumber"
                     type="tel"
                     value={field.state.value}
-                    onChange={(e) => field.handleChange(formatPhoneNumber(e.target.value))}
+                    onChange={(e) => field.handleChange(e.target.value)}
                     onBlur={field.handleBlur}
                     placeholder="010-1234-5678"
-                    pattern="[0-9]{3}-[0-9]{3,4}-[0-9]{4}"
                     className="w-full"
                   />
                   <div className="w-full h-[1.2rem]">
@@ -132,7 +132,15 @@ export function ParentInformation() {
             </form.Field>
           </motion.div>
 
-          <div className="w-full mt-auto pt-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+              pointerEvents: 'auto',
+            }}
+            transition={{ duration: 0.3, ease: 'easeIn', delay: 0.9 }}
+            className="w-full mt-auto pt-6"
+          >
             <form.Subscribe selector={(state) => [state.canSubmit]}>
               {([canSubmit]) => (
                 <Button type="button" onClick={handleSubmit} disabled={!canSubmit}>
@@ -140,7 +148,7 @@ export function ParentInformation() {
                 </Button>
               )}
             </form.Subscribe>
-          </div>
+          </motion.div>
         </div>
       </form>
     </RegisterFreeTrialLayout>

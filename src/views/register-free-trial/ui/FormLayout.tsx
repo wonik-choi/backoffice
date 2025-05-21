@@ -16,7 +16,6 @@ interface FormLayoutProps {
 
 export function FormLayout({ children, className }: FormLayoutProps) {
   const currentDirection = useRegisterFreeTrialStore((state) => state.currentDirection);
-  console.log('currentDirection', useRegisterFreeTrialStore.getState().currentDirection);
 
   const variants = {
     enter: (direction: number) => ({

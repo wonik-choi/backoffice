@@ -11,9 +11,17 @@ interface PageLayoutProps {
   children: React.ReactNode;
   progressStep: number;
   totalSteps?: number;
+  titleDelay?: number;
 }
 
-const RegisterFreeTrialLayout = ({ title, subtitle, children, progressStep, totalSteps = 5 }: PageLayoutProps) => {
+const RegisterFreeTrialLayout = ({
+  title,
+  subtitle,
+  children,
+  progressStep,
+  titleDelay = 0,
+  totalSteps = 5,
+}: PageLayoutProps) => {
   return (
     <div className="flex flex-col h-full w-full">
       <nav className="mb-[8px] w-full bg-susimdal-element-primary-light">
@@ -28,7 +36,7 @@ const RegisterFreeTrialLayout = ({ title, subtitle, children, progressStep, tota
       </nav>
 
       <div className="flex flex-col w-full h-full px-[2rem] bg-white">
-        {totalSteps !== progressStep ? (
+        {progressStep !== 8 ? (
           <div className="flex items-center gap-[1.6rem] self-stretch mb-[1.6rem]">
             <Progress value={((progressStep + 1) / totalSteps) * 100} />
             <p className="text-[1.2rem] font-normal text-susimdal-text-subtle whitespace-nowrap">{`${
@@ -44,11 +52,12 @@ const RegisterFreeTrialLayout = ({ title, subtitle, children, progressStep, tota
             key={title}
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
+            transition={{ duration: 0.4, ease: 'easeOut', delay: titleDelay }}
             className="text-[2rem] font-bold text-susimdal-text-basic leading-[150%] whitespace-pre-wrap"
           >
             {title}
           </motion.h1>
+
           {subtitle && <p className="text-[1.2rem] text-susimdal-text-basic/50">{subtitle}</p>}
         </div>
 

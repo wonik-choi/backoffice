@@ -5,8 +5,8 @@ import { FreeTrialUserGrade, Semester } from '@/entities/free-trial-user/models/
 import { UserInStore, FreeTrialInStore, Rental, Promotion } from '@/features/register-free-trial/config/schema';
 
 export enum FormStep {
-  StudentInfo = 0,
-  SchoolInfo = 1,
+  ParentInfo = 0,
+  StudentInfo = 1,
   StartDate = 2,
   Schedule = 3,
   Semester = 4,
@@ -40,7 +40,7 @@ export interface FreeTrialUserState {
   setGrade: (grade: FreeTrialUserGrade) => void;
   setSchoolInformation: (school: Partial<UserInStore>) => void;
   setFreeTrialStartDate: (date: FreeTrialInStore['startDate']) => void;
-  setFreeTrialSchedule: (schedule: FreeTrialInStore['schedule']) => void;
+  setFreeTrialSchedule: (schedule: FreeTrialInStore['schedules']) => void;
   setSemester: (semester: Semester) => void;
   setRental: (rental: Rental) => void;
   setPromotion: (promotion: Promotion) => void;
@@ -52,6 +52,7 @@ export interface FreeTrialUserState {
   nextStep: () => void;
   prevStep: () => void;
   goToStep: (step: FormStep) => void;
+  backToStep: (step: FormStep) => void;
 
   /**
    * @description

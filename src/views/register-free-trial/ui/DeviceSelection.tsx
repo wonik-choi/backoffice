@@ -20,7 +20,7 @@ import { Label } from '@/views/register-free-trial/ui/components/Label';
 
 export function DeviceSelection() {
   const { nextStep, prevStep, goToStep } = useRegisterFreeTrialStore();
-  const [answer, setAnswer] = useState<'yes' | 'no'>('yes');
+  const [answer, setAnswer] = useState<'yes' | 'no' | ''>('');
 
   const decisionRenting = (value: 'yes' | 'no') => {
     // yse 이면 대여를 한다.
@@ -41,7 +41,7 @@ export function DeviceSelection() {
   };
 
   return (
-    <RegisterFreeTrialLayout title={'학습 기기를\n가지고 있으신가요?'} progressStep={5} totalSteps={8}>
+    <RegisterFreeTrialLayout title={'학습 기기를\n가지고 있으신가요?'} progressStep={5} totalSteps={9}>
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -50,7 +50,16 @@ export function DeviceSelection() {
         className="flex flex-1 flex-col w-full h-full justify-between  relative overflow-hidden"
       >
         <RadioGroup value={answer} onValueChange={decisionRenting} className="w-full">
-          <div className="space-y-2 w-full">
+          <motion.div
+            initial={{ y: -20, opacity: 0 }}
+            animate={{
+              y: 0,
+              opacity: 1,
+              pointerEvents: 'auto',
+            }}
+            transition={{ duration: 0.3, ease: 'easeIn', delay: 0.4 }}
+            className="space-y-2 w-full"
+          >
             <RadioGroupItem value="no" id="no" className="peer sr-only" />
             <Label htmlFor="no" className="block w-full cursor-pointer">
               <motion.div whileTap={{ scale: 0.95 }} transition={{ duration: 0.2, ease: 'easeIn' }}>
@@ -71,9 +80,18 @@ export function DeviceSelection() {
                 </Card>
               </motion.div>
             </Label>
-          </div>
+          </motion.div>
 
-          <div className="space-y-2 w-full">
+          <motion.div
+            initial={{ y: -20, opacity: 0 }}
+            animate={{
+              y: 0,
+              opacity: 1,
+              pointerEvents: 'auto',
+            }}
+            transition={{ duration: 0.3, ease: 'easeIn', delay: 0.5 }}
+            className="space-y-2 w-full"
+          >
             <RadioGroupItem value="yes" id="yes" className="peer sr-only" />
             <Label htmlFor="yes" className="block w-full cursor-pointer">
               <motion.div whileTap={{ scale: 0.95 }} transition={{ duration: 0.2, ease: 'easeIn' }}>
@@ -92,16 +110,24 @@ export function DeviceSelection() {
                 </Card>
               </motion.div>
             </Label>
-          </div>
+          </motion.div>
         </RadioGroup>
-        <div className="flex justify-center gap-[0.8rem] w-full">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: 1,
+            pointerEvents: 'auto',
+          }}
+          transition={{ duration: 0.3, ease: 'easeIn', delay: 0.7 }}
+          className="flex justify-center gap-[0.8rem] w-full"
+        >
           <Button variant="empty" type="button" onClick={prevStep} className="w-[7.8rem] ">
             이전
           </Button>
-          <Button type="button" onClick={submitRentalAnswer}>
+          <Button type="button" onClick={submitRentalAnswer} disabled={answer === ''}>
             다음
           </Button>
-        </div>
+        </motion.div>
       </motion.div>
     </RegisterFreeTrialLayout>
   );

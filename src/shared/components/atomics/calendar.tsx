@@ -103,12 +103,12 @@ function Calendar({
   const _monthGridClassName = cn('w-full mx-auto mt-4', props.monthGridClassName);
   const _weekClassName = cn('mt-[1.5rem] flex w-full items-start', props.weekClassName);
   const _dayClassName = cn(
-    'flex w-full  flex-1 px-[0.2rem] py-[0.7rem] items-center justify-center',
+    'flex w-full  flex-1 px-[0.2rem] py-[0.5rem] items-center justify-center',
     props.dayClassName
   );
   const _dayButtonClassName = cn(
     buttonVariants({ variant: 'ghost' }),
-    'w-full rounded-full size-[3.5rem] active:bg-susimdal-element-primary-light font-normal text-[1.5rem] hover:scale-110 active:scale-95 transition-all duration-100 aria-selected:opacity-100',
+    'w-full rounded-full size-[3rem] active:bg-susimdal-element-primary-light font-normal text-[1.5rem] hover:scale-110 active:scale-95 transition-all duration-100 aria-selected:opacity-100',
     props.dayButtonClassName
   );
   const buttonRangeClassName =
@@ -123,10 +123,7 @@ function Calendar({
     '[&>button]:bg-susimdal-button-primary-fill  [&>button]:text-primary-foreground [&>button]:hover:bg-susimdal-button-primary-fill [&>button]:hover:text-primary-foreground',
     props.selectedClassName
   );
-  const _todayClassName = cn(
-    '[&>button]:bg-susimdal-button-gray-fill [&>button]:text-accent-foreground',
-    props.todayClassName
-  );
+  const _todayClassName = cn('[&>button]:bg-white [&>button]:text-susimdal-text-primary', props.todayClassName);
   const _outsideClassName = cn(
     'day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30',
     props.outsideClassName
@@ -328,15 +325,9 @@ function CaptionLabel({
 } & React.HTMLAttributes<HTMLSpanElement>) {
   if (!showYearSwitcher) return <span {...props}>{children}</span>;
   return (
-    <motion.div
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.95 }}
-      transition={{ duration: 0.1 }}
-      className="w-fit"
-      tabIndex={-1}
-    >
+    <motion.div whileTap={{ scale: 0.95 }} transition={{ duration: 0.1 }} className="w-fit" tabIndex={-1}>
       <Button
-        className="h-[3.5rem] w-fit truncate text-[2rem] font-medium hover:bg-white cursor-pointer"
+        className="h-[3.5rem] w-fit truncate text-[1.8rem] font-medium hover:bg-white cursor-pointer"
         variant="ghost"
         size="sm"
         onClick={() => setNavView((prev) => (prev === 'days' ? 'years' : 'days'))}

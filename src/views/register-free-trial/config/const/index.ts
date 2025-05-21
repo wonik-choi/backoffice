@@ -5,12 +5,12 @@ import { FreeTrialPageBadge } from '@/views/register-free-trial/model/interface'
 
 /** grade option */
 export const gradeOptions = [
-  { value: FreeTrialUserGrade.ELEMENTARY4, label: '초등 4학년' },
-  { value: FreeTrialUserGrade.ELEMENTARY5, label: '초등 5학년' },
-  { value: FreeTrialUserGrade.ELEMENTARY6, label: '초등 6학년' },
-  { value: FreeTrialUserGrade.MIDDLE1, label: '중등 1학년' },
-  { value: FreeTrialUserGrade.MIDDLE2, label: '중등 2학년' },
-  { value: FreeTrialUserGrade.MIDDLE3, label: '중등 3학년' },
+  { value: FreeTrialUserGrade.ElementarySchool4, label: '초4' },
+  { value: FreeTrialUserGrade.ElementarySchool5, label: '초5' },
+  { value: FreeTrialUserGrade.ElementarySchool6, label: '초6' },
+  { value: FreeTrialUserGrade.MiddleSchool1, label: '중1' },
+  { value: FreeTrialUserGrade.MiddleSchool2, label: '중2' },
+  { value: FreeTrialUserGrade.MiddleSchool3, label: '중3' },
 ];
 
 /** 무료체험 최대 시간 */
@@ -117,10 +117,10 @@ export const FREE_TRIAL_TIME_OPTIONS: Omit<FreeTrialPageBadge<number>, 'onClick'
 
 /** 무료체험 학기 옵션 */
 export const SEMESTER_OPTIONS = [
-  { value: Semester.M1S1, label: '1학년 1학기' },
-  { value: Semester.M1S2, label: '1학년 2학기' },
-  { value: Semester.M2S1, label: '2학년 1학기' },
-  { value: Semester.M2S2, label: '2학년 2학기' },
-  { value: Semester.M3S1, label: '3학년 1학기' },
-  { value: Semester.M3S2, label: '3학년 2학기' },
+  { value: Semester.MIDDLE_FIRST_H1, label: '1학년 1학기' },
+  { value: Semester.MIDDLE_FIRST_H2, label: '1학년 2학기' },
+  { value: Semester.MIDDLE_SECOND_H1, label: '2학년 1학기' },
+  { value: Semester.MIDDLE_SECOND_H2, label: '2학년 2학기' },
+  { value: Semester.MIDDLE_THIRD_H1, label: '3학년 1학기' },
+  { value: Semester.MIDDLE_THIRD_H2, label: '3학년 2학기' },
 ];

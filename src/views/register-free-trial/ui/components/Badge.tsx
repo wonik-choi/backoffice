@@ -12,11 +12,11 @@ export interface BadgeProps<T> extends Omit<HTMLMotionProps<'button'>, 'value'> 
 }
 
 const badgeVariants = cva(
-  'flex w-[5.3rem] px-[1rem] py-[0.4rem] justify-center items-center gap-[0.2rem] text-[1.2rem] whitespace-nowrap font-normal leading-[1.6rem] rounded-full cursor-pointer',
+  'flex w-[6rem] px-[0.9rem] py-[0.5rem] justify-center items-center gap-[0.2rem] text-[1.6rem] whitespace-nowrap font-normal leading-[2.1rem] rounded-full cursor-pointer',
   {
     variants: {
       selected: {
-        true: 'bg-susimdal-element-primary-light text-susimdal-button-primary-fill border border-susimdal-button-primary-fill',
+        true: 'bg-white text-susimdal-button-primary-fill border border-susimdal-button-primary-fill',
         false: 'bg-white text-susimdal-text-basic border border-susimdal-border-gray-light',
       },
       disabled: {
@@ -41,6 +41,8 @@ export const Badge = React.memo(function Badge<T extends string | number>({
 }: BadgeProps<T>) {
   return (
     <motion.button
+      whileTap={{ backgroundColor: 'var(--susimdal-element-primary-light)', scale: 0.98 }}
+      transition={{ duration: 0.2, ease: 'easeIn' }}
       type="button"
       onClick={onClick}
       disabled={disabled}
