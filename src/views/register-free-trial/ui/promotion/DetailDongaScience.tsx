@@ -1,3 +1,5 @@
+'use client';
+
 import { Calendar, Zap, SquareMousePointer, Send } from 'lucide-react';
 import Delibery from '@/shared/components/svgs/delibery/Delibery';
 import ShoutingStar from '@/shared/components/svgs/shouting-star/ShoutingStar';

@@ -1,3 +1,5 @@
+'use client';
+
 import { motion } from 'framer-motion';
 import { cn } from '@/shared/lib/utils';
 import { ScheduleSectionLayoutProps } from '@/views/register-free-trial/model/interface';

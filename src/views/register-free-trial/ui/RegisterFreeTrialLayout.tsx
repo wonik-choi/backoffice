@@ -1,3 +1,5 @@
+'use client';
+
 // shared
 import { SusimdalLogo } from '@/shared/components/svgs/susimdal-logo/SusimdalLogo';
 import { Progress } from '@/shared/components/atomics/progress';

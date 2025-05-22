@@ -1,3 +1,5 @@
+'use client';
+
 import RegisterFreeTrial from '@/views/register-free-trial/ui/RegisterFreeTrial';
 
 const Page = () => {
