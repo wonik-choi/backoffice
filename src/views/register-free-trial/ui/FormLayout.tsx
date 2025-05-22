@@ -47,12 +47,10 @@ export function FormLayout({ children, className }: FormLayoutProps) {
               x: { type: 'spring', stiffness: 400, damping: 30 },
               opacity: { duration: 0.2 },
             }}
-            className={cn(
-              'absolute top-0 left-0 pb-[1.6rem] w-full flex-1 flex flex-col h-full overflow-hidden',
-              className
-            )}
+            className={cn('absolute top-0 left-0 w-full flex-1 flex flex-col h-full overflow-hidden', className)}
           >
             {children}
+            <div className="h-[1.6rem] w-full bg-white"></div>
           </motion.div>
         </AnimatePresence>
       </div>

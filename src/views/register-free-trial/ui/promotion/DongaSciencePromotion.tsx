@@ -117,127 +117,132 @@ export const DongaSciencePromotion = () => {
 
   return (
     <PromotionLayout progressStep={7} totalSteps={9}>
-      <motion.section
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.4 }}
-        tabIndex={-1}
-        className="flex flex-1 flex-col w-full h-full justify-start relative overflow-hidden"
-      >
-        <div className="w-full flex flex-col justify-start items-start gap-[0.8rem] mb-[0.9rem] mobile:mb-[1.2rem]">
-          <motion.p
-            initial={{ opacity: 0, y: -10, scale: 1.02 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ type: 'spring', duration: 0.3, ease: 'easeIn', bounce: 0.3, delay: 0.6 }}
-            tabIndex={-1}
-            className="text-[1.2rem] font-bold text-susimdal-text-primary"
-          >
-            (~6/15) 가정의달 EVENT!
-          </motion.p>
-          <motion.h1
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, ease: 'easeIn', delay: 0.7 }}
-            tabIndex={-1}
-            className="text-[1.7rem] mobile:text-[2rem] font-bold text-susimdal-text-basic leading-[2.5rem] mobile:leading-[3rem] whitespace-pre-wrap"
-          >{`과학수학동아 구독권을\n무료로 드려요`}</motion.h1>
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            whileTap={{ scale: 0.98 }}
-            transition={{ type: 'spring', duration: 0.1, bounce: 5, delay: 0.7 }}
-            className="flex justify-start items-center gap-[0.2rem] cursor-pointer [&>p]:text-susimdal-text-subtle [&>svg]:text-susimdal-text-subtle active:[&>p]:text-susimdal-text-primary active:[&>svg]:text-susimdal-text-primary "
-          >
-            <p className="text-[1.2rem] mobile:text-[1.4rem] font-normal" onClick={openDetailDrawer}>
-              자세히 보기
-            </p>
-            <ChevronRight className="size-[1.5rem] mobile:size-[1.6rem] " />
-          </motion.div>
-        </div>
-
+      <section className="flex flex-1 flex-col w-full h-full justify-start relative">
         <motion.div
-          initial={{ opacity: 0, y: 0, scale: 1.05 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.5, ease: 'easeIn', delay: 0.1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, delay: 0.2 }}
           tabIndex={-1}
-          className="w-full flex justify-center items-center mb-[0.9rem] mobile:mb-[1.2rem]"
+          className="flex flex-col flex-1 w-full overflow-y-auto scrollbar-hide pb-[18rem] overflow-hidden"
         >
-          <div className="relative  w-[20rem] h-[16rem] mobile:w-[25rem] mobile:h-[20rem]">
+          <div className="w-full flex flex-col justify-start items-start gap-[0.8rem] mb-[0.9rem] mobile:mb-[1.2rem]">
+            <motion.p
+              initial={{ opacity: 0, y: -10, scale: 1.02 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ type: 'spring', duration: 0.3, ease: 'easeIn', bounce: 0.3, delay: 0.6 }}
+              tabIndex={-1}
+              className="text-[1.2rem] font-bold text-susimdal-text-primary"
+            >
+              (~6/15) 가정의달 EVENT!
+            </motion.p>
+            <motion.h1
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, ease: 'easeIn', delay: 0.7 }}
+              tabIndex={-1}
+              className="text-[1.7rem] mobile:text-[2rem] font-bold text-susimdal-text-basic leading-[2.5rem] mobile:leading-[3rem] whitespace-pre-wrap"
+            >{`과학·수학동아 구독권을\n무료로 드려요`}</motion.h1>
             <motion.div
-              animate={{ rotate: [0, 360] }}
-              transition={{ repeat: Infinity, duration: 30, ease: 'linear' }}
-              className="
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: 'spring', duration: 0.1, bounce: 5, delay: 0.7 }}
+              className="flex justify-start items-center gap-[0.2rem] cursor-pointer [&>p]:text-susimdal-text-subtle [&>svg]:text-susimdal-text-subtle active:[&>p]:text-susimdal-text-primary active:[&>svg]:text-susimdal-text-primary "
+            >
+              <p className="text-[1.2rem] mobile:text-[1.4rem] font-normal" onClick={openDetailDrawer}>
+                자세히 보기
+              </p>
+              <ChevronRight className="size-[1.5rem] mobile:size-[1.6rem] " />
+            </motion.div>
+          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 0, scale: 1.05 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.5, ease: 'easeIn', delay: 0.1 }}
+            tabIndex={-1}
+            className="w-full flex justify-center items-center mb-[0.9rem] mobile:mb-[1.2rem]"
+          >
+            <div className="relative  w-[20rem] h-[16rem] mobile:w-[25rem] mobile:h-[20rem]">
+              <motion.div
+                animate={{ rotate: [0, 360] }}
+                transition={{ repeat: Infinity, duration: 30, ease: 'linear' }}
+                className="
                 absolute inset-0
                 bg-gradient-to-tr from-pink-300 via-transparent to-purple-300
                 filter blur-xl opacity-30
                 "
-            />
-            <Image
-              src="/images/donga-promotion.png"
-              alt="donga-promotion"
-              fill={true}
-              quality={100}
-              style={{ objectFit: 'cover' }}
-            />
-          </div>
-        </motion.div>
+              />
+              <Image
+                src="/images/donga-promotion.png"
+                alt="donga-promotion"
+                fill={true}
+                quality={100}
+                style={{ objectFit: 'cover' }}
+              />
+            </div>
+          </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, ease: 'easeIn', delay: 0.8 }}
-          tabIndex={-1}
-          className="w-full flex justify-start items-center mb-[1.2rem]"
-        >
-          <p className="text-[1.2rem] mobile:text-[1.5rem] font-noraml text-susimdal-text-basic">
-            아래 구독권 중 원하시는 1개를 선택해주세요
-          </p>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, ease: 'easeIn', delay: 0.9 }}
-          tabIndex={-1}
-          className="w-full flex flex-col gap-[0.8rem]"
-        >
-          <RadioGroup
-            value={selectedPromotionOption}
-            onValueChange={decisionPromotionOption}
-            className="w-full flex flex-col gap-[0.8rem] mobile:gap-[1.3rem]"
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: 'easeIn', delay: 0.8 }}
+            tabIndex={-1}
+            className="w-full flex justify-start items-center mb-[1.2rem]"
           >
-            <RadioGroupItem value="1" id="1" className="peer sr-only" />
-            <Label htmlFor="1" className="block w-full cursor-pointer">
-              <PromotionOptionLabel
-                promotionOption="어린이과학동아 2개월 (4권)"
-                checked={selectedPromotionOption === '1'}
-              />
-            </Label>
-            <RadioGroupItem value="2" id="2" className="peer sr-only" />
-            <Label htmlFor="2" className="block w-full cursor-pointer">
-              <PromotionOptionLabel
-                promotionOption="어린이수학동아 2개월 (4권)"
-                checked={selectedPromotionOption === '2'}
-              />
-            </Label>
-            <RadioGroupItem value="3" id="3" className="peer sr-only" />
-            <Label htmlFor="3" className="block w-full cursor-pointer">
-              <PromotionOptionLabel promotionOption="과학동아 3개월 (3권)" checked={selectedPromotionOption === '3'} />
-            </Label>
-          </RadioGroup>
+            <p className="text-[1.2rem] mobile:text-[1.5rem] font-noraml text-susimdal-text-basic">
+              아래 구독권 중 원하시는 1개를 선택해주세요
+            </p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: 'easeIn', delay: 0.9 }}
+            tabIndex={-1}
+            className="w-full flex flex-col gap-[0.8rem]"
+          >
+            <RadioGroup
+              value={selectedPromotionOption}
+              onValueChange={decisionPromotionOption}
+              className="w-full flex flex-col gap-[0.8rem] mobile:gap-[1.3rem]"
+            >
+              <RadioGroupItem value="1" id="1" className="peer sr-only" />
+              <Label htmlFor="1" className="block w-full cursor-pointer">
+                <PromotionOptionLabel
+                  promotionOption="어린이과학동아 2개월 (4권)"
+                  checked={selectedPromotionOption === '1'}
+                />
+              </Label>
+              <RadioGroupItem value="2" id="2" className="peer sr-only" />
+              <Label htmlFor="2" className="block w-full cursor-pointer">
+                <PromotionOptionLabel
+                  promotionOption="어린이수학동아 2개월 (4권)"
+                  checked={selectedPromotionOption === '2'}
+                />
+              </Label>
+              <RadioGroupItem value="3" id="3" className="peer sr-only" />
+              <Label htmlFor="3" className="block w-full cursor-pointer">
+                <PromotionOptionLabel
+                  promotionOption="과학동아 3개월 (3권)"
+                  checked={selectedPromotionOption === '3'}
+                />
+              </Label>
+            </RadioGroup>
+          </motion.div>
         </motion.div>
 
-        <div className="flex flex-col gap-[1.2rem] w-full items-center mt-auto">
+        <div className="fixed bottom-0 left-0 flex flex-shrink-0 flex-col  px-[1.2rem] pb-[1.2rem] w-full items-center h-fit ">
+          <div className="h-[3rem] w-full bg-gradient-to-t from-white via-white/95 to-transparent" />
           <motion.div
             initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, ease: 'easeIn', delay: 2 }}
             tabIndex={-1}
-            className="flex justify-center items-center gap-[0,4rem]"
+            className="flex flex-col justify-center items-center gap-[0,4rem] w-full h-[1.4rem] mobile:h-[1.8rem] bg-white pb-[1.2rem]"
           >
             <motion.p
               whileTap={{ scale: 0.98 }}
               transition={{ type: 'spring', duration: 0.1, bounce: 5 }}
-              className="text-[1.2rem] mobile:text-[1.5rem] text-susimdal-text-subtle font-normal active:text-susimdal-text-disabled-on"
+              className="text-[1.2rem] text-center mobile:text-[1.5rem] text-susimdal-text-subtle font-normal active:text-susimdal-text-disabled-on w-full"
             >
               다음에 참여할께요
             </motion.p>
@@ -247,7 +252,7 @@ export const DongaSciencePromotion = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, ease: 'easeIn', delay: 1 }}
             tabIndex={-1}
-            className="flex justify-center gap-[0.8rem] w-full"
+            className="flex justify-center gap-[0.8rem] w-full bg-white"
           >
             <Button variant="empty" type="button" onClick={moveConditionalPrevStep} className="w-[7.8rem] ">
               이전
@@ -257,7 +262,7 @@ export const DongaSciencePromotion = () => {
             </Button>
           </motion.div>
         </div>
-      </motion.section>
+      </section>
       <DongaScienceTerms
         openState={isTermsDrawerOpen}
         setOpenState={setIsTermsDrawerOpen}
