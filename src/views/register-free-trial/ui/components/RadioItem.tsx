@@ -1,3 +1,5 @@
+'use client';
+
 import { RadioButton } from '@/shared/components/radion-button/RadioButton';
 
 interface RadioItemProps {

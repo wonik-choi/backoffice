@@ -1,3 +1,5 @@
+'use client';
+
 import { Input as InputBasic } from '@/shared/components/atomics/input';
 import { cn } from '@/shared/lib/utils';
 import { MapPin } from 'lucide-react';

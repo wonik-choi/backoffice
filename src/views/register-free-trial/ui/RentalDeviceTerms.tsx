@@ -1,3 +1,5 @@
+'use client';
+
 // widgets
 import { DrawerTermLayout } from '@/widgets/drawer-term-layout/ui/DrawerTermLayout';
 

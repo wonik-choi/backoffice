@@ -1,3 +1,5 @@
+'use client';
+
 import { Button as ButtonBasic, buttonVariants } from '@/shared/components/atomics/button';
 import { cva, VariantProps } from 'class-variance-authority';
 import { motion } from 'framer-motion';
