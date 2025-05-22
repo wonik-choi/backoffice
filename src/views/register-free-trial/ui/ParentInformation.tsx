@@ -91,7 +91,7 @@ export function ParentInformation() {
             <form.Field name="parentName">
               {(field) => (
                 <div className="space-y-2 w-full">
-                  <Label htmlFor="parrentName">부모님 성함</Label>
+                  <Label htmlFor="parrentName">성함</Label>
                   <Input
                     id="parrentName"
                     value={field.state.value}
@@ -112,14 +112,14 @@ export function ParentInformation() {
             <form.Field name="parentPhoneNumber">
               {(field) => (
                 <div className="space-y-2 w-full">
-                  <Label htmlFor="parrentPhoneNumber">부모님 전화번호</Label>
+                  <Label htmlFor="parrentPhoneNumber">학부모님 휴대전화</Label>
                   <Input
                     id="parrentPhoneNumber"
                     type="tel"
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
                     onBlur={field.handleBlur}
-                    placeholder="010-1234-5678"
+                    placeholder="01012345678"
                     className="w-full"
                   />
                   <div className="w-full h-[1.2rem]">

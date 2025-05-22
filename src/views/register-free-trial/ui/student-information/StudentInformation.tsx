@@ -74,7 +74,7 @@ export function StudentInformation() {
   };
 
   return (
-    <RegisterFreeTrialLayout title={'자녀의 정보를\n입력해주세요'} progressStep={1} totalSteps={9}>
+    <RegisterFreeTrialLayout title={'자녀 정보를\n입력해주세요'} progressStep={1} totalSteps={9}>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -98,7 +98,7 @@ export function StudentInformation() {
             <form.Field name="name">
               {(field) => (
                 <div className="space-y-2 w-full">
-                  <Label htmlFor="name">이름</Label>
+                  <Label htmlFor="name">성함</Label>
                   <Input
                     id="name"
                     value={field.state.value}
@@ -119,14 +119,14 @@ export function StudentInformation() {
             <form.Field name="phoneNumber">
               {(field) => (
                 <div className="space-y-2 w-full">
-                  <Label htmlFor="phoneNumber">전화번호 (선택)</Label>
+                  <Label htmlFor="phoneNumber">학생 휴대전화 (선택)</Label>
                   <Input
                     id="phoneNumber"
                     type="tel"
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
                     onBlur={field.handleBlur}
-                    placeholder="010-1234-5678"
+                    placeholder="01012345678"
                     className="w-full m-0"
                   />
                   <div className="w-full h-[1.2rem]">
