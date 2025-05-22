@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Header, Row } from '@tanstack/react-table';
 import innerText from 'react-innertext';
