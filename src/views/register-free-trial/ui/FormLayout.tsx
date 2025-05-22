@@ -33,7 +33,7 @@ export function FormLayout({ children, className }: FormLayoutProps) {
   };
 
   return (
-    <div className="h-[100lvh] bg-white flex flex-col overflow-hidden w-full">
+    <div className="h-dvh bg-white flex flex-col overflow-hidden w-full">
       <div className="relative flex-1 flex flex-col w-full mx-auto px-6 py-6 h-full overflow-hidden max-w-[100%] ">
         <AnimatePresence mode="sync" custom={currentDirection} initial={false}>
           <motion.div
