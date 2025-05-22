@@ -1,7 +1,6 @@
 // shared
 import { SusimdalLogo } from '@/shared/components/svgs/susimdal-logo/SusimdalLogo';
 import { Progress } from '@/shared/components/atomics/progress';
-import { SplitTitleText } from '@/shared/components/animation/SplitTitleText';
 
 import { motion } from 'framer-motion';
 
