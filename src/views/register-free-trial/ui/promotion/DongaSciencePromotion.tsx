@@ -9,6 +9,9 @@ import Image from 'next/image';
 import { RadioButton } from '@/shared/components/radion-button/RadioButton';
 import { RadioGroup, RadioGroupItem } from '@/shared/components/atomics/radio-group';
 
+// entities
+import { PromotionTermCode } from '@/entities/free-trial-user/models/enums';
+
 // features
 import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
 import { usePostFreeTrialUserForm } from '@/features/register-free-trial/services/query/usePostFreeTrialUserForm';
@@ -75,10 +78,8 @@ export const DongaSciencePromotion = () => {
    * 최종 폼 제출 함수
    */
   const submitUserDetailForm = async () => {
-    // if (isPending) return;
-    // // 폼 제출 요청 진행 함수 (추후 작성 예정)
-    // submitFreeTrialUserForm();
-    nextStep();
+    if (isPending) return;
+    submitFreeTrialUserForm();
   };
 
   /**
@@ -91,8 +92,26 @@ export const DongaSciencePromotion = () => {
       optionIds: [Number(selectedPromotionOption)],
       terms: [
         {
-          termCode: 'donga',
+          termCode: PromotionTermCode.DONGASCIENCE_001,
           agreed: true,
+        },
+      ],
+    });
+    await submitUserDetailForm();
+  };
+
+  /**
+   * @description
+   * 이벤트 미 동의시 약관 저장 함수
+   */
+  const omitPromotionTermsAgreement = async () => {
+    setPromotion({
+      promotionCode: '1', // 지정값을 받을 예정,
+      optionIds: [Number(selectedPromotionOption)],
+      terms: [
+        {
+          termCode: PromotionTermCode.DONGASCIENCE_001,
+          agreed: false,
         },
       ],
     });
@@ -243,6 +262,7 @@ export const DongaSciencePromotion = () => {
               whileTap={{ scale: 0.98 }}
               transition={{ type: 'spring', duration: 0.1, bounce: 5 }}
               className="text-[1.2rem] text-center mobile:text-[1.5rem] text-susimdal-text-subtle font-normal active:text-susimdal-text-disabled-on w-full"
+              onClick={omitPromotionTermsAgreement}
             >
               다음에 참여할께요
             </motion.p>

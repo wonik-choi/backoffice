@@ -1,17 +1,20 @@
 'use client';
 
 import type React from 'react';
+import { motion } from 'framer-motion';
 import { z } from 'zod';
 import { useForm } from '@tanstack/react-form';
 
 import { useState } from 'react';
-import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
-import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFreeTrialLayout';
+
+// entities
+import { RentalTermCode } from '@/entities/free-trial-user/models/enums';
 
 // features
 import { rentalSchema } from '@/features/register-free-trial/config/schema';
 import { SearchAddressDrawer } from '@/features/search-address/ui/SearchAddressDrawer';
 import type { DaumPostcodeResultDto } from '@/features/search-address/model/dtos';
+import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
 
 // view
 import { RentalDeviceTerms } from '@/views/register-free-trial/ui/RentalDeviceTerms';
@@ -19,8 +22,7 @@ import { Input } from '@/views/register-free-trial/ui/components/Input';
 import { ButtonInput } from '@/views/register-free-trial/ui/components/ButtonInput';
 import { Label } from '@/views/register-free-trial/ui/components/Label';
 import { Button } from '@/views/register-free-trial/ui/components/Button';
-
-import { motion } from 'framer-motion';
+import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFreeTrialLayout';
 
 type AddressFormValues = z.infer<typeof rentalSchema>;
 
@@ -46,7 +48,7 @@ export function AddressInformation() {
         detailAddress: value.detailAddress,
         terms: [
           {
-            termCode: 'RENTAL_001',
+            termCode: RentalTermCode.RENTAL_001,
             agreed: true,
           },
         ],

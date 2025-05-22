@@ -1,5 +1,5 @@
 import { FreeTrialApplicationsResponseDto, GetFreeTrialPromotionsResponseDto } from './dtos';
-import { FreeTrialUserGrade, DayOfWeek, Semester } from './enums';
+import { FreeTrialUserGrade, DayOfWeek, Semester, RentalTermCode, PromotionTermCode } from './enums';
 
 export interface FreeTrialUserRequestDto {
   user: {
@@ -28,7 +28,7 @@ export interface FreeTrialUserRequestDto {
     detailAddress: string;
     addressType: string;
     terms: {
-      termCode: string;
+      termCode: RentalTermCode;
       agreed: boolean;
     }[];
   };
@@ -36,7 +36,7 @@ export interface FreeTrialUserRequestDto {
     promotionCode: string;
     optionIds: number[];
     terms: {
-      termCode: string;
+      termCode: PromotionTermCode;
       agreed: boolean;
     }[];
   };
