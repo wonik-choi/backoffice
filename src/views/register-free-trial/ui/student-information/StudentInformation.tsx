@@ -85,7 +85,7 @@ export function StudentInformation() {
         <div className="flex flex-1 flex-col justify-start items-start h-full relative overflow-hidden">
           {/* 학생 정보 섹션 */}
           <motion.div
-            className="w-full space-y-4 mb-[2rem]"
+            className="w-full space-y-3 mobile:space-y-4 mb-[1rem] mobile:mb-[2rem]"
             initial={{ y: -20, opacity: 0 }}
             animate={{
               y: 0, // 단순히 아래로 이동만
@@ -162,7 +162,7 @@ export function StudentInformation() {
                       onValueChange={(value) => field.handleChange(value as FreeTrialUserGrade)}
                       className="w-full mt-[1.8rem]"
                     >
-                      <div className="grid grid-cols-3 w-full gap-x-[2rem] gap-y-[4rem]">
+                      <div className="grid grid-cols-3 w-full gap-x-[2rem] gap-y-[2rem] mobile:gap-y-[3rem]">
                         {gradeOptions.map((option) => (
                           <React.Fragment key={option.value}>
                             <RadioGroupItem value={option.value} id={option.value} className="peer sr-only" />

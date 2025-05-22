@@ -63,7 +63,7 @@ export function ParentInformation() {
   };
 
   return (
-    <RegisterFreeTrialLayout title={'부모님의 정보를\n입력해주세요'} progressStep={0} totalSteps={9}>
+    <RegisterFreeTrialLayout title={'학부모님 정보를\n입력해주세요'} progressStep={0} totalSteps={9}>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -74,7 +74,7 @@ export function ParentInformation() {
         <div className="flex flex-1 flex-col justify-start items-start h-full relative overflow-hidden">
           {/* 학부모 정보 섹션 */}
           <motion.div
-            className="w-full space-y-4 absolute top-0 left-0"
+            className="w-full space-y-3 mobile:space-y-4 absolute top-0 left-0"
             initial={{ y: -20, opacity: 0 }}
             animate={{
               y: 0,

@@ -5,7 +5,7 @@ import { cva } from 'class-variance-authority';
 import { cn } from '@/shared/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 
-const RadioButtonVariants = cva('rounded-full border-[0.06rem] border-susimdal-border-gray relative', {
+const RadioButtonVariants = cva('rounded-full border border-susimdal-border-gray relative', {
   variants: {
     size: {
       sm: 'size-[1.2rem]',

@@ -14,7 +14,7 @@ export const Input = ({ className, type, ...props }: React.ComponentProps<'input
     >
       <InputBasic
         className={cn(
-          'px-[1.6rem] h-[4rem] flex-1 self-stretch rounded-[0.6rem] border border-susimdal-element-disabled-light text-[1.6rem] font-normal text-susimdal-text-basic placeholder:text-susimdal-text-subtle focus-visible:ring-0',
+          'px-[1.4rem] mobile:px-[1.6rem] h-[3.8rem] mobile:h-[4rem] flex-1 self-stretch rounded-[0.6rem] border border-susimdal-element-disabled-light text-[1.4rem] mobile:text-[1.6rem] font-normal text-susimdal-text-basic placeholder:text-susimdal-text-subtle focus-visible:ring-0',
           className
         )}
         type={type}

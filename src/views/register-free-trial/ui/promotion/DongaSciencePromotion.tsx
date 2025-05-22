@@ -30,7 +30,7 @@ export const PromotionOptionLabel = ({ promotionOption, checked }: PromotionOpti
   return (
     <div className="flex justify-start items-center gap-[0.8rem]">
       <RadioButton checked={checked} size="lg" />
-      <p className="text-[1.2rem] font-normal text-susimdal-text-basic"> {promotionOption}</p>
+      <p className="text-[1.2rem] mobile:text-[1.5rem] font-normal text-susimdal-text-basic"> {promotionOption}</p>
     </div>
   );
 };
@@ -124,7 +124,7 @@ export const DongaSciencePromotion = () => {
         tabIndex={-1}
         className="flex flex-1 flex-col w-full h-full justify-start relative overflow-hidden"
       >
-        <div className="w-full flex flex-col justify-start items-start gap-[0.8rem] mb-[1.2rem]">
+        <div className="w-full flex flex-col justify-start items-start gap-[0.8rem] mb-[0.9rem] mobile:mb-[1.2rem]">
           <motion.p
             initial={{ opacity: 0, y: -10, scale: 1.02 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -139,7 +139,7 @@ export const DongaSciencePromotion = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, ease: 'easeIn', delay: 0.7 }}
             tabIndex={-1}
-            className="text-[2rem] font-bold text-susimdal-text-basic leading-[3rem] whitespace-pre-wrap"
+            className="text-[1.7rem] mobile:text-[2rem] font-bold text-susimdal-text-basic leading-[2.5rem] mobile:leading-[3rem] whitespace-pre-wrap"
           >{`과학수학동아 구독권을\n무료로 드려요`}</motion.h1>
           <motion.div
             initial={{ opacity: 0, y: -10 }}
@@ -148,10 +148,10 @@ export const DongaSciencePromotion = () => {
             transition={{ type: 'spring', duration: 0.1, bounce: 5, delay: 0.7 }}
             className="flex justify-start items-center gap-[0.2rem] cursor-pointer [&>p]:text-susimdal-text-subtle [&>svg]:text-susimdal-text-subtle active:[&>p]:text-susimdal-text-primary active:[&>svg]:text-susimdal-text-primary "
           >
-            <p className="text-[1.2rem] font-normal" onClick={openDetailDrawer}>
+            <p className="text-[1.2rem] mobile:text-[1.4rem] font-normal" onClick={openDetailDrawer}>
               자세히 보기
             </p>
-            <ChevronRight className="w-[1.6rem] h-[1.6rem] " />
+            <ChevronRight className="size-[1.5rem] mobile:size-[1.6rem] " />
           </motion.div>
         </div>
 
@@ -160,9 +160,9 @@ export const DongaSciencePromotion = () => {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.5, ease: 'easeIn', delay: 0.1 }}
           tabIndex={-1}
-          className="w-full flex justify-center items-center mb-[1.2rem]"
+          className="w-full flex justify-center items-center mb-[0.9rem] mobile:mb-[1.2rem]"
         >
-          <div className="relative w-[25rem] h-[20rem]">
+          <div className="relative  w-[20rem] h-[16rem] mobile:w-[25rem] mobile:h-[20rem]">
             <motion.div
               animate={{ rotate: [0, 360] }}
               transition={{ repeat: Infinity, duration: 30, ease: 'linear' }}
@@ -189,7 +189,7 @@ export const DongaSciencePromotion = () => {
           tabIndex={-1}
           className="w-full flex justify-start items-center mb-[1.2rem]"
         >
-          <p className="text-[1.2rem] font-noraml text-susimdal-text-basic">
+          <p className="text-[1.2rem] mobile:text-[1.5rem] font-noraml text-susimdal-text-basic">
             아래 구독권 중 원하시는 1개를 선택해주세요
           </p>
         </motion.div>
@@ -200,7 +200,11 @@ export const DongaSciencePromotion = () => {
           tabIndex={-1}
           className="w-full flex flex-col gap-[0.8rem]"
         >
-          <RadioGroup value={selectedPromotionOption} onValueChange={decisionPromotionOption} className="w-full">
+          <RadioGroup
+            value={selectedPromotionOption}
+            onValueChange={decisionPromotionOption}
+            className="w-full flex flex-col gap-[0.8rem] mobile:gap-[1.3rem]"
+          >
             <RadioGroupItem value="1" id="1" className="peer sr-only" />
             <Label htmlFor="1" className="block w-full cursor-pointer">
               <PromotionOptionLabel
@@ -233,7 +237,7 @@ export const DongaSciencePromotion = () => {
             <motion.p
               whileTap={{ scale: 0.98 }}
               transition={{ type: 'spring', duration: 0.1, bounce: 5 }}
-              className="text-[1.2rem] text-susimdal-text-subtle font-normal active:text-susimdal-text-disabled-on"
+              className="text-[1.2rem] mobile:text-[1.5rem] text-susimdal-text-subtle font-normal active:text-susimdal-text-disabled-on"
             >
               다음에 참여할께요
             </motion.p>

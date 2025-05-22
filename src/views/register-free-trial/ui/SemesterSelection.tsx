@@ -89,7 +89,7 @@ export function SemesterSelection() {
                     onValueChange={(value) => field.handleChange(value as unknown as Semester)}
                     className="w-full mt-[1.8rem]"
                   >
-                    <div className="grid grid-cols-2 w-full gap-x-[2rem] gap-y-[4rem]">
+                    <div className="grid grid-cols-2 w-full gap-x-[2rem] gap-y-[3rem] mobile:gap-y-[4rem]">
                       {SEMESTER_OPTIONS.map((option) => (
                         <React.Fragment key={option.value}>
                           <RadioGroupItem
