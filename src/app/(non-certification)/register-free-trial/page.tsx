@@ -1,6 +1,8 @@
 'use client';
 
-import RegisterFreeTrial from '@/views/register-free-trial/ui/RegisterFreeTrial';
+import dynamic from 'next/dynamic';
+
+const RegisterFreeTrial = dynamic(() => import('@/views/register-free-trial/ui/RegisterFreeTrial'), { ssr: false });
 
 const Page = () => {
   return (
