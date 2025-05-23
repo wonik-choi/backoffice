@@ -7,9 +7,9 @@ import { cn } from '@/shared/lib/utils';
 const loadingVariants = cva('rounded-full', {
   variants: {
     size: {
-      sm: 'size-[1rem]',
-      md: 'size-[1.5rem]',
-      lg: 'size-[2rem]',
+      sm: 'size-[0.7rem]',
+      md: 'size-[1.2rem]',
+      lg: 'size-[1.5rem]',
     },
     color: {
       primary: 'bg-susimdal-button-primary-fill',
