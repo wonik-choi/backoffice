@@ -18,7 +18,7 @@ import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFree
 import { Button } from '@/views/register-free-trial/ui/components/Button';
 
 export function Completion() {
-  const { resetForm, prevStep, freeTrial } = useRegisterFreeTrialStore();
+  const { freeTrial } = useRegisterFreeTrialStore();
 
   const completeLottieOption = {
     animationData: kidsAnimation,
@@ -64,17 +64,17 @@ export function Completion() {
           tabIndex={-1}
           className="flex flex-col justify-center items-center w-full mt-auto pt-6 gap-[0.8rem]"
         >
-          <Link href={'https://class.susimdal.com/company'} className="w-full">
+          <Link href={'https://class.susimdal.com/'} className="w-full">
             <Button type="button" className="w-full">
-              수심달 클래스 자세히 보기
+              수업 안내
             </Button>
           </Link>
 
-          {/* <Link href={'https://class.susimdal.com/'} className="w-full"> */}
-          <Button variant="border" type="button" className="w-full" onClick={prevStep}>
-            홈으로
-          </Button>
-          {/* </Link> */}
+          <Link href={'https://class.susimdal.com/company'} className="w-full">
+            <Button variant="border" type="button" className="w-full">
+              수심달 클래스 자세히 보기
+            </Button>
+          </Link>
         </motion.div>
       </motion.div>
     </RegisterFreeTrialLayout>
