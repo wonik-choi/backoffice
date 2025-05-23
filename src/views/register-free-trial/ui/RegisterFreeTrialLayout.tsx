@@ -1,7 +1,8 @@
+'use client';
+
 // shared
 import { SusimdalLogo } from '@/shared/components/svgs/susimdal-logo/SusimdalLogo';
 import { Progress } from '@/shared/components/atomics/progress';
-import { SplitTitleText } from '@/shared/components/animation/SplitTitleText';
 
 import { motion } from 'framer-motion';
 
@@ -23,7 +24,7 @@ const RegisterFreeTrialLayout = ({
   totalSteps = 5,
 }: PageLayoutProps) => {
   return (
-    <div className="flex flex-col h-full w-full">
+    <div className="flex flex-col h-dvh w-full">
       <nav className="mb-[8px] w-full bg-susimdal-element-primary-light">
         <div className="flex h-[32px] p-[8px] justify-center items-center self-stretch">
           <div className="flex justify-center items-center gap-[4px]">
@@ -47,13 +48,13 @@ const RegisterFreeTrialLayout = ({
           <div className="w-full h-[1.2rem] mb-[1.6rem]"></div>
         )}
 
-        <div className="flex flex-col gap-[1.2rem] items-start justify-start mb-[3.2rem]">
+        <div className="flex flex-col gap-[0.8rem] items-start justify-start mb-[2rem] mobile:mb-[3.2rem]">
           <motion.h1
             key={title}
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: 'easeOut', delay: titleDelay }}
-            className="text-[2rem] font-bold text-susimdal-text-basic leading-[150%] whitespace-pre-wrap"
+            className="text-[1.8rem] mobile:text-[2rem] font-bold text-susimdal-text-basic leading-[150%] whitespace-pre-wrap"
           >
             {title}
           </motion.h1>
@@ -61,7 +62,7 @@ const RegisterFreeTrialLayout = ({
           {subtitle && <p className="text-[1.2rem] text-susimdal-text-basic/50">{subtitle}</p>}
         </div>
 
-        <div className="flex-1 overflow-y-auto w-full">{children}</div>
+        <div className="flex-1 overflow-y-auto w-full pb-[1rem]">{children}</div>
       </div>
     </div>
   );

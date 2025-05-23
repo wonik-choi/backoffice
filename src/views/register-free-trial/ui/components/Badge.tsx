@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { cva } from 'class-variance-authority';
 import { cn } from '@/shared/lib/utils';
@@ -12,7 +14,7 @@ export interface BadgeProps<T> extends Omit<HTMLMotionProps<'button'>, 'value'> 
 }
 
 const badgeVariants = cva(
-  'flex w-[6rem] px-[0.9rem] py-[0.5rem] justify-center items-center gap-[0.2rem] text-[1.6rem] whitespace-nowrap font-normal leading-[2.1rem] rounded-full cursor-pointer',
+  'flex w-[5rem] mobile:w-[6rem] px-[0.9rem] py-[0.4rem] mobile:py-[0.5rem] justify-center items-center gap-[0.2rem] text-[1.3rem] mobile:text-[1.6rem] whitespace-nowrap font-normal leading-[1.7rem] mobile:leading-[2.1rem] rounded-full cursor-pointer',
   {
     variants: {
       selected: {

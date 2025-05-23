@@ -1,3 +1,5 @@
+'use client';
+
 import { motion } from 'framer-motion';
 
 // shared
@@ -26,9 +28,9 @@ export const DrawerTermLayout = ({
 }: DrawerTermLayoutProps) => {
   return (
     <Drawer open={openState} onOpenChange={setOpenState}>
-      <DrawerContent className="mx-auto w-full">
+      <DrawerContent className="mx-auto w-full max-w-[45rem]">
         <div className="pt-[2.4rem] pb-[1.6rem] px-[2rem] w-full">
-          <DrawerHeader className="mb-[2.4rem]">
+          <DrawerHeader className="mb-[1.8rem] mobile:mb-[2.4rem]">
             <DrawerTitle
               className={cn('text-[1.6rem] font-bold text-susimdal-text-basic whitespace-pre-wrap', titleClassName)}
             >
@@ -36,12 +38,11 @@ export const DrawerTermLayout = ({
             </DrawerTitle>
           </DrawerHeader>
 
-          <div className="min-h-[13rem] max-h-[50vh] overflow-y-auto mb-[3rem]">{children}</div>
+          <div className="min-h-[13rem] max-h-[50vh] overflow-y-auto mb-[2rem] mobile:mb-[3rem]">{children}</div>
 
           <DrawerFooter className="w-full">
             <DrawerClose asChild>
               <motion.div
-                whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 0.9 }}
                 transition={{ duration: 0.2 }}
                 className={cn('w-full')}

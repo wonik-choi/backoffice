@@ -7,7 +7,7 @@ import { Promotion, Rental, UserInStore, FreeTrialInStore } from '../../config/s
 export const useRegisterFreeTrialStore = create<FreeTrialUserState>()((set) => ({
   user: {
     name: '',
-    phoneNumber: '',
+    phoneNumber: undefined,
     parentName: '',
     parentPhoneNumber: '',
     school: '',

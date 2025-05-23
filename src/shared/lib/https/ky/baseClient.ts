@@ -1,6 +1,6 @@
 import { createKyClient } from '@/shared/lib/https/ky/kyClientsCreater';
 
-import { setUserTokenOnHeader, convertKyOptions } from '@/shared/lib/https/ky/interceptor';
+import { setUserTokenOnHeader, convertKyOptions, extendKyErrorAfterResponse } from '@/shared/lib/https/ky/interceptor';
 import { HttpClient, RequestOptions } from '@/shared/lib/https/interface';
 import { KyInstance } from 'ky';
 
@@ -10,6 +10,7 @@ export const baseClient = createKyClient({
   prefixUrl: process.env.NEXT_PUBLIC_API_URL,
   hooks: {
     beforeRequest: [setTokenOnHeader],
+    afterResponse: [extendKyErrorAfterResponse],
   },
 });
 

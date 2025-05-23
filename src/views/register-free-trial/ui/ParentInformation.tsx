@@ -63,7 +63,7 @@ export function ParentInformation() {
   };
 
   return (
-    <RegisterFreeTrialLayout title={'부모님의 정보를\n입력해주세요'} progressStep={0} totalSteps={9}>
+    <RegisterFreeTrialLayout title={'학부모님 정보를\n입력해주세요'} progressStep={0} totalSteps={9}>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -74,7 +74,7 @@ export function ParentInformation() {
         <div className="flex flex-1 flex-col justify-start items-start h-full relative overflow-hidden">
           {/* 학부모 정보 섹션 */}
           <motion.div
-            className="w-full space-y-4 absolute top-0 left-0"
+            className="w-full space-y-3 mobile:space-y-4 absolute top-0 left-0"
             initial={{ y: -20, opacity: 0 }}
             animate={{
               y: 0,
@@ -91,7 +91,7 @@ export function ParentInformation() {
             <form.Field name="parentName">
               {(field) => (
                 <div className="space-y-2 w-full">
-                  <Label htmlFor="parrentName">부모님 성함</Label>
+                  <Label htmlFor="parrentName">성함</Label>
                   <Input
                     id="parrentName"
                     value={field.state.value}
@@ -112,14 +112,14 @@ export function ParentInformation() {
             <form.Field name="parentPhoneNumber">
               {(field) => (
                 <div className="space-y-2 w-full">
-                  <Label htmlFor="parrentPhoneNumber">부모님 전화번호</Label>
+                  <Label htmlFor="parrentPhoneNumber">학부모님 휴대전화</Label>
                   <Input
                     id="parrentPhoneNumber"
                     type="tel"
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
                     onBlur={field.handleBlur}
-                    placeholder="010-1234-5678"
+                    placeholder="01012345678"
                     className="w-full"
                   />
                   <div className="w-full h-[1.2rem]">

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+
 import { useEffect } from 'react';
 
 // shared
@@ -17,7 +18,7 @@ import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFree
 import { Button } from '@/views/register-free-trial/ui/components/Button';
 
 export function Completion() {
-  const { resetForm, prevStep, freeTrial } = useRegisterFreeTrialStore();
+  const { freeTrial } = useRegisterFreeTrialStore();
 
   const completeLottieOption = {
     animationData: kidsAnimation,
@@ -47,10 +48,13 @@ export function Completion() {
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.3 }}
           tabIndex={-1}
-          className="flex flex-col justify-center items-center w-full gap-[1rem] my-auto"
+          className="flex flex-col justify-center items-center w-full gap-[0.8rem] mobile:gap-[1rem] my-auto"
         >
           {CompleteLottie}
-          <p className="text-[1.4rem] font-medium text-susimdal-text-basic">{`${startDate}에 수심달과 만나요!`}</p>
+          <div className="flex flex-col justify-start items-center gap-[0.4rem] mobile:gap-[0.5rem] w-full">
+            <p className="text-[1.4rem] font-medium text-susimdal-text-basic">{`${startDate}에 수심달 클래스에서 만나요`}</p>
+            <p className="text-[1.2rem] font-medium text-susimdal-text-basic">{`수업 시작 1일 전에 선생님이 전화를 드릴게요`}</p>
+          </div>
         </motion.div>
 
         <motion.div
@@ -60,17 +64,17 @@ export function Completion() {
           tabIndex={-1}
           className="flex flex-col justify-center items-center w-full mt-auto pt-6 gap-[0.8rem]"
         >
-          <Link href={'https://class.susimdal.com/company'} className="w-full">
+          <Link href={'https://class.susimdal.com/'} className="w-full">
             <Button type="button" className="w-full">
-              수심달 클래스 자세히 보기
+              수업 안내
             </Button>
           </Link>
 
-          {/* <Link href={'https://class.susimdal.com/'} className="w-full"> */}
-          <Button variant="border" type="button" className="w-full" onClick={prevStep}>
-            홈으로
-          </Button>
-          {/* </Link> */}
+          <Link href={'https://class.susimdal.com/company'} className="w-full">
+            <Button variant="border" type="button" className="w-full">
+              수심달 클래스 자세히 보기
+            </Button>
+          </Link>
         </motion.div>
       </motion.div>
     </RegisterFreeTrialLayout>

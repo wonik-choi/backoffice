@@ -82,12 +82,12 @@ function Calendar({
 
   const _monthsClassName = cn('relative flex h-full', props.monthsClassName);
   const _monthCaptionClassName = cn(
-    'relative mx-10 flex h-[4rem] items-center justify-center',
+    'relative mx-10 flex h-[3rem] mobile:h-[4rem] items-center justify-center',
     props.monthCaptionClassName
   );
   const _weekdaysClassName = cn('flex flex-row w-full border-b border-susimdal-border-gray', props.weekdaysClassName);
   const _weekdayClassName = cn(
-    'w-full h-[3rem] text-[1.5rem] font-normal text-muted-foreground',
+    'w-full h-[2.5rem] mobile:h-[3rem] text-[1.3rem] mobile:text-[1.5rem] font-normal text-muted-foreground',
     props.weekdayClassName
   );
   const _monthClassName = cn('w-full', props.monthClassName);
@@ -103,12 +103,12 @@ function Calendar({
   const _monthGridClassName = cn('w-full mx-auto mt-4', props.monthGridClassName);
   const _weekClassName = cn('mt-[1.5rem] flex w-full items-start', props.weekClassName);
   const _dayClassName = cn(
-    'flex w-full  flex-1 px-[0.2rem] py-[0.5rem] items-center justify-center',
+    'flex w-full flex-1 px-[0.2rem] py-[0.2rem] mobile:py-[0.5rem] items-center justify-center',
     props.dayClassName
   );
   const _dayButtonClassName = cn(
     buttonVariants({ variant: 'ghost' }),
-    'w-full rounded-full size-[3rem] active:bg-susimdal-element-primary-light font-normal text-[1.5rem] hover:scale-110 active:scale-95 transition-all duration-100 aria-selected:opacity-100',
+    'w-full rounded-full size-[2.4rem] mobile:size-[3rem] active:bg-susimdal-element-primary-light font-normal text-[1.3rem] mobile:text-[1.5rem] active:scale-95 transition-all duration-100 aria-selected:opacity-100',
     props.dayButtonClassName
   );
   const buttonRangeClassName =
@@ -279,7 +279,7 @@ function Nav({
     <nav className={cn('flex items-center', className)}>
       <Button
         variant="outline"
-        className="absolute top-1 left-0 w-[3rem] h-[3.5rem] bg-transparent p-0 opacity-80 hover:opacity-100 active:scale-95 transition-all duration-100"
+        className="absolute top-1 left-0 w-[2rem] mobile:w-[3rem] h-[2.6rem] mobile:h-[3.5rem] bg-transparent p-0 opacity-80 hover:opacity-100 active:scale-95 transition-all duration-100"
         type="button"
         tabIndex={isPreviousDisabled ? undefined : -1}
         disabled={isPreviousDisabled}
@@ -295,7 +295,7 @@ function Nav({
 
       <Button
         variant="outline"
-        className="absolute top-1 right-0 w-[3rem] h-[3.5rem] bg-transparent p-0 opacity-80 hover:opacity-100 active:scale-95 transition-all duration-100"
+        className="absolute top-1 right-0 w-[2rem] mobile:w-[3rem] h-[2.6rem] mobile:h-[3.5rem] bg-transparent p-0 opacity-80 hover:opacity-100 active:scale-95 transition-all duration-100"
         type="button"
         tabIndex={isNextDisabled ? undefined : -1}
         disabled={isNextDisabled}
@@ -327,7 +327,7 @@ function CaptionLabel({
   return (
     <motion.div whileTap={{ scale: 0.95 }} transition={{ duration: 0.1 }} className="w-fit" tabIndex={-1}>
       <Button
-        className="h-[3.5rem] w-fit truncate text-[1.8rem] font-medium hover:bg-white cursor-pointer"
+        className="h-[2.8rem] mobile:h-[3.5rem] w-fit truncate text-[1.5rem] mobile:text-[1.8rem] font-medium hover:bg-white cursor-pointer"
         variant="ghost"
         size="sm"
         onClick={() => setNavView((prev) => (prev === 'days' ? 'years' : 'days'))}
@@ -406,7 +406,7 @@ function YearGrid({
           <Button
             key={i}
             className={cn(
-              'h-[2rem] py-[4rem] w-full text-[1.5rem] font-normal text-foreground',
+              'h-[1.5rem] mobile:h-[2rem] py-[2rem] mobile:py-[4rem] w-full text-[1.3rem] mobile:text-[1.5rem] font-normal text-foreground',
               displayYears.from + i === new Date().getFullYear() &&
                 'bg-susimdal-button-gray-fill font-medium text-accent-foreground hover:bg-susimdal-text-disabled-on'
             )}

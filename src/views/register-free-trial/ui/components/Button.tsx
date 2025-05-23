@@ -1,7 +1,12 @@
+'use client';
+
 import { Button as ButtonBasic, buttonVariants } from '@/shared/components/atomics/button';
 import { cva, VariantProps } from 'class-variance-authority';
 import { motion } from 'framer-motion';
 import { cn } from '@/shared/lib/utils';
+
+// shared
+import { LoadingThreeDotsPulse } from '@/shared/components/animation/Loading';
 
 const expendedButtonVariants = cva(buttonVariants, {
   variants: {
@@ -22,11 +27,11 @@ export const Button = ({
   className,
   disabled,
   variant,
+  loading = false,
   ...props
-}: React.ComponentProps<'button'> & VariantProps<typeof expendedButtonVariants>) => {
+}: React.ComponentProps<'button'> & VariantProps<typeof expendedButtonVariants> & { loading?: boolean }) => {
   return (
     <motion.div
-      whileHover={{ scale: 1.2 }}
       whileTap={{ scale: 0.9 }}
       transition={{ duration: 0.2 }}
       className={cn('w-full', className)}
@@ -41,7 +46,7 @@ export const Button = ({
         disabled={disabled}
         {...props}
       >
-        {children}
+        {loading ? <LoadingThreeDotsPulse color="white" size="sm" /> : children}
       </ButtonBasic>
     </motion.div>
   );

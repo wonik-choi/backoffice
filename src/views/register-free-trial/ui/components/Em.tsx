@@ -1,3 +1,5 @@
+'use client';
+
 import { Em as EmBasic } from '@/shared/components/atomics/em';
 import { cn } from '@/shared/lib/utils';
 import { CircleX } from 'lucide-react';
