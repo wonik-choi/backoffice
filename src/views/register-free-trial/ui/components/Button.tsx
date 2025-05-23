@@ -47,7 +47,7 @@ export const Button = ({
         disabled={disabled}
         {...props}
       >
-        {loading ? <LoadingThreeDotsPulse /> : children}
+        {loading ? <LoadingThreeDotsPulse color="white" /> : children}
       </ButtonBasic>
     </motion.div>
   );
