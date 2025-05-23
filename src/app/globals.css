@@ -188,4 +188,5 @@
 
 @theme {
   --breakpoint-mobile: 380px;
+  --breakpoint-form: 45rem;
 }

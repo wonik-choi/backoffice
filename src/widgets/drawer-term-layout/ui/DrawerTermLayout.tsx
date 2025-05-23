@@ -28,7 +28,7 @@ export const DrawerTermLayout = ({
 }: DrawerTermLayoutProps) => {
   return (
     <Drawer open={openState} onOpenChange={setOpenState}>
-      <DrawerContent className="mx-auto w-full">
+      <DrawerContent className="mx-auto w-full max-w-[45rem]">
         <div className="pt-[2.4rem] pb-[1.6rem] px-[2rem] w-full">
           <DrawerHeader className="mb-[1.8rem] mobile:mb-[2.4rem]">
             <DrawerTitle
@@ -43,7 +43,6 @@ export const DrawerTermLayout = ({
           <DrawerFooter className="w-full">
             <DrawerClose asChild>
               <motion.div
-                whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 0.9 }}
                 transition={{ duration: 0.2 }}
                 className={cn('w-full')}

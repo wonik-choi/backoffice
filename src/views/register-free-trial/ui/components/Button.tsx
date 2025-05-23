@@ -32,7 +32,6 @@ export const Button = ({
 }: React.ComponentProps<'button'> & VariantProps<typeof expendedButtonVariants> & { loading?: boolean }) => {
   return (
     <motion.div
-      whileHover={{ scale: 1.2 }}
       whileTap={{ scale: 0.9 }}
       transition={{ duration: 0.2 }}
       className={cn('w-full', className)}

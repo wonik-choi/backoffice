@@ -250,7 +250,7 @@ export const DongaSciencePromotion = () => {
           </motion.div>
         </motion.div>
 
-        <div className="fixed bottom-0 left-0 flex flex-shrink-0 flex-col  px-[1.2rem] pb-[1.2rem] w-full items-center h-fit ">
+        <div className="fixed inset-x-0 mx-auto bottom-0 max-w-[41rem] left-0 flex flex-shrink-0 flex-col px-[2rem] form:px-0 pb-[2rem] w-full items-center h-fit ">
           <div className="h-[3rem] w-full bg-gradient-to-t from-white via-white/95 to-transparent" />
           <motion.div
             initial={{ opacity: 0, y: 0 }}

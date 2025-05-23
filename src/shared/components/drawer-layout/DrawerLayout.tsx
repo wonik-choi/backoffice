@@ -33,7 +33,7 @@ export const DrawerLayout = ({
       <DrawerTrigger asChild>
         <button className="w-full h-fit">{trrigerChildren}</button>
       </DrawerTrigger>
-      <DrawerContent className="mx-auto w-full">
+      <DrawerContent className="mx-auto w-full max-w-[45rem]">
         <div className="pt-[2.4rem] pb-[1.6rem] px-[2rem] w-full">
           <DrawerHeader className="mb-[2.4rem]">
             <DrawerTitle
