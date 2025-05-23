@@ -225,21 +225,21 @@ export const DongaSciencePromotion = () => {
               onValueChange={decisionPromotionOption}
               className="w-full flex flex-col gap-[0.8rem] mobile:gap-[1.3rem]"
             >
-              <RadioGroupItem value="1" id="1" className="peer sr-only" />
+              <RadioGroupItem value="1" id="1" className="peer sr-only opacity-0" />
               <Label htmlFor="1" className="block w-full cursor-pointer">
                 <PromotionOptionLabel
                   promotionOption="어린이과학동아 2개월 (4권)"
                   checked={selectedPromotionOption === '1'}
                 />
               </Label>
-              <RadioGroupItem value="2" id="2" className="peer sr-only" />
+              <RadioGroupItem value="2" id="2" className="peer sr-only opacity-0" />
               <Label htmlFor="2" className="block w-full cursor-pointer">
                 <PromotionOptionLabel
                   promotionOption="어린이수학동아 2개월 (4권)"
                   checked={selectedPromotionOption === '2'}
                 />
               </Label>
-              <RadioGroupItem value="3" id="3" className="peer sr-only" />
+              <RadioGroupItem value="3" id="3" className="peer sr-only opacity-0" />
               <Label htmlFor="3" className="block w-full cursor-pointer">
                 <PromotionOptionLabel
                   promotionOption="과학동아 3개월 (3권)"
