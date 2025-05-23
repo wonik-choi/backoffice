@@ -1,6 +1,21 @@
-import { KyRequest } from 'ky';
+import { KyRequest, KyResponse, NormalizedOptions, HTTPError } from 'ky';
 import { REFRESH_URL } from '@/shared/lib/https/config';
 import { RequestOptions } from '@/shared/lib/https/interface';
+
+import { ServerError } from '@/shared/lib/https/interface';
+
+export class KyServerError extends Error {
+  public status: number;
+  public message: string;
+  public error: string;
+
+  constructor(payload: ServerError) {
+    super(payload.message);
+    this.status = payload.status;
+    this.message = payload.message;
+    this.error = payload.error;
+  }
+}
 
 /**
  * @description 공통 타입 → Ky options 변환
@@ -24,6 +39,27 @@ export const convertKyOptions = (options?: RequestOptions) => {
     credentials: options?.credentials,
     signal: options?.signal,
   };
+};
+
+/**
+ * @description
+ * afterResponse 에러 확장
+ */
+export const extendKyErrorAfterResponse = async (
+  request: KyRequest,
+  options: NormalizedOptions,
+  response: KyResponse
+) => {
+  if (!response.ok) {
+    let payload: ServerError;
+    try {
+      payload = await response.json<ServerError>();
+    } catch (error) {
+      throw new HTTPError(response, request, options);
+    }
+
+    throw new KyServerError(payload);
+  }
 };
 
 /**

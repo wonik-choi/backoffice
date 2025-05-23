@@ -5,6 +5,9 @@ import { cva, VariantProps } from 'class-variance-authority';
 import { motion } from 'framer-motion';
 import { cn } from '@/shared/lib/utils';
 
+// shared
+import { LoadingThreeDotsPulse } from '@/shared/components/animation/Loading';
+
 const expendedButtonVariants = cva(buttonVariants, {
   variants: {
     variant: {
@@ -24,8 +27,9 @@ export const Button = ({
   className,
   disabled,
   variant,
+  loading = false,
   ...props
-}: React.ComponentProps<'button'> & VariantProps<typeof expendedButtonVariants>) => {
+}: React.ComponentProps<'button'> & VariantProps<typeof expendedButtonVariants> & { loading?: boolean }) => {
   return (
     <motion.div
       whileHover={{ scale: 1.2 }}
@@ -43,7 +47,7 @@ export const Button = ({
         disabled={disabled}
         {...props}
       >
-        {children}
+        {loading ? <LoadingThreeDotsPulse /> : children}
       </ButtonBasic>
     </motion.div>
   );

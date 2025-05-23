@@ -1,7 +1,13 @@
 import { z } from 'zod';
 
 // entitis
-import { FreeTrialUserGrade, DayOfWeek, Semester } from '@/entities/free-trial-user/models/enums';
+import {
+  FreeTrialUserGrade,
+  DayOfWeek,
+  Semester,
+  PromotionTermCode,
+  RentalTermCode,
+} from '@/entities/free-trial-user/models/enums';
 
 export const userSchema = z.object({
   name: z.string().min(1, { message: '이름을 입력해주세요' }),
@@ -48,7 +54,7 @@ export const rentalSchema = z
     detailAddress: z.string().min(1, { message: '상세 주소를 넣어주세요' }),
     terms: z.array(
       z.object({
-        termCode: z.string().min(1, { message: '약관 설명을 넣어주세요' }),
+        termCode: z.nativeEnum(RentalTermCode, { message: '약관 설명을 넣어주세요' }),
         agreed: z.boolean().refine((data) => data, { message: '동의가 필요한 부분입니다.' }),
       })
     ),
@@ -64,7 +70,7 @@ export const promotionSchema = z
     optionIds: z.array(z.number().min(1, { message: '프로모션 옵션 아이디를 넣어주세요' })),
     terms: z.array(
       z.object({
-        termCode: z.string().min(1, { message: '약관 설명을 넣어주세요' }),
+        termCode: z.nativeEnum(PromotionTermCode, { message: '약관 설명을 넣어주세요' }),
         agreed: z.boolean().refine((data) => data, { message: '동의가 필요한 부분입니다.' }),
       })
     ),

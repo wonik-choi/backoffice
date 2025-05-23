@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+
 import { useEffect } from 'react';
 
 // shared
@@ -47,10 +48,13 @@ export function Completion() {
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.3 }}
           tabIndex={-1}
-          className="flex flex-col justify-center items-center w-full gap-[1rem] my-auto"
+          className="flex flex-col justify-center items-center w-full gap-[0.8rem] mobile:gap-[1rem] my-auto"
         >
           {CompleteLottie}
-          <p className="text-[1.4rem] font-medium text-susimdal-text-basic">{`${startDate}에 수심달과 만나요!`}</p>
+          <div className="flex flex-col justify-start items-center gap-[0.4rem] mobile:gap-[0.5rem] w-full">
+            <p className="text-[1.4rem] font-medium text-susimdal-text-basic">{`${startDate}에 수심달 클래스에서 만나요`}</p>
+            <p className="text-[1.2rem] font-medium text-susimdal-text-basic">{`수업 시작 1일 전에 선생님이 전화를 드릴게요`}</p>
+          </div>
         </motion.div>
 
         <motion.div

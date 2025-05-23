@@ -29,9 +29,9 @@ export function StartDateSelection() {
 
   const isDateValid = date instanceof Date && !isNaN(date.getTime());
 
-  const buttonText = isDateValid ? `${formatKoreanTitle(new Date(date))}날 시작합니다` : '다음';
+  const buttonText = isDateValid ? `${formatKoreanTitle(new Date(date))} 시작합니다` : '다음';
   const titleText = isDateValid
-    ? `${formatKoreanTitle(new Date(date))}날\n첫 수업을 시작할게요`
+    ? `${formatKoreanTitle(new Date(date))}\n첫 수업을 시작할게요`
     : '좋아요!\n첫 수업은 언제가 좋을까요?';
 
   return (

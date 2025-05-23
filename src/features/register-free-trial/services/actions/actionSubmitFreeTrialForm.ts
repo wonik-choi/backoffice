@@ -11,6 +11,7 @@ import { freeTrialUserRequestBodySchema } from '@/features/register-free-trial/c
 export async function actionSubmitFreeTrialForm({ formData, repository }: ActionSubmitFreeTrialFormProps) {
   try {
     // 검증
+    console.log('formData', formData);
     const validatedBody = freeTrialUserRequestBodySchema.parse(formData);
 
     // 서버 제출
@@ -19,6 +20,6 @@ export async function actionSubmitFreeTrialForm({ formData, repository }: Action
     return response;
   } catch (error) {
     console.error('Form submission error:', error);
-    throw error;
+    return Promise.reject(error);
   }
 }

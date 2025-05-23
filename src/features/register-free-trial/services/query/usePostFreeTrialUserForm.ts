@@ -9,6 +9,7 @@ import { actionSubmitFreeTrialForm } from '@/features/register-free-trial/servic
 // config
 import { RegisterFreeTrialQueryKeys } from '@/features/register-free-trial/config/query-keys';
 import { PostFreeTrialUserFormProps } from '@/features/register-free-trial/model/interface';
+import { KyServerError } from '@/shared/lib/https/ky/interceptor';
 
 export const usePostFreeTrialUserForm = ({ store, onSuccessCallback, onErrorCallback }: PostFreeTrialUserFormProps) => {
   const {
@@ -18,15 +19,15 @@ export const usePostFreeTrialUserForm = ({ store, onSuccessCallback, onErrorCall
   } = useMutation({
     ...RegisterFreeTrialQueryKeys.free_trial_user_register_form,
     mutationFn: () => actionSubmitFreeTrialForm({ formData: store, repository: freeTrialUserRepository }),
-    throwOnError: true,
+    throwOnError: false,
     onSuccess: () => {
       if (onSuccessCallback) {
         onSuccessCallback();
       }
     },
-    onError: () => {
+    onError: (error: Error) => {
       if (onErrorCallback) {
-        onErrorCallback();
+        onErrorCallback(error);
       }
     },
   });

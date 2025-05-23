@@ -31,3 +31,11 @@ export enum Semester {
   MIDDLE_THIRD_H1 = 'MIDDLE_THIRD_H1',
   MIDDLE_THIRD_H2 = 'MIDDLE_THIRD_H2',
 }
+
+export enum PromotionTermCode {
+  DONGASCIENCE_001 = 'PROMOTION_001',
+}
+
+export enum RentalTermCode {
+  RENTAL_001 = 'RENTAL_001',
+}

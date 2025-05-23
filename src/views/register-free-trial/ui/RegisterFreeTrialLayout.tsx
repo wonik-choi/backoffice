@@ -48,13 +48,13 @@ const RegisterFreeTrialLayout = ({
           <div className="w-full h-[1.2rem] mb-[1.6rem]"></div>
         )}
 
-        <div className="flex flex-col gap-[1.2rem] items-start justify-start mb-[3.2rem]">
+        <div className="flex flex-col gap-[0.8rem] items-start justify-start mb-[2rem] mobile:mb-[3.2rem]">
           <motion.h1
             key={title}
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: 'easeOut', delay: titleDelay }}
-            className="text-[2rem] font-bold text-susimdal-text-basic leading-[150%] whitespace-pre-wrap"
+            className="text-[1.8rem] mobile:text-[2rem] font-bold text-susimdal-text-basic leading-[150%] whitespace-pre-wrap"
           >
             {title}
           </motion.h1>

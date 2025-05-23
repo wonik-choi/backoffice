@@ -18,7 +18,7 @@ export const RentalDeviceTerms = ({ openState, setOpenState, agreeTerms }: Devic
         <h3 className="font-medium text-[1.3rem]">아이패드 대여 및 반납 안내</h3>
         <ul className="list-disc list-inside">
           <li className="mt-2 text-gray-600 text-[13px]">
-            대여 기간이 종료되면, 해피콜을 통해 기기 반납 안내를 드리며, 이후 배송 기사가 댁으로 방문하여 기기 반납
+            대여 기간이 종료되면 해피콜을 통해 기기 반납 안내를 드리며, 이후 배송 기사가 댁으로 방문하여 기기 반납
             절차를 진행합니다.
           </li>
           <li className="mt-2 text-gray-600 text-[13px]">

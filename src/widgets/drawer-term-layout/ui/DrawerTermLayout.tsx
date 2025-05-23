@@ -30,7 +30,7 @@ export const DrawerTermLayout = ({
     <Drawer open={openState} onOpenChange={setOpenState}>
       <DrawerContent className="mx-auto w-full">
         <div className="pt-[2.4rem] pb-[1.6rem] px-[2rem] w-full">
-          <DrawerHeader className="mb-[2.4rem]">
+          <DrawerHeader className="mb-[1.8rem] mobile:mb-[2.4rem]">
             <DrawerTitle
               className={cn('text-[1.6rem] font-bold text-susimdal-text-basic whitespace-pre-wrap', titleClassName)}
             >
@@ -38,7 +38,7 @@ export const DrawerTermLayout = ({
             </DrawerTitle>
           </DrawerHeader>
 
-          <div className="min-h-[13rem] max-h-[50vh] overflow-y-auto mb-[3rem]">{children}</div>
+          <div className="min-h-[13rem] max-h-[50vh] overflow-y-auto mb-[2rem] mobile:mb-[3rem]">{children}</div>
 
           <DrawerFooter className="w-full">
             <DrawerClose asChild>
