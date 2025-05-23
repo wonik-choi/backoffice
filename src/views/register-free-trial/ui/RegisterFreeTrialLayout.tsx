@@ -62,7 +62,7 @@ const RegisterFreeTrialLayout = ({
           {subtitle && <p className="text-[1.2rem] text-susimdal-text-basic/50">{subtitle}</p>}
         </div>
 
-        <div className="flex-1 overflow-y-auto w-full pb-[1rem]">{children}</div>
+        <div className="flex-1 overflow-y-auto w-full pb-[2rem]">{children}</div>
       </div>
     </div>
   );
