@@ -103,12 +103,12 @@ function Calendar({
   const _monthGridClassName = cn('w-full mx-auto mt-4', props.monthGridClassName);
   const _weekClassName = cn('mt-[1.5rem] flex w-full items-start', props.weekClassName);
   const _dayClassName = cn(
-    'flex w-full  flex-1 px-[0.2rem] py-[0.2rem] mobile:py-[0.5rem] items-center justify-center',
+    'flex w-full flex-1 px-[0.2rem] py-[0.2rem] mobile:py-[0.5rem] items-center justify-center',
     props.dayClassName
   );
   const _dayButtonClassName = cn(
     buttonVariants({ variant: 'ghost' }),
-    'w-full rounded-full size-[1.8rem] mobile:size-[3rem] active:bg-susimdal-element-primary-light font-normal text-[1.3rem] mobile:text-[1.5rem] active:scale-95 transition-all duration-100 aria-selected:opacity-100',
+    'w-full rounded-full size-[2.4rem] mobile:size-[3rem] active:bg-susimdal-element-primary-light font-normal text-[1.3rem] mobile:text-[1.5rem] active:scale-95 transition-all duration-100 aria-selected:opacity-100',
     props.dayButtonClassName
   );
   const buttonRangeClassName =

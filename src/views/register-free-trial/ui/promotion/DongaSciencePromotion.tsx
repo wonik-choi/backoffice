@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { ChevronRight } from 'lucide-react';
+import { toast } from 'sonner';
 import Image from 'next/image';
 
 // shared
@@ -23,6 +24,7 @@ import { DongaScienceTerms } from '@/views/register-free-trial/ui/promotion/Dong
 import { Button } from '@/views/register-free-trial/ui/components/Button';
 import { Label } from '@/views/register-free-trial/ui/components/Label';
 import { DetailDongaScience } from './DetailDongaScience';
+import { KyServerError } from '@/shared/lib/https/ky/interceptor';
 
 interface PromotionOptionCardProps {
   promotionOption: string;
@@ -46,14 +48,23 @@ export const DongaSciencePromotion = () => {
 
   /** mutation */
   const freeTrialUserState = useRegisterFreeTrialStore((state) => state);
-  const { submitFreeTrialUserForm, isPending } = usePostFreeTrialUserForm({
+  const { submitFreeTrialUserForm, isPending, error } = usePostFreeTrialUserForm({
     store: freeTrialUserState,
     onSuccessCallback: () => {
       nextStep();
     },
-    onErrorCallback: () => {
-      console.log('form', freeTrialUserState);
-      console.log('error');
+    onErrorCallback: (error: Error) => {
+      if (error instanceof KyServerError) {
+        toast.error(`[${error ? error.status : 'ERROR'}]이런! 폼 제출에 실패했어요`, {
+          description: error ? error.message : '관리자에게 문의해주세요 (1899-3884)',
+          duration: 6000,
+        });
+      } else {
+        toast.error(`[ERROR]이런! 폼 제출에 실패했어요`, {
+          description: '관리자에게 문의해주세요 (1899-3884)',
+          duration: 6000,
+        });
+      }
     },
   });
 
@@ -88,7 +99,7 @@ export const DongaSciencePromotion = () => {
    *  */
   const earnPromotionTermsAgreement = async () => {
     setPromotion({
-      promotionCode: '1', // 지정값을 받을 예정,
+      promotionCode: 'DONGASCIENCE_001', // 지정값을 받을 예정,
       optionIds: [Number(selectedPromotionOption)],
       terms: [
         {
@@ -105,16 +116,6 @@ export const DongaSciencePromotion = () => {
    * 이벤트 미 동의시 약관 저장 함수
    */
   const omitPromotionTermsAgreement = async () => {
-    setPromotion({
-      promotionCode: '1', // 지정값을 받을 예정,
-      optionIds: [Number(selectedPromotionOption)],
-      terms: [
-        {
-          termCode: PromotionTermCode.DONGASCIENCE_001,
-          agreed: false,
-        },
-      ],
-    });
     await submitUserDetailForm();
   };
 
@@ -277,8 +278,8 @@ export const DongaSciencePromotion = () => {
             <Button variant="empty" type="button" onClick={moveConditionalPrevStep} className="w-[7.8rem] ">
               이전
             </Button>
-            <Button type="button" onClick={openTermsDrawer} disabled={isPending}>
-              {isPending ? '...' : '다음'}
+            <Button type="button" onClick={openTermsDrawer} loading={isPending}>
+              {'다음'}
             </Button>
           </motion.div>
         </div>

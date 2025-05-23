@@ -1,3 +1,9 @@
+export interface ServerError {
+  status: number;
+  message: string;
+  error: string;
+}
+
 export interface RequestOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   headers?: Record<string, string>;

@@ -8,7 +8,7 @@ import { FreeTrialInStore, Promotion, Rental, UserInStore } from '@/features/reg
 export interface PostFreeTrialUserFormProps {
   store: FreeTrialUserState;
   onSuccessCallback?: () => void;
-  onErrorCallback?: () => void;
+  onErrorCallback?: (error: Error) => void;
 }
 
 // actions
