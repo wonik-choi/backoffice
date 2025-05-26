@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     template: '%s | 수심달',
     default: '우리 아이 수학을 위해, 수심달',
   },
-  description: '1:1 개별 관리를 통한 심도 있는 수학 학습을 선도합니다',
+  description: '중등수학 1등, 수심달 클래스에서 아이의 평생을 책임질 학습 습관을 완성하세요!',
 };
 
 export default function RootLayout({

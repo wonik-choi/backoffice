@@ -45,8 +45,7 @@ export function StartDateSelection() {
    * @description
    * 만일 월요일을 클릭했을 시 이에 대해서 특강에 대한 약간의 설명을 진행
    */
-  const subtitleText =
-    date?.getDay() === 1 ? '오후 5시부터 9시까지 대표님 특강이 있어요!' : '금일로부터 2~3일 이후 날짜를 선택해 주세요.';
+  const subtitleText = '금일로부터 2~3일 이후 날짜를 선택해 주세요.';
 
   const buttonText = isDateValid ? `${formatKoreanTitle(new Date(date))} 시작합니다` : '다음';
   const titleText = isDateValid

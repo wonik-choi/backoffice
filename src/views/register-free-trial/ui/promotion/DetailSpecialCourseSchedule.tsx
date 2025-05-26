@@ -63,9 +63,9 @@ export const DetailSpecialCourseSchedule = ({ openState, setOpenState, agreeTerm
                 매주
                 <span className="text-[1.2rem] mobile:text-[1.4rem] font-semibold text-susimdal-text-primary">
                   {' '}
-                  월요일 오후 5시에서 9시
+                  월요일
                 </span>
-                까지 오프라인 특강이 진행되며, 해당 시간은
+                은 수심달 이정환 대표원장의 개념강의가 진행되며, 해당 시간은
                 <span className="text-[1.2rem] mobile:text-[1.4rem] font-semibold text-susimdal-text-primary">
                   {' '}
                   무료체험 시간에 포함되지 않아요!
@@ -74,24 +74,13 @@ export const DetailSpecialCourseSchedule = ({ openState, setOpenState, agreeTerm
             </div>
           </li>
           <li className="w-full">
-            <div className="inline-flex items-center justify-start gap-[1rem]">
-              <MonitorCog className="size-[1.8rem] flex-shrink-0 text-susimdal-text-basic" />
-              <p className="text-[1.2rem] mobile:text-[1.4rem] font-medium text-susimdal-text-bacis">
-                <span className="text-[1.2rem] mobile:text-[1.4rem] font-semibold text-susimdal-text-primary">
-                  클래스인(ClassIn)
-                </span>
-                에서 청강하실 수 있어, 미리 설치가 필요합니다.
-              </p>
-            </div>
-          </li>
-          <li className="w-full">
             <div className="inline-flex items-start justify-start gap-[1rem] ">
               <Calendar className="size-[1.8rem] flex-shrink-0 text-susimdal-text-basic" />
               <p className="text-[1.2rem] mobile:text-[1.4rem] font-medium text-susimdal-text-bacis">
-                청강은 오후 5시 - 7시, 7시 - 9시 두 시간 중
+                청강은
                 <span className="text-[1.2rem] mobile:text-[1.4rem] font-semibold text-susimdal-text-primary">
                   {' '}
-                  한번
+                  중1-1(17시-19시), 중2-1(19시-21시) 중 1개 과정
                 </span>
                 만 참여 가능합니다.
               </p>

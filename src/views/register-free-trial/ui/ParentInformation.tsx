@@ -1,22 +1,34 @@
 'use client';
 import type React from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { z } from 'zod';
 import { useForm } from '@tanstack/react-form';
+import { toast } from 'sonner';
+
+// shared
+import { formatPhoneNumber, unformatPhoneNumber } from '@/shared/utils/format';
 
 // features
-import { userSchemaInStore } from '@/features/register-free-trial/config/schema';
+import { userSchemaInStore, validableParentSchema } from '@/features/register-free-trial/config/schema';
 import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
 import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFreeTrialLayout';
 
 // views
+import { ConfirmIsCorrectPhoneNumber } from '@/views/register-free-trial/ui/ConfirmIsCorrectPhoneNumber';
 import { Label } from '@/views/register-free-trial/ui/components/Label';
 import { Input } from '@/views/register-free-trial/ui/components/Input';
 import { Em } from '@/views/register-free-trial/ui/components/Em';
 import { Button } from '@/views/register-free-trial/ui/components/Button';
 
-// Zod 스키마 정의
-const parentSchema = userSchemaInStore.pick({
+// 입력 유효성 검사 스키마
+const parentSchema = validableParentSchema.pick({
+  parentName: true,
+  parentPhoneNumber: true,
+});
+
+// 제출 유효성 검사 스키마
+const submitParentSchema = userSchemaInStore.pick({
   parentName: true,
   parentPhoneNumber: true,
 });
@@ -24,32 +36,30 @@ const parentSchema = userSchemaInStore.pick({
 type ParentFormValues = z.infer<typeof parentSchema>;
 
 export function ParentInformation() {
+  const [isCorrectPhoneNumber, setIsCorrectPhoneNumber] = useState(false);
   const { user, setStudentInformation, nextStep } = useRegisterFreeTrialStore();
 
   const defaultValue: ParentFormValues = {
     parentName: user.parentName || '',
-    parentPhoneNumber: user.parentPhoneNumber || '',
-  };
-
-  // 전화번호 포맷팅 함수
-  const formatPhoneNumber = (value: string) => {
-    const digits = value.replace(/\D/g, '');
-
-    if (digits.length <= 7) {
-      return digits.replace(/(\d{3})(\d{1,4})/, '$1-$2');
-    } else {
-      return digits.replace(/(\d{3})(\d{3,4})(\d{1,4})/, '$1-$2-$3');
-    }
+    parentPhoneNumber: formatPhoneNumber(user.parentPhoneNumber) || '',
   };
 
   const form = useForm({
     defaultValues: defaultValue,
     onSubmit: async ({ value }) => {
-      setStudentInformation({
+      const unformatedParentPhoneNumber = unformatPhoneNumber(value.parentPhoneNumber);
+
+      const validatedParent = submitParentSchema.safeParse({
         parentName: value.parentName,
-        parentPhoneNumber: value.parentPhoneNumber,
+        parentPhoneNumber: unformatedParentPhoneNumber,
       });
-      console.log('parentPhoneNumber', value.parentPhoneNumber);
+
+      if (!validatedParent.success) {
+        toast.error('학부모님 정보가 올바르지 않습니다');
+        return;
+      }
+
+      setStudentInformation(validatedParent.data);
       nextStep();
     },
     validators: {
@@ -58,7 +68,20 @@ export function ParentInformation() {
     },
   });
 
+  /**
+   * @description
+   * 기입 휴대전화 한번 더 확인
+   */
+  const confirmPhoneNumber = () => {
+    setIsCorrectPhoneNumber(true);
+  };
+
+  /**
+   * @description
+   * 학부모님 정보 제출
+   */
   const handleSubmit = () => {
+    setIsCorrectPhoneNumber(false);
     form.handleSubmit();
   };
 
@@ -117,9 +140,10 @@ export function ParentInformation() {
                     id="parrentPhoneNumber"
                     type="tel"
                     value={field.state.value}
-                    onChange={(e) => field.handleChange(e.target.value)}
+                    onChange={(e) => field.handleChange(formatPhoneNumber(e.target.value))}
                     onBlur={field.handleBlur}
-                    placeholder="01012345678"
+                    placeholder="010-0000-0000"
+                    pattern="010-[0-9]{4}-[0-9]{4}"
                     className="w-full"
                   />
                   <div className="w-full h-[1.2rem]">
@@ -143,7 +167,7 @@ export function ParentInformation() {
           >
             <form.Subscribe selector={(state) => [state.canSubmit]}>
               {([canSubmit]) => (
-                <Button type="button" onClick={handleSubmit} disabled={!canSubmit}>
+                <Button type="button" onClick={confirmPhoneNumber} disabled={!canSubmit}>
                   {'다음'}
                 </Button>
               )}
@@ -151,6 +175,12 @@ export function ParentInformation() {
           </motion.div>
         </div>
       </form>
+      <ConfirmIsCorrectPhoneNumber
+        phoneNumber={form.getFieldValue('parentPhoneNumber')}
+        openState={isCorrectPhoneNumber}
+        setOpenState={setIsCorrectPhoneNumber}
+        agreeTerms={handleSubmit}
+      />
     </RegisterFreeTrialLayout>
   );
 }
