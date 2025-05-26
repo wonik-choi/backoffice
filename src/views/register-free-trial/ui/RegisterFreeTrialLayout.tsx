@@ -72,7 +72,7 @@ const RegisterFreeTrialLayout = ({
           )}
         </div>
 
-        <div className="flex-1 overflow-y-auto scrollbar-hide w-full pb-[2rem]">{children}</div>
+        <div className="flex-1 overflow-y-auto scrollbar-hide w-full pb-[4rem]">{children}</div>
       </div>
     </div>
   );
