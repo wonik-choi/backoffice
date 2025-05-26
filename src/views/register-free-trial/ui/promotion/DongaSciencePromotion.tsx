@@ -196,6 +196,7 @@ export const DongaSciencePromotion = () => {
                 src="/images/donga-promotion.png"
                 alt="donga-promotion"
                 fill={true}
+                sizes="(max-width: 640px) 25rem, 20rem"
                 quality={100}
                 style={{ objectFit: 'cover' }}
               />
