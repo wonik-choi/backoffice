@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import Image from 'next/image';
 
 // shared
-import { RadioButton } from '@/shared/components/radion-button/RadioButton';
+import { RadioButton } from '@/shared/components/radio-button/RadioButton';
 import { RadioGroup, RadioGroupItem } from '@/shared/components/atomics/radio-group';
 
 // entities

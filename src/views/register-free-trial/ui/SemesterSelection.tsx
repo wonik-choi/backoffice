@@ -55,7 +55,7 @@ export function SemesterSelection() {
   };
 
   return (
-    <RegisterFreeTrialLayout title={'어떤 학기를\n공부할까요?'} progressStep={4} totalSteps={9}>
+    <RegisterFreeTrialLayout title={'어떤 학기를\n공부할까요?'} progressStep={3} totalSteps={9}>
       <form
         onSubmit={(e) => {
           e.preventDefault();
