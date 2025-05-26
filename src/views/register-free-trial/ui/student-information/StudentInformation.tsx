@@ -108,7 +108,7 @@ export function StudentInformation() {
             <form.Field name="name">
               {(field) => (
                 <div className="space-y-2 w-full">
-                  <Label htmlFor="name">성함</Label>
+                  <Label htmlFor="name">이름</Label>
                   <Input
                     id="name"
                     value={field.state.value}
