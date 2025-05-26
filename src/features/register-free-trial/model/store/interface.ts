@@ -27,6 +27,9 @@ export interface FreeTrialUserState {
   currentDirection: 1 | -1;
   /** 특강 수업 설명 첫 mount 여부 */
   isFirstMountDetailSpecialCourseSchedule: boolean;
+  /** 유입 코드 */
+  inflowCode: string | null;
+
   /** action */
   /**
    * @description
@@ -46,6 +49,7 @@ export interface FreeTrialUserState {
   setRental: (rental: Rental) => void;
   setPromotion: (promotion: Promotion) => void;
   setFirstMountDetailSpecialCourse: (isMounted: boolean) => void;
+  setInflowCode: (inflowCode: string | null) => void;
 
   /**
    * @description

@@ -1,5 +1,8 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+
 import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
 import { FormStep } from '@/features/register-free-trial/model/store/interface';
 import { FormLayout } from '@/views/register-free-trial/ui/FormLayout';
@@ -14,7 +17,17 @@ import { DongaSciencePromotion } from './promotion/DongaSciencePromotion';
 import { ParentInformation } from './ParentInformation';
 
 const RegisterFreeTrial = () => {
-  const { currentStep } = useRegisterFreeTrialStore();
+  const searchParams = useSearchParams();
+
+  const { currentStep, setInflowCode } = useRegisterFreeTrialStore();
+
+  useEffect(() => {
+    const inflowCode = searchParams.get('code');
+
+    if (inflowCode) {
+      setInflowCode(String(inflowCode));
+    }
+  }, [searchParams]);
 
   const renderStep = () => {
     switch (currentStep) {

@@ -31,6 +31,7 @@ export const DetailSpecialCourseSchedule = ({ openState, setOpenState, agreeTerm
             src="/images/susimdal-ceo-profile.png"
             alt="ceo-profile"
             fill={true}
+            sizes="(max-width: 640px) 20rem, 16rem"
             quality={80}
             loading="lazy"
             placeholder="blur"
