@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useEffect } from 'react';
 
 // shared
 import {
@@ -10,6 +11,7 @@ import {
   DrawerTitle,
   DrawerClose,
   Drawer,
+  DrawerDescription,
 } from '@/shared/components/atomics/drawer';
 import { Button } from '@/shared/components/atomics/button';
 import { cn } from '@/shared/lib/utils';
@@ -36,6 +38,7 @@ export const DrawerTermLayout = ({
             >
               {title}
             </DrawerTitle>
+            <DrawerDescription>{''}</DrawerDescription>
           </DrawerHeader>
 
           <div className="min-h-[10rem] max-h-[40vh] overflow-y-auto scrollbar-hide mb-[2rem] mobile:mb-[3rem]">

@@ -18,7 +18,6 @@ import { ParentInformation } from './ParentInformation';
 
 const RegisterFreeTrial = () => {
   const searchParams = useSearchParams();
-
   const { currentStep, setInflowCode } = useRegisterFreeTrialStore();
 
   useEffect(() => {

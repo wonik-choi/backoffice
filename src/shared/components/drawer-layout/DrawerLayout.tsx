@@ -11,6 +11,7 @@ import {
   DrawerClose,
   Drawer,
   DrawerTrigger,
+  DrawerDescription,
 } from '@/shared/components/atomics/drawer';
 import { Button } from '@/shared/components/atomics/button';
 import { cn } from '@/shared/lib/utils';
@@ -41,6 +42,7 @@ export const DrawerLayout = ({
             >
               {title}
             </DrawerTitle>
+            <DrawerDescription>{''}</DrawerDescription>
           </DrawerHeader>
 
           <div className="min-h-[13rem] max-h-[45vh] overflow-y-auto mb-[3rem]">{children}</div>
