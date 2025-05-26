@@ -40,7 +40,10 @@ export const DetailSpecialCourseSchedule = ({ openState, setOpenState, agreeTerm
             src="/images/susimdal-ceo-profile.png"
             alt="ceo-profile"
             fill={true}
-            quality={100}
+            quality={80}
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8fv95PQAIkAMuIar4iAAAAABJRU5ErkJggg=="
             style={{ objectFit: 'cover' }}
           />
         </div>
