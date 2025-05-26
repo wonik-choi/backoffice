@@ -60,6 +60,7 @@
   --color-susimdal-icon-gray-light: var(--susimdal-icon-gray-light);
   --color-susimdal-icon-gray: var(--susimdal-icon-gray);
   --color-susimdal-text-danger: var(--susimdal-text-danger);
+  --color-susimdal-color-success: var(--susimdal-color-success);
 }
 
 :root {
@@ -115,6 +116,7 @@
   --susimdal-icon-gray-light: #a4a6a6;
   --susimdal-icon-gray: #85898a;
   --susimdal-text-danger: #de0008;
+  --susimdal-color-success: #34c759;
 }
 
 .dark {
@@ -188,5 +190,5 @@
 
 @theme {
   --breakpoint-mobile: 380px;
-  --breakpoint-form: 45rem;
+  --breakpoint-form: 450px;
 }

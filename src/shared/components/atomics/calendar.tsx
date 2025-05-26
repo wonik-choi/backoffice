@@ -21,6 +21,12 @@ export type CalendarProps = DayPickerProps & {
    */
   showYearSwitcher?: boolean;
 
+  /**
+   * @description
+   * 특정 요일에 selected 되었을 경우를 알려주는 boolean;
+   */
+  isSelectedBookedDate?: boolean;
+
   monthsClassName?: string;
   monthCaptionClassName?: string;
   weekdaysClassName?: string;
@@ -59,6 +65,7 @@ function Calendar({
   showYearSwitcher = true,
   yearRange = 12,
   numberOfMonths,
+  isSelectedBookedDate,
   components,
   ...props
 }: CalendarProps) {
@@ -121,6 +128,7 @@ function Calendar({
   );
   const _selectedClassName = cn(
     '[&>button]:bg-susimdal-button-primary-fill  [&>button]:text-primary-foreground [&>button]:hover:bg-susimdal-button-primary-fill [&>button]:hover:text-primary-foreground',
+    isSelectedBookedDate && '[&>button]:bg-susimdal-color-success/40',
     props.selectedClassName
   );
   const _todayClassName = cn('[&>button]:bg-white [&>button]:text-susimdal-text-primary', props.todayClassName);

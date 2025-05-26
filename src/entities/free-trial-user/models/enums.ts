@@ -23,6 +23,16 @@ export enum DayOfWeek {
   SUNDAY = 'SUNDAY',
 }
 
+export enum NormalizedDayOfWeek {
+  MONDAY = 1,
+  TUESDAY = 2,
+  WEDNESDAY = 3,
+  THURSDAY = 4,
+  FRIDAY = 5,
+  SATURDAY = 6,
+  SUNDAY = 0,
+}
+
 export enum Semester {
   MIDDLE_FIRST_H1 = 'MIDDLE_FIRST_H1',
   MIDDLE_FIRST_H2 = 'MIDDLE_FIRST_H2',

@@ -59,10 +59,20 @@ const RegisterFreeTrialLayout = ({
             {title}
           </motion.h1>
 
-          {subtitle && <p className="text-[1.2rem] text-susimdal-text-basic/50">{subtitle}</p>}
+          {subtitle && (
+            <motion.p
+              key={subtitle}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: 'easeOut', delay: titleDelay + 0.1 }}
+              className="text-[1.2rem] text-susimdal-text-basic/50"
+            >
+              {subtitle}
+            </motion.p>
+          )}
         </div>
 
-        <div className="flex-1 overflow-y-auto w-full pb-[2rem]">{children}</div>
+        <div className="flex-1 overflow-y-auto scrollbar-hide w-full pb-[2rem]">{children}</div>
       </div>
     </div>
   );

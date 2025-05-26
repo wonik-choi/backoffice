@@ -38,7 +38,9 @@ export const DrawerTermLayout = ({
             </DrawerTitle>
           </DrawerHeader>
 
-          <div className="min-h-[13rem] max-h-[50vh] overflow-y-auto mb-[2rem] mobile:mb-[3rem]">{children}</div>
+          <div className="min-h-[13rem] max-h-[40vh] overflow-y-auto scrollbar-hide mb-[2rem] mobile:mb-[3rem]">
+            {children}
+          </div>
 
           <DrawerFooter className="w-full">
             <DrawerClose asChild>

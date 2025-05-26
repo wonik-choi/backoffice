@@ -7,9 +7,9 @@ import { UserInStore, FreeTrialInStore, Rental, Promotion } from '@/features/reg
 export enum FormStep {
   ParentInfo = 0,
   StudentInfo = 1,
-  StartDate = 2,
-  Schedule = 3,
-  Semester = 4,
+  Schedule = 2,
+  Semester = 3,
+  StartDate = 4,
   DeviceSelection = 5,
   AddressEntry = 6,
   Promotion = 7,
@@ -25,7 +25,8 @@ export interface FreeTrialUserState {
   /** 상세 입력폼 UI 연동 */
   currentStep: FormStep;
   currentDirection: 1 | -1;
-
+  /** 특강 수업 설명 첫 mount 여부 */
+  isFirstMountDetailSpecialCourseSchedule: boolean;
   /** action */
   /**
    * @description
@@ -44,6 +45,7 @@ export interface FreeTrialUserState {
   setSemester: (semester: Semester) => void;
   setRental: (rental: Rental) => void;
   setPromotion: (promotion: Promotion) => void;
+  setFirstMountDetailSpecialCourse: (isMounted: boolean) => void;
 
   /**
    * @description

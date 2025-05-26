@@ -1,12 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import { enUS } from 'date-fns/locale';
+import { ko } from 'date-fns/locale';
 import { motion } from 'framer-motion';
 
 // shared
 import { formatKoreanTitle, convertISOString, addDayToToday } from '@/shared/lib/date-fns/utls';
+import { cn } from '@/shared/lib/utils';
 import { Calendar } from '@/shared/components/atomics/calendar';
+
+// entities
+import { DayOfWeek, NormalizedDayOfWeek } from '@/entities/free-trial-user/models/enums';
 
 // features
 import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
@@ -27,7 +31,22 @@ export function StartDateSelection() {
     }
   };
 
+  /**
+   * @description 이전 스케줄된 날짜 제외하고는 전부 disabled 처리
+   */
+  const scheduledDates = freeTrial.schedules.map((schedule) => schedule.dayOfWeek);
+  const excludedFromScheduleDates = Object.entries(NormalizedDayOfWeek)
+    .filter(([day, normalizedNumber]) => !scheduledDates.includes(day as DayOfWeek))
+    .map(([_, normalizedNumber]) => Number(normalizedNumber));
+
   const isDateValid = date instanceof Date && !isNaN(date.getTime());
+
+  /**
+   * @description
+   * 만일 월요일을 클릭했을 시 이에 대해서 특강에 대한 약간의 설명을 진행
+   */
+  const subtitleText =
+    date?.getDay() === 1 ? '오후 5시부터 9시까지 대표님 특강이 있어요!' : '금일로부터 2~3일 이후 날짜를 선택해 주세요.';
 
   const buttonText = isDateValid ? `${formatKoreanTitle(new Date(date))} 시작합니다` : '다음';
   const titleText = isDateValid
@@ -35,12 +54,7 @@ export function StartDateSelection() {
     : '좋아요!\n첫 수업은 언제가 좋을까요?';
 
   return (
-    <RegisterFreeTrialLayout
-      title={titleText}
-      subtitle="원할한 수업 준비를 위해 오늘로부터 2~3일 이후 날짜를 선택해 주세요."
-      progressStep={2}
-      totalSteps={9}
-    >
+    <RegisterFreeTrialLayout title={titleText} subtitle={subtitleText} progressStep={4} totalSteps={9}>
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -62,8 +76,16 @@ export function StartDateSelection() {
             mode="single"
             selected={date}
             onSelect={setDate as (date?: Date) => void}
-            locale={enUS}
-            disabled={[{ dayOfWeek: [0, 6] }, { before: addDayToToday(3) }]}
+            locale={ko}
+            disabled={[{ dayOfWeek: excludedFromScheduleDates }, { before: addDayToToday(3) }]}
+            showOutsideDays={false}
+            isSelectedBookedDate={date?.getDay() === 1}
+            modifiers={{
+              booked: { dayOfWeek: [1] },
+            }}
+            modifiersClassNames={{
+              booked: cn('[&>button]:text-susimdal-color-success [&>button]:font-semibold [&>button]:rounded-full'),
+            }}
             className="rounded-md w-full max-w-full"
           />
         </motion.div>
