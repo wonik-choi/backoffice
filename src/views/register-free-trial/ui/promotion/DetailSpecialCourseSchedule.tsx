@@ -15,7 +15,7 @@ export const DetailSpecialCourseSchedule = ({ openState, setOpenState, agreeTerm
       openState={openState}
       setOpenState={setOpenState}
       agreeTerms={agreeTerms}
-      title={'수심달 이정환 대표원장 직강 수업을\n집에서 청강할 수 있는 기회!'}
+      title={'수심달 이정환 대표원장 개념강의 직강을\n집에서 청강할 수 있는 기회!'}
       titleClassName="text-susimdal-text-primary"
       buttonText="확인"
     >
@@ -26,16 +26,7 @@ export const DetailSpecialCourseSchedule = ({ openState, setOpenState, agreeTerm
         tabIndex={-1}
         className="w-full flex justify-center items-center mb-[0.9rem] mobile:mb-[1.2rem]"
       >
-        <div className="relative  w-[20rem] h-[16rem] mobile:w-[25rem] mobile:h-[20rem]">
-          <motion.div
-            animate={{ rotate: [0, 360] }}
-            transition={{ repeat: Infinity, duration: 30, ease: 'linear' }}
-            className="
-                absolute inset-0
-                bg-gradient-to-tr from-pink-300 via-transparent to-purple-300
-                filter blur-xl opacity-30
-                "
-          />
+        <div className="relative bg-white  w-[16rem] h-[20rem] mobile:w-[20rem] mobile:h-[25rem]">
           <Image
             src="/images/susimdal-ceo-profile.png"
             alt="ceo-profile"
@@ -44,7 +35,7 @@ export const DetailSpecialCourseSchedule = ({ openState, setOpenState, agreeTerm
             loading="lazy"
             placeholder="blur"
             blurDataURL="iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8fv95PQAIkAMuIar4iAAAAABJRU5ErkJggg=="
-            style={{ objectFit: 'cover' }}
+            style={{ objectFit: 'cover', backgroundColor: 'white' }}
           />
         </div>
       </motion.div>
@@ -65,11 +56,9 @@ export const DetailSpecialCourseSchedule = ({ openState, setOpenState, agreeTerm
                   {' '}
                   월요일
                 </span>
-                은 수심달 이정환 대표원장의 개념강의가 진행되며, 해당 시간은
-                <span className="text-[1.2rem] mobile:text-[1.4rem] font-semibold text-susimdal-text-primary">
-                  {' '}
-                  무료체험 시간에 포함되지 않아요!
-                </span>
+                은 수심달 이정환 대표원장의
+                <br />
+                개념강의가 진행돼요.
               </p>
             </div>
           </li>
@@ -80,9 +69,14 @@ export const DetailSpecialCourseSchedule = ({ openState, setOpenState, agreeTerm
                 청강은
                 <span className="text-[1.2rem] mobile:text-[1.4rem] font-semibold text-susimdal-text-primary">
                   {' '}
-                  중1-1(17시-19시), 중2-1(19시-21시) 중 1개 과정
+                  중1-1(17시-19시), 중2-1(19시-21시) 중 <br /> 1개 과정
                 </span>
-                만 참여 가능합니다.
+                만 참여 가능하며
+                <br />
+                해당 시간은{' '}
+                <span className="text-[1.2rem] mobile:text-[1.4rem] font-semibold text-susimdal-text-primary">
+                  무료체험 시간에 포함되지 않아요.
+                </span>
               </p>
             </div>
           </li>
@@ -95,11 +89,11 @@ export const DetailSpecialCourseSchedule = ({ openState, setOpenState, agreeTerm
         tabIndex={-1}
         className="flex flex-col gap-[0.3rem] justify-start items-center w-full"
       >
-        <p className="text-[1rem] mobile:text-[1.2rem] font-medium text-susimdal-button-primary-fill">
-          무료체험 시간과 특강 체험시간이 겹칠 경우 특강 참여가 어렵습니다.
+        <p className="text-[1.2rem] mobile:text-[1.3rem] font-medium leading-[1.2rem] text-susimdal-text-subtle">
+          무료체험 시간과 개념강의 시간이 겹칠 경우, 청강 참여가 어려워요.
         </p>
-        <p className="text-[1rem] mobile:text-[1.2rem] font-medium text-susimdal-button-primary-fill">
-          자세한 가이드는 추후 학습 가이드에서 안내해 드립니다.
+        <p className="text-[1.2rem] mobile:text-[1.3rem] font-medium leading-[1.2rem] text-susimdal-text-subtle">
+          자세한 참여 방법은 추후 선생님께서 안내해 주세요.
         </p>
       </motion.div>
     </DrawerTermLayout>
