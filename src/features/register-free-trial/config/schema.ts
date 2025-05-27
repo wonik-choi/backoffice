@@ -63,19 +63,17 @@ export const rentalSchema = z
 
 export type Rental = z.infer<typeof rentalSchema>;
 
-export const promotionSchema = z
-  .object({
-    promotionCode: z.string().min(1, { message: '프로모션 아이디를 넣어주세요' }),
-    // TODO: 추후 전달받은 프로모션 id 기반으로 enum 정리
-    optionIds: z.array(z.number().min(1, { message: '프로모션 옵션 아이디를 넣어주세요' })),
-    terms: z.array(
-      z.object({
-        termCode: z.nativeEnum(PromotionTermCode, { message: '약관 설명을 넣어주세요' }),
-        agreed: z.boolean().refine((data) => data, { message: '동의가 필요한 부분입니다.' }),
-      })
-    ),
-  })
-  .optional();
+export const promotionSchema = z.object({
+  promotionCode: z.string().min(1, { message: '프로모션 아이디를 넣어주세요' }),
+  // TODO: 추후 전달받은 프로모션 id 기반으로 enum 정리
+  optionIds: z.array(z.number().min(1, { message: '프로모션 옵션 아이디를 넣어주세요' })),
+  terms: z.array(
+    z.object({
+      termCode: z.nativeEnum(PromotionTermCode, { message: '약관 설명을 넣어주세요' }),
+      agreed: z.boolean().refine((data) => data, { message: '동의가 필요한 부분입니다.' }),
+    })
+  ),
+});
 
 export type Promotion = z.infer<typeof promotionSchema>;
 
@@ -84,7 +82,7 @@ export const freeTrialUserRequestBodySchema = z.object({
   user: userSchema,
   freeTrial: freeTrialSchema,
   rental: rentalSchema,
-  promotion: promotionSchema,
+  promotions: z.array(promotionSchema).optional(),
 });
 
 export type FreeTrialUserRequestBody = z.infer<typeof freeTrialUserRequestBodySchema>;

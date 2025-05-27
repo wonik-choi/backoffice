@@ -21,7 +21,7 @@ export interface FreeTrialUserState {
   user: UserInStore;
   freeTrial: FreeTrialInStore;
   rental: Rental;
-  promotion: Promotion;
+  promotions: Promotion[] | undefined;
   /** 상세 입력폼 UI 연동 */
   currentStep: FormStep;
   currentDirection: 1 | -1;
@@ -47,7 +47,7 @@ export interface FreeTrialUserState {
   setFreeTrialSchedule: (schedule: FreeTrialInStore['schedules']) => void;
   setSemester: (semester: Semester) => void;
   setRental: (rental: Rental) => void;
-  setPromotion: (promotion: Promotion) => void;
+  setPromotion: (promotion: Promotion[]) => void;
   setFirstMountDetailSpecialCourse: (isMounted: boolean) => void;
   setInflowCode: (inflowCode: string | null) => void;
 

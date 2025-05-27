@@ -32,14 +32,14 @@ export interface FreeTrialUserRequestDto {
       agreed: boolean;
     }[];
   };
-  promotion?: {
+  promotions?: {
     promotionCode: string;
     optionIds: number[];
     terms: {
       termCode: PromotionTermCode;
       agreed: boolean;
     }[];
-  };
+  }[];
   inflow?: {
     code: string;
   };
