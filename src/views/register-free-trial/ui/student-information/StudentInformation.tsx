@@ -1,17 +1,20 @@
 'use client';
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { z } from 'zod';
 import { useForm } from '@tanstack/react-form';
+import { toast } from 'sonner';
 
 // shared
 import { RadioGroup, RadioGroupItem } from '@/shared/components/atomics/radio-group';
+import { formatPhoneNumber, unformatPhoneNumber } from '@/shared/utils/format';
 
 // entities
 import { FreeTrialUserGrade } from '@/entities/free-trial-user/models/enums';
 
 // features
-import { userSchemaInStore, userSchema, validableStudentSchema } from '@/features/register-free-trial/config/schema';
+import { userSchemaInStore, validableStudentSchema } from '@/features/register-free-trial/config/schema';
 import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
 import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFreeTrialLayout';
 
@@ -23,14 +26,14 @@ import { Button } from '@/views/register-free-trial/ui/components/Button';
 import { gradeOptions } from '@/views/register-free-trial/config/const';
 import { RadioItem } from '@/views/register-free-trial/ui/components/RadioItem';
 
-// Zod 스키마 정의
+// 제출 검증 스키마
 const studentSchema = userSchemaInStore.pick({
   name: true,
   phoneNumber: true,
   grade: true,
 });
 
-// 실제 검증 스키마
+// 입력 검증 스키마
 const checkStudentSchema = validableStudentSchema.pick({
   name: true,
   phoneNumber: true,
@@ -44,7 +47,7 @@ export function StudentInformation() {
 
   const defaultValue: StudentFormValues = {
     name: user.name || '',
-    phoneNumber: user.phoneNumber || '',
+    phoneNumber: user.phoneNumber ? formatPhoneNumber(user.phoneNumber) : '',
     grade: user.grade,
   };
 
@@ -57,10 +60,17 @@ export function StudentInformation() {
       };
 
       if (value.phoneNumber) {
-        existsStudentInformation.phoneNumber = value.phoneNumber;
+        existsStudentInformation.phoneNumber = unformatPhoneNumber(value.phoneNumber);
       }
 
-      setStudentInformation(existsStudentInformation);
+      const validatedStudent = studentSchema.safeParse(existsStudentInformation);
+
+      if (!validatedStudent.success) {
+        toast.error('자녀 정보가 올바르지 않습니다');
+        return;
+      }
+
+      setStudentInformation(validatedStudent.data);
       nextStep();
     },
     validators: {
@@ -98,7 +108,7 @@ export function StudentInformation() {
             <form.Field name="name">
               {(field) => (
                 <div className="space-y-2 w-full">
-                  <Label htmlFor="name">성함</Label>
+                  <Label htmlFor="name">이름</Label>
                   <Input
                     id="name"
                     value={field.state.value}
@@ -124,9 +134,10 @@ export function StudentInformation() {
                     id="phoneNumber"
                     type="tel"
                     value={field.state.value}
-                    onChange={(e) => field.handleChange(e.target.value)}
+                    onChange={(e) => field.handleChange(formatPhoneNumber(e.target.value))}
                     onBlur={field.handleBlur}
-                    placeholder="01012345678"
+                    placeholder="010-0000-0000"
+                    pattern="010-[0-9]{4}-[0-9]{4}"
                     className="w-full m-0"
                   />
                   <div className="w-full h-[1.2rem]">

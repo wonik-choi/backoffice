@@ -1,16 +1,16 @@
 export enum FreeTrialUserGrade {
-  ElementarySchool1 = 'ElementarySchool1',
-  ElementarySchool2 = 'ElementarySchool2',
-  ElementarySchool3 = 'ElementarySchool3',
-  ElementarySchool4 = 'ElementarySchool4',
-  ElementarySchool5 = 'ElementarySchool5',
-  ElementarySchool6 = 'ElementarySchool6',
-  MiddleSchool1 = 'MiddleSchool1',
-  MiddleSchool2 = 'MiddleSchool2',
-  MiddleSchool3 = 'MiddleSchool3',
-  HighSchool1 = 'HighSchool1',
-  HighSchool2 = 'HighSchool2',
-  HighSchool3 = 'HighSchool3',
+  ElementarySchool1 = 'ELEMENTARY_1',
+  ElementarySchool2 = 'ELEMENTARY_2',
+  ElementarySchool3 = 'ELEMENTARY_3',
+  ElementarySchool4 = 'ELEMENTARY_4',
+  ElementarySchool5 = 'ELEMENTARY_5',
+  ElementarySchool6 = 'ELEMENTARY_6',
+  MiddleSchool1 = 'MIDDLE_1',
+  MiddleSchool2 = 'MIDDLE_2',
+  MiddleSchool3 = 'MIDDLE_3',
+  HighSchool1 = 'HIGH_1',
+  HighSchool2 = 'HIGH_2',
+  HighSchool3 = 'HIGH_3',
 }
 
 export enum DayOfWeek {
@@ -21,6 +21,16 @@ export enum DayOfWeek {
   FRIDAY = 'FRIDAY',
   SATURDAY = 'SATURDAY',
   SUNDAY = 'SUNDAY',
+}
+
+export enum NormalizedDayOfWeek {
+  MONDAY = 1,
+  TUESDAY = 2,
+  WEDNESDAY = 3,
+  THURSDAY = 4,
+  FRIDAY = 5,
+  SATURDAY = 6,
+  SUNDAY = 0,
 }
 
 export enum Semester {

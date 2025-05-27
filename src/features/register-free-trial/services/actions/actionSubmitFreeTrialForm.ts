@@ -1,3 +1,6 @@
+// entities
+import type { FreeTrialUserRequestDto } from '@/entities/free-trial-user/models/repository';
+
 // features
 import type { ActionSubmitFreeTrialFormProps } from '@/features/register-free-trial/model/interface';
 import { freeTrialUserRequestBodySchema } from '@/features/register-free-trial/config/schema';
@@ -8,12 +11,19 @@ import { freeTrialUserRequestBodySchema } from '@/features/register-free-trial/c
  * @param formData 작성한 폼 데이터
  * @param repository 무료체험 신청 repository (inject)
  */
-export async function actionSubmitFreeTrialForm({ formData, repository }: ActionSubmitFreeTrialFormProps) {
+export async function actionSubmitFreeTrialForm({ formData, repository, inflowCode }: ActionSubmitFreeTrialFormProps) {
   try {
     // 검증
-    console.log('formData', formData);
-    const validatedBody = freeTrialUserRequestBodySchema.parse(formData);
+    const validatedBody: FreeTrialUserRequestDto = freeTrialUserRequestBodySchema.parse(formData);
 
+    // 유입 코드가 존재할 경우 같이 전달
+    if (inflowCode) {
+      validatedBody.inflow = {
+        code: inflowCode,
+      };
+    }
+
+    console.log('validatedBody', validatedBody);
     // 서버 제출
     const response = await repository.createFreeTrialUser(validatedBody);
 

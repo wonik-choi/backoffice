@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import Image from 'next/image';
 
 // shared
-import { RadioButton } from '@/shared/components/radion-button/RadioButton';
+import { RadioButton } from '@/shared/components/radio-button/RadioButton';
 import { RadioGroup, RadioGroupItem } from '@/shared/components/atomics/radio-group';
 
 // entities
@@ -196,6 +196,7 @@ export const DongaSciencePromotion = () => {
                 src="/images/donga-promotion.png"
                 alt="donga-promotion"
                 fill={true}
+                sizes="(max-width: 640px) 25rem, 20rem"
                 quality={100}
                 style={{ objectFit: 'cover' }}
               />

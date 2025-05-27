@@ -22,6 +22,8 @@ export const useRegisterFreeTrialStore = create<FreeTrialUserState>()((set) => (
   promotion: undefined,
   currentStep: FormStep.ParentInfo,
   currentDirection: 1,
+  isFirstMountDetailSpecialCourseSchedule: true,
+  inflowCode: null,
 
   // Actions
   setName: (name: string) => set((state) => ({ user: { ...state.user, name } })),
@@ -42,6 +44,9 @@ export const useRegisterFreeTrialStore = create<FreeTrialUserState>()((set) => (
   prevStep: () => set((state) => ({ ...state, currentStep: state.currentStep - 1, currentDirection: -1 })),
   goToStep: (step) => set({ currentStep: step, currentDirection: 1 }),
   backToStep: (step) => set({ currentStep: step, currentDirection: -1 }),
+  setFirstMountDetailSpecialCourse: (isMounted: boolean) => set({ isFirstMountDetailSpecialCourseSchedule: isMounted }),
+  setInflowCode: (inflowCode: string | null) => set({ inflowCode }),
+
   resetForm: () =>
     set({
       user: {

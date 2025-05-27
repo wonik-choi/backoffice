@@ -16,6 +16,14 @@ export const gradeOptions = [
 /** 무료체험 최대 시간 */
 export const MAX_FREE_TRIAL_TIME = 6;
 
+/**
+ * @description
+ * 무료체험 선택 가능 Range
+ * 오후 4시부터 오후 11시까지 30분 단위 수치
+ * 예시) 오후 4시 반 = 30, 오후 5시 = 60, 오후 5시 반 = 90, ...
+ */
+export const FREE_TRIAL_TIME_RANGE = Array.from({ length: 8 }, (_, i) => i * 60);
+
 /** 무료체험 시간 선택 */
 export const FREE_TRIAL_TIMES: number[] = [4, 5, 6, 7, 8, 9, 10, 11];
 export const MAPPING_START_TIME_HOUR_TO_SCHEDULE = {

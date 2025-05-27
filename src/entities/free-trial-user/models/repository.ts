@@ -40,6 +40,9 @@ export interface FreeTrialUserRequestDto {
       agreed: boolean;
     }[];
   };
+  inflow?: {
+    code: string;
+  };
 }
 
 /** repository */

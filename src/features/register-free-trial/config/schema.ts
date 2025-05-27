@@ -103,10 +103,17 @@ export const freeTrialSchemaInStore = freeTrialSchema.extend({
 export type FreeTrialInStore = z.infer<typeof freeTrialSchemaInStore>;
 
 /** optional 속성 내 canSubmit 을 조절하기 위한 schema */
+
+export const validableParentSchema = userSchema.extend({
+  parentPhoneNumber: z
+    .string()
+    .regex(/^010-\d{4}-\d{4}$/, { message: '(010시작) 11자리 유효한 핸드폰 번호를 입력해주세요' }),
+});
+
 export const validableStudentSchema = userSchema.extend({
   phoneNumber: z
     .string()
-    .regex(/^(?=[0-9]+$)01([016789])\d{8}$/, {
+    .regex(/^010-\d{4}-\d{4}$/, {
       message: '(010시작) 11자리 유효한 핸드폰 번호를 입력해주세요',
     })
     .or(z.literal(''))

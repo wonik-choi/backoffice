@@ -22,4 +22,5 @@ export interface FreeTrialFormData {
 export interface ActionSubmitFreeTrialFormProps {
   formData: FreeTrialFormData;
   repository: FreeTrialUserRepository;
+  inflowCode?: string;
 }

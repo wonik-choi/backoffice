@@ -18,7 +18,16 @@ export const usePostFreeTrialUserForm = ({ store, onSuccessCallback, onErrorCall
     error,
   } = useMutation({
     ...RegisterFreeTrialQueryKeys.free_trial_user_register_form,
-    mutationFn: () => actionSubmitFreeTrialForm({ formData: store, repository: freeTrialUserRepository }),
+    mutationFn: () => {
+      const { inflowCode } = store;
+
+      // 유입코드가 존재할 경우
+      if (inflowCode) {
+        return actionSubmitFreeTrialForm({ formData: store, repository: freeTrialUserRepository, inflowCode });
+      }
+
+      return actionSubmitFreeTrialForm({ formData: store, repository: freeTrialUserRepository });
+    },
     throwOnError: false,
     onSuccess: () => {
       if (onSuccessCallback) {
