@@ -37,7 +37,7 @@ type ParentFormValues = z.infer<typeof parentSchema>;
 
 export function ParentInformation() {
   const [isCorrectPhoneNumber, setIsCorrectPhoneNumber] = useState(false);
-  const { user, setStudentInformation, nextStep } = useRegisterFreeTrialStore();
+  const { user, setParentInformation, nextStep } = useRegisterFreeTrialStore();
 
   const defaultValue: ParentFormValues = {
     parentName: user.parentName || '',
@@ -59,7 +59,7 @@ export function ParentInformation() {
         return;
       }
 
-      setStudentInformation(validatedParent.data);
+      setParentInformation(validatedParent.data);
       nextStep();
     },
     validators: {
