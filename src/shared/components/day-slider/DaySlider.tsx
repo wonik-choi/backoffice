@@ -68,7 +68,7 @@ export const DaySlider = ({
         {Array.from({ length: selectedValue?.length || 0 }, (_, index) => (
           <Slider.Thumb
             key={index}
-            className="block size-[1.8rem] mobile:size-[2.3rem] rounded-full border border-primary/50 bg-background shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+            className="block size-[2.2rem] mobile:size-[2.3rem] rounded-full border border-primary/50 bg-background shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
           >
             {/* <Badge className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 -top-4">
               {convertToDisplayTime(selectedValue?.[index] || 0, 4)}
@@ -76,7 +76,7 @@ export const DaySlider = ({
           </Slider.Thumb>
         ))}
       </Slider.Root>
-      <div className="mt-[1rem] pl-[2%] flex items-center justify-between text-[1rem]">
+      <div className="mt-[1.4rem] pl-[2%] flex items-center justify-between text-[1rem]">
         {timeRange.map((time) => {
           return (
             <motion.span
@@ -84,7 +84,7 @@ export const DaySlider = ({
               transition={{ type: 'spring', duration: 0.2, bounce: 0.5 }}
               key={time}
               className={cn(
-                'text-susimdal-text-subtle',
+                'text-susimdal-text-subtle non-selectable',
                 selectedValue && selectedValue.includes(time) && 'text-susimdal-text-basic'
               )}
             >

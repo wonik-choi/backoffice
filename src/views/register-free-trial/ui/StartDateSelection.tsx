@@ -5,7 +5,12 @@ import { ko } from 'date-fns/locale';
 import { motion } from 'framer-motion';
 
 // shared
-import { formatKoreanTitle, convertISOString, addDayToToday } from '@/shared/lib/date-fns/utls';
+import {
+  formatKoreanTitle,
+  convertISOString,
+  addDayToToday,
+  getNextPossibleFreeTrialDate,
+} from '@/shared/lib/date-fns/utls';
 import { cn } from '@/shared/lib/utils';
 import { Calendar } from '@/shared/components/atomics/calendar';
 
@@ -40,6 +45,12 @@ export function StartDateSelection() {
     .map(([_, normalizedNumber]) => Number(normalizedNumber));
 
   const isDateValid = date instanceof Date && !isNaN(date.getTime());
+
+  /**
+   * @description
+   * 시작 가능한 날의 월을 default 로 설정하기
+   */
+  const tryPossibleStartDate = getNextPossibleFreeTrialDate(3);
 
   /**
    * @description
@@ -79,6 +90,7 @@ export function StartDateSelection() {
             disabled={[{ dayOfWeek: excludedFromScheduleDates }, { before: addDayToToday(3) }]}
             showOutsideDays={false}
             isSelectedBookedDate={date?.getDay() === 1}
+            defaultMonth={tryPossibleStartDate}
             modifiers={{
               booked: { dayOfWeek: [1] },
             }}
