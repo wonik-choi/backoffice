@@ -1,13 +1,9 @@
 import { Dispatch, SetStateAction } from 'react';
 
-export interface DrawerTermLayoutProps {
+/** 무료 체험 1차 신청 시 동의 사항 */
+export interface ApplyFreeTrialTempUserTermsProps {
   openState: boolean;
   setOpenState: Dispatch<SetStateAction<boolean>>;
   agreeTerms: () => void;
   disagreeTerms?: () => void;
-  children: React.ReactNode;
-  title: string;
-  titleClassName?: string;
-  buttonText: string;
-  leftButtonText?: string;
 }

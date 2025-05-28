@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useEffect } from 'react';
 
 // shared
 import {
@@ -13,7 +12,7 @@ import {
   Drawer,
   DrawerDescription,
 } from '@/shared/components/atomics/drawer';
-import { Button } from '@/shared/components/atomics/button';
+import { Button } from '@/shared/components/ui';
 import { cn } from '@/shared/lib/utils';
 
 // widgets
@@ -23,9 +22,11 @@ export const DrawerTermLayout = ({
   openState,
   setOpenState,
   agreeTerms,
+  disagreeTerms,
   children,
   title,
   buttonText,
+  leftButtonText,
   titleClassName,
 }: DrawerTermLayoutProps) => {
   return (
@@ -50,16 +51,15 @@ export const DrawerTermLayout = ({
               <motion.div
                 whileTap={{ scale: 0.9 }}
                 transition={{ duration: 0.2 }}
-                className={cn('w-full')}
+                className={cn('w-full flex gap-[0.8rem] justify-center items-center')}
                 tabIndex={-1}
               >
-                <Button
-                  type="button"
-                  className={cn(
-                    'w-full h-[4.8rem] px-[1.6rem] text-[1.6rem] rounded-[0.6rem] bg-susimdal-button-primary-fill hover:bg-susimdal-button-primary-fill/70'
-                  )}
-                  onClick={agreeTerms}
-                >
+                {leftButtonText && (
+                  <Button type="button" variant="border" className={cn('w-full')} onClick={disagreeTerms}>
+                    {leftButtonText}
+                  </Button>
+                )}
+                <Button type="button" className={cn('w-full')} onClick={agreeTerms}>
                   {buttonText}
                 </Button>
               </motion.div>

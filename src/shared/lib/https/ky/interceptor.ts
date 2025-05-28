@@ -8,12 +8,17 @@ export class KyServerError extends Error {
   public status: number;
   public message: string;
   public error: string;
+  public debug: {
+    exception: string;
+    message: string;
+  };
 
   constructor(payload: ServerError) {
     super(payload.message);
     this.status = payload.status;
     this.message = payload.message;
     this.error = payload.error;
+    this.debug = payload.debug;
   }
 }
 
