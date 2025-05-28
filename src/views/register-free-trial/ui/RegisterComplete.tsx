@@ -3,13 +3,12 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
-import { useEffect } from 'react';
-
 // shared
 
 import { useCustomLottie } from '@/shared/hooks/useLottie';
 import kidsAnimation from '@/shared/lotties/kids-animation.json';
 import { formatKoreanTitle, decodeQueryDate } from '@/shared/lib/date-fns/utls';
+
 // features
 import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
 
