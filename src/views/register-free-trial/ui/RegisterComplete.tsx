@@ -63,7 +63,7 @@ export function Completion() {
           tabIndex={-1}
           className="flex flex-col justify-center items-center w-full mt-auto pt-6 gap-[0.8rem]"
         >
-          <Link href={'https://class.susimdal.com/'} className="w-full">
+          <Link href={'https://class.susimdal.com/support'} className="w-full">
             <Button type="button" className="w-full">
               수업 안내
             </Button>
