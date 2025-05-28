@@ -11,9 +11,23 @@ export const DongaScienceTerms = ({ openState, setOpenState, agreeTerms }: Devic
       openState={openState}
       setOpenState={setOpenState}
       agreeTerms={agreeTerms}
-      title={'이벤트 혜택 지급을 위해\n개인정보 제3자 제공에 동의해주세요'}
+      title={'이벤트 혜택 지급을 위해\n마케팅 정보 수신 및\n개인정보 제3자 제공에 동의해주세요'}
       buttonText="동의하고 이벤트 참여하기"
     >
+      <div className="flex flex-col gap-[0.8rem] items-start w-full px-4 mb-[2rem]">
+        <h3 className="font-medium text-[1.2rem] text-susimdal-text-subtle">[마케팅 정보 수신 동의]</h3>
+        <ul>
+          <li className="text-susimdal-text-subtle text-[1.2rem] leading-[1.6rem]">
+            광고성 정보 매체: 카카오 알림톡, SMS
+          </li>
+          <li className="text-susimdal-text-subtle text-[1.2rem] leading-[1.6rem]">
+            처리 목적: 제휴 상품 제공 및 이벤트 안내
+          </li>
+          <li className="text-susimdal-text-subtle text-[1.2rem] leading-[1.6rem]">
+            보유 및 이용기간: 동의 철회 시까지
+          </li>
+        </ul>
+      </div>
       <div className="flex flex-col gap-[0.8rem] items-start w-full px-4">
         <h3 className="font-medium text-[1.2rem] text-susimdal-text-subtle">[개인정보 제3자 제공 공시]</h3>
         <ul>
