@@ -2,6 +2,10 @@ export interface ServerError {
   status: number;
   message: string;
   error: string;
+  debug: {
+    exception: string;
+    message: string;
+  };
 }
 
 export interface RequestOptions {

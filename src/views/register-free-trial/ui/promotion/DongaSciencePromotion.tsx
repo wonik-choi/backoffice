@@ -9,6 +9,8 @@ import Image from 'next/image';
 // shared
 import { RadioButton } from '@/shared/components/radio-button/RadioButton';
 import { RadioGroup, RadioGroupItem } from '@/shared/components/atomics/radio-group';
+import { Button, Label } from '@/shared/components/ui';
+import { KyServerError } from '@/shared/lib/https/ky/interceptor';
 
 // entities
 import { PromotionTermCode } from '@/entities/free-trial-user/models/enums';
@@ -16,15 +18,14 @@ import { PromotionTermCode } from '@/entities/free-trial-user/models/enums';
 // features
 import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
 import { usePostFreeTrialUserForm } from '@/features/register-free-trial/services/query/usePostFreeTrialUserForm';
+import { FormStep } from '@/features/register-free-trial/model/store/interface';
 
 // views
 import { PromotionLayout } from '@/views/register-free-trial/ui/promotion/PromotionLayout';
-import { FormStep } from '@/features/register-free-trial/model/store/interface';
+
 import { DongaScienceTerms } from '@/views/register-free-trial/ui/promotion/DongaScienceTerms';
-import { Button } from '@/views/register-free-trial/ui/components/Button';
-import { Label } from '@/views/register-free-trial/ui/components/Label';
+
 import { DetailDongaScience } from './DetailDongaScience';
-import { KyServerError } from '@/shared/lib/https/ky/interceptor';
 
 interface PromotionOptionCardProps {
   promotionOption: string;

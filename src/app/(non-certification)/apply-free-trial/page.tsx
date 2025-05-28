@@ -2,14 +2,10 @@
 
 import dynamic from 'next/dynamic';
 
-const RegisterFreeTrial = dynamic(() => import('@/views/register-free-trial/ui/RegisterFreeTrial'), { ssr: false });
+const ApplyFreeTrial = dynamic(() => import('@/views/apply-free-trial/ui/orchestra/ApplyFreeTrial'), { ssr: false });
 
 const Page = () => {
-  return (
-    <div className="flex justify-center items-center w-full h-dvh">
-      <RegisterFreeTrial />
-    </div>
-  );
+  return <ApplyFreeTrial />;
 };
 
 export default Page;

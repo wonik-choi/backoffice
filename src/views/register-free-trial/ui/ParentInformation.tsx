@@ -9,6 +9,8 @@ import { toast } from 'sonner';
 // shared
 import { formatPhoneNumber, unformatPhoneNumber } from '@/shared/utils/format';
 
+import { Button, Label, Input, Em } from '@/shared/components/ui';
+
 // features
 import { userSchemaInStore, validableParentSchema } from '@/features/register-free-trial/config/schema';
 import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
@@ -16,10 +18,6 @@ import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFree
 
 // views
 import { ConfirmIsCorrectPhoneNumber } from '@/views/register-free-trial/ui/ConfirmIsCorrectPhoneNumber';
-import { Label } from '@/views/register-free-trial/ui/components/Label';
-import { Input } from '@/views/register-free-trial/ui/components/Input';
-import { Em } from '@/views/register-free-trial/ui/components/Em';
-import { Button } from '@/views/register-free-trial/ui/components/Button';
 
 // 입력 유효성 검사 스키마
 const parentSchema = validableParentSchema.pick({

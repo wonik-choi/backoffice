@@ -9,14 +9,14 @@ import { Card, CardContent } from '@/shared/components/atomics/card';
 import { RadioGroup, RadioGroupItem } from '@/shared/components/atomics/radio-group';
 import { cn } from '@/shared/lib/utils';
 
+import { Button, Label } from '@/shared/components/ui';
+
 // features
 import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
 import { FormStep } from '@/features/register-free-trial/model/store/interface';
 
 // views
 import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFreeTrialLayout';
-import { Button } from '@/views/register-free-trial/ui/components/Button';
-import { Label } from '@/views/register-free-trial/ui/components/Label';
 
 export function DeviceSelection() {
   const { nextStep, prevStep, goToStep, resetRental } = useRegisterFreeTrialStore();
