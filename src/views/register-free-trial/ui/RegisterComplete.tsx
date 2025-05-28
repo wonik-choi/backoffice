@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 // shared
+import { Button } from '@/shared/components/ui';
 
 import { useCustomLottie } from '@/shared/hooks/useLottie';
 import kidsAnimation from '@/shared/lotties/kids-animation.json';
@@ -14,7 +15,6 @@ import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/
 
 // views
 import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFreeTrialLayout';
-import { Button } from '@/views/register-free-trial/ui/components/Button';
 
 export function Completion() {
   const { freeTrial } = useRegisterFreeTrialStore();

@@ -7,6 +7,10 @@ import { useForm } from '@tanstack/react-form';
 
 import { useState } from 'react';
 
+// shared
+import { Button, Label, Input } from '@/shared/components/ui';
+import { ButtonInput } from '@/shared/components/ui/views/ButtonInput';
+
 // entities
 import { RentalTermCode } from '@/entities/free-trial-user/models/enums';
 
@@ -18,10 +22,6 @@ import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/
 
 // view
 import { RentalDeviceTerms } from '@/views/register-free-trial/ui/RentalDeviceTerms';
-import { Input } from '@/views/register-free-trial/ui/components/Input';
-import { ButtonInput } from '@/views/register-free-trial/ui/components/ButtonInput';
-import { Label } from '@/views/register-free-trial/ui/components/Label';
-import { Button } from '@/views/register-free-trial/ui/components/Button';
 import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFreeTrialLayout';
 
 type AddressFormValues = z.infer<typeof rentalSchema>;

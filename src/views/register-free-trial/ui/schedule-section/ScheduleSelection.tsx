@@ -2,8 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { toast } from 'sonner';
 
 // shared
+import { Button } from '@/shared/components/ui';
+import { Badge } from '@/shared/components/ui/views/Badge';
 
 // entities
 import { DayOfWeek, NormalizedDayOfWeek } from '@/entities/free-trial-user/models/enums';
@@ -19,11 +22,6 @@ import { ScheduleTimeInDay } from '@/views/register-free-trial/ui/schedule-secti
 import { SubSectionLayout } from '@/views/register-free-trial/ui/schedule-section/SubSectionLayout';
 import { useDeterminUserSchedule } from '@/views/register-free-trial/services/useDeterminUserSchedule';
 import { DAY_OF_WEEK_FREE_TRIAL_OPTIONS } from '@/views/register-free-trial/config/const';
-
-// components
-import { Button } from '@/views/register-free-trial/ui/components/Button';
-import { Badge } from '@/views/register-free-trial/ui/components/Badge';
-import { toast } from 'sonner';
 
 const schedulePageSchema = freeTrialSchemaInStore.pick({
   schedules: true,

@@ -10,6 +10,8 @@ import { toast } from 'sonner';
 import { RadioGroup, RadioGroupItem } from '@/shared/components/atomics/radio-group';
 import { formatPhoneNumber, unformatPhoneNumber } from '@/shared/utils/format';
 
+import { Button, Label, Input, Em, RadioItem } from '@/shared/components/ui';
+
 // entities
 import { FreeTrialUserGrade } from '@/entities/free-trial-user/models/enums';
 
@@ -19,12 +21,7 @@ import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/
 import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFreeTrialLayout';
 
 // views
-import { Label } from '@/views/register-free-trial/ui/components/Label';
-import { Input } from '@/views/register-free-trial/ui/components/Input';
-import { Em } from '@/views/register-free-trial/ui/components/Em';
-import { Button } from '@/views/register-free-trial/ui/components/Button';
 import { gradeOptions } from '@/views/register-free-trial/config/const';
-import { RadioItem } from '@/views/register-free-trial/ui/components/RadioItem';
 
 // 제출 검증 스키마
 const studentSchema = userSchemaInStore.pick({

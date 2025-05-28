@@ -13,6 +13,7 @@ import {
 } from '@/shared/lib/date-fns/utls';
 import { cn } from '@/shared/lib/utils';
 import { Calendar } from '@/shared/components/atomics/calendar';
+import { Button } from '@/shared/components/ui';
 
 // entities
 import { DayOfWeek, NormalizedDayOfWeek } from '@/entities/free-trial-user/models/enums';
@@ -21,8 +22,6 @@ import { DayOfWeek, NormalizedDayOfWeek } from '@/entities/free-trial-user/model
 import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
 
 // views
-import { Button } from '@/views/register-free-trial/ui/components/Button';
-
 import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFreeTrialLayout';
 
 export function StartDateSelection() {

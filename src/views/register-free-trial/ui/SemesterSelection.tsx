@@ -8,6 +8,8 @@ import { useForm } from '@tanstack/react-form';
 import { RadioGroup, RadioGroupItem } from '@/shared/components/atomics/radio-group';
 import { Label } from '@/shared/components/atomics/label';
 
+import { Button, RadioItem } from '@/shared/components/ui';
+
 // entities
 import { Semester } from '@/entities/free-trial-user/models/enums';
 
@@ -18,9 +20,6 @@ import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFree
 
 // view
 import { SEMESTER_OPTIONS } from '@/views/register-free-trial/config/const';
-
-import { Button } from '@/views/register-free-trial/ui/components/Button';
-import { RadioItem } from '@/views/register-free-trial/ui/components/RadioItem';
 
 // Zod 스키마 정의
 const semesterSchema = freeTrialSchemaInStore.pick({

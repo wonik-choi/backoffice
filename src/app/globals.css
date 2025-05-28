@@ -56,6 +56,7 @@
   --color-susimdal-border-gray: var(--susimdal-border-gray);
   --color-susimdal-border-gray-light: var(--susimdal-border-gray-light);
   --color-susimdal-border-primary: var(--susimdal-border-primary);
+  --color-susimdal-background-primary-light: var(--susimdal-background-primary-light);
   --color-susimdal-icon-danger: var(--susimdal-icon-danger);
   --color-susimdal-icon-gray-light: var(--susimdal-icon-gray-light);
   --color-susimdal-icon-gray: var(--susimdal-icon-gray);
@@ -112,6 +113,7 @@
   --susimdal-border-gray-light: #f4f4f3;
   --susimdal-border-gray: #ebebeb;
   --susimdal-border-primary: #ff6971;
+  --susimdal-background-primary-light: #fff6f7;
   --susimdal-icon-danger: #ff3b30;
   --susimdal-icon-gray-light: #a4a6a6;
   --susimdal-icon-gray: #85898a;
