@@ -67,13 +67,13 @@ export const ScheduleTimeInDay = ({ dayOfWeek, timeRange, selectedTime, emitSele
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: 10 }} // 초기 상태
-      animate={{ opacity: 1, x: 0 }} // 등장 시 상태
-      exit={{ opacity: 0, x: -10 }} // 사라질 때 상태
+      initial={{ opacity: 0, x: 10, scale: 0.95 }} // 초기 상태
+      animate={{ opacity: 1, x: 0, scale: 1 }} // 등장 시 상태
+      exit={{ opacity: 0, x: -10, scale: 0.95 }} // 사라질 때 상태
       transition={{
         // 트랜지션 설정
-        duration: 0.3,
-        ease: 'easeOut',
+        duration: 0.2,
+        ease: 'easeInOut',
       }}
       layout
       className="flex flex-col justify-start items-start gap-[2.3rem] py-[1.2rem] w-full border border-susimdal-border-gray-light rounded-[1.2rem]"
