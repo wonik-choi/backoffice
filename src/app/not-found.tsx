@@ -1,6 +1,7 @@
 // views
 import { Metadata } from 'next';
-import NotFound from '@/views/not-found/ui/NotFound';
+
+import NotFoundClientPage from '@/views/not-found/ui/NotFoundClientPage';
 
 export const metadata: Metadata = {
   title: '404 Not Found',
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 export default function NotFoundPage() {
   return (
     <section className="size-full">
-      <NotFound />
+      <NotFoundClientPage />
     </section>
   );
 }
