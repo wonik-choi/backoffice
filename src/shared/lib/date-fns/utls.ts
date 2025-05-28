@@ -36,3 +36,20 @@ export const addDayToToday = (addDay: number) => {
 
   return addDate;
 };
+
+export const getNextPossibleFreeTrialDate = (addDay: number) => {
+  const today = new TZDate(new Date(), 'Asia/Seoul');
+  const addDate = addDays(today, addDay);
+
+  const dayOfWeek = addDate.getDay();
+
+  if (dayOfWeek === 6) {
+    return addDays(addDate, 2);
+  }
+
+  if (dayOfWeek === 0) {
+    return addDays(addDate, 1);
+  }
+
+  return addDate;
+};
