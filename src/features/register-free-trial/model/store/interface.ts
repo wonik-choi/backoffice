@@ -21,7 +21,7 @@ export interface FreeTrialUserState {
   user: UserInStore;
   freeTrial: FreeTrialInStore;
   rental: Rental;
-  promotion: Promotion;
+  promotions: Promotion[] | undefined;
   /** 상세 입력폼 UI 연동 */
   currentStep: FormStep;
   currentDirection: 1 | -1;
@@ -35,21 +35,17 @@ export interface FreeTrialUserState {
    * @description
    * 개별적인 업데이트가 필요한 경우가 존재할 수 있고, 그렇기에 전체적인 업데이트와 구별할 예정
    */
-  setName: (name: string) => void;
-  setPhoneNumber: (phoneNumber: string) => void;
-  setParentName: (parentName: string) => void;
-  setParentPhoneNumber: (parentPhoneNumber: string) => void;
+  setParentInformation: (parent: Partial<UserInStore>) => void;
   setStudentInformation: (student: Partial<UserInStore>) => void;
-  setSchool: (school: string) => void;
-  setGrade: (grade: FreeTrialUserGrade) => void;
   setSchoolInformation: (school: Partial<UserInStore>) => void;
   setFreeTrialStartDate: (date: FreeTrialInStore['startDate']) => void;
   setFreeTrialSchedule: (schedule: FreeTrialInStore['schedules']) => void;
   setSemester: (semester: Semester) => void;
   setRental: (rental: Rental) => void;
-  setPromotion: (promotion: Promotion) => void;
+  setPromotion: (promotion: Promotion[]) => void;
   setFirstMountDetailSpecialCourse: (isMounted: boolean) => void;
   setInflowCode: (inflowCode: string | null) => void;
+  resetRental: () => void;
 
   /**
    * @description

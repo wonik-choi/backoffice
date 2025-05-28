@@ -98,16 +98,18 @@ export const DongaSciencePromotion = () => {
    * 이벤트 동의 시 약관 저장 함수
    *  */
   const earnPromotionTermsAgreement = async () => {
-    setPromotion({
-      promotionCode: 'DONGASCIENCE_001', // 지정값을 받을 예정,
-      optionIds: [Number(selectedPromotionOption)],
-      terms: [
-        {
-          termCode: PromotionTermCode.DONGASCIENCE_001,
-          agreed: true,
-        },
-      ],
-    });
+    setPromotion([
+      {
+        promotionCode: 'DONGASCIENCE_001', // 지정값을 받을 예정,
+        optionIds: [Number(selectedPromotionOption)],
+        terms: [
+          {
+            termCode: PromotionTermCode.DONGASCIENCE_001,
+            agreed: true,
+          },
+        ],
+      },
+    ]);
     await submitUserDetailForm();
   };
 

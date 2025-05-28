@@ -76,11 +76,11 @@ export const DaySlider = ({
           </Slider.Thumb>
         ))}
       </Slider.Root>
-      <div className="mt-[1rem] -mx-1.5 flex items-center justify-between text-[1rem]">
+      <div className="mt-[1rem] pl-[2%] flex items-center justify-between text-[1rem]">
         {timeRange.map((time) => {
           return (
             <motion.span
-              animate={{ scale: selectedValue && selectedValue.includes(time) ? 1.1 : 1 }}
+              animate={{ scale: selectedValue && selectedValue.includes(time) ? 1.2 : 1 }}
               transition={{ type: 'spring', duration: 0.2, bounce: 0.5 }}
               key={time}
               className={cn(

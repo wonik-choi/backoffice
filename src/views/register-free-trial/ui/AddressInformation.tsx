@@ -27,15 +27,15 @@ import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFree
 type AddressFormValues = z.infer<typeof rentalSchema>;
 
 export function AddressInformation() {
-  const { nextStep, prevStep, setRental } = useRegisterFreeTrialStore();
+  const { nextStep, prevStep, setRental, rental } = useRegisterFreeTrialStore();
   const [isTermsDrawerOpen, setIsTermsDrawerOpen] = useState(false);
 
   const defaultValue: AddressFormValues = {
-    zonecode: '',
-    address: '',
-    addressType: 'R',
-    detailAddress: '',
-    terms: [],
+    zonecode: rental?.zonecode || '',
+    address: rental?.address || '',
+    addressType: rental?.addressType || 'R',
+    detailAddress: rental?.detailAddress || '',
+    terms: rental?.terms || [],
   };
 
   const form = useForm({

@@ -19,7 +19,7 @@ import { Button } from '@/views/register-free-trial/ui/components/Button';
 import { Label } from '@/views/register-free-trial/ui/components/Label';
 
 export function DeviceSelection() {
-  const { nextStep, prevStep, goToStep } = useRegisterFreeTrialStore();
+  const { nextStep, prevStep, goToStep, resetRental } = useRegisterFreeTrialStore();
   const [answer, setAnswer] = useState<'yes' | 'no' | ''>('');
 
   const decisionRenting = (value: 'yes' | 'no') => {
@@ -36,6 +36,7 @@ export function DeviceSelection() {
       nextStep();
     } else {
       // 2. 대여를 진행하지 않는다.
+      resetRental();
       goToStep(FormStep.Promotion);
     }
   };

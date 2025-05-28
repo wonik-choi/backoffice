@@ -15,15 +15,12 @@ export async function actionSubmitFreeTrialForm({ formData, repository, inflowCo
   try {
     // 검증
     const validatedBody: FreeTrialUserRequestDto = freeTrialUserRequestBodySchema.parse(formData);
-
     // 유입 코드가 존재할 경우 같이 전달
     if (inflowCode) {
       validatedBody.inflow = {
         code: inflowCode,
       };
     }
-
-    console.log('validatedBody', validatedBody);
     // 서버 제출
     const response = await repository.createFreeTrialUser(validatedBody);
 
