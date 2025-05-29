@@ -12,6 +12,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@
 import { formatPhoneNumber, unformatPhoneNumber } from '@/shared/utils/format';
 import { KyServerError } from '@/shared/lib/https/ky/interceptor';
 import { Checkbox } from '@/shared/components/ui/views/Checkbox';
+import { useTopNavigation } from '@/shared/hooks/useTopNavigation';
 
 import { Input, Em, Button } from '@/shared/components/ui';
 
@@ -34,10 +35,11 @@ import { useApplyFreeTrial } from '@/features/apply-free-trial/services/query/us
 export function ApplyFreeTrialTempUser() {
   const router = useRouter();
   const { tempUser, inflowCode, setTempUser } = useApplyFreeTrialStore();
+  const { navigate } = useTopNavigation();
   const { applyTempUser, isPending, error } = useApplyFreeTrial({
     onSuccessCallback: () => {
       // 완료 페이지로 이동
-      router.push('https://class.susimdal.com/consult_ending');
+      navigate('https://class.susimdal.com/consult_ending');
     },
     onErrorCallback: (error: Error) => {
       if (error instanceof KyServerError) {
