@@ -22,7 +22,7 @@ const ApplyFreeTrial = () => {
   }, [searchParams]);
 
   return (
-    <section className="w-full h-full">
+    <section className="w-full h-full px-[1rem]">
       <ApplyFreeTrialTempUser />
     </section>
   );
