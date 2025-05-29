@@ -56,7 +56,10 @@ export const DongaSciencePromotion = () => {
     store: freeTrialUserState,
     onSuccessCallback: () => {
       if (typeof window !== undefined) {
-        fbq.event('상세폼 제출 성공', { formName: 'register-free-trial', promotionCode: selectedPromotionOption });
+        fbq.customEvent('상세폼 제출 성공', {
+          formName: 'register-free-trial',
+          promotionCode: selectedPromotionOption,
+        });
       }
       nextStep();
     },

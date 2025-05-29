@@ -36,7 +36,7 @@ const RegisterFreeTrial = () => {
 
   useEffect(() => {
     if (typeof window !== undefined) {
-      fbq.event('상세폼 접속', { formName: 'register-free-trial' });
+      fbq.customEvent('상세폼 접속', { formName: 'register-free-trial' });
     }
   }, []);
 
