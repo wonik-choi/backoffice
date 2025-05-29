@@ -4,6 +4,9 @@ import './globals.css';
 
 import { Providers } from './Providers';
 
+// script
+import MetaPixel from '@/app/(script)/MetaPixel';
+
 // toast
 import { Toaster } from '@/shared/components/atomics/sonner';
 
@@ -58,6 +61,7 @@ export default function RootLayout({
           {children}
           <Toaster />
         </Providers>
+        <MetaPixel />
       </body>
     </html>
   );
