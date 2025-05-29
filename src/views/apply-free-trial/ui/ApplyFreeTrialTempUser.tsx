@@ -92,8 +92,9 @@ export function ApplyFreeTrialTempUser() {
   });
 
   const handleSubmit = () => {
-    if (isPending) return;
-    form.handleSubmit();
+    navigate('https://class.susimdal.com/consult_ending');
+    // if (isPending) return;
+    // form.handleSubmit();
   };
 
   return (
