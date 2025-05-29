@@ -5,6 +5,7 @@ import { FreeTrialPageBadge } from '@/views/register-free-trial/model/interface'
 
 /** grade option */
 export const gradeOptions = [
+  { value: FreeTrialUserGrade.ElementarySchool3, label: '초3' },
   { value: FreeTrialUserGrade.ElementarySchool4, label: '초4' },
   { value: FreeTrialUserGrade.ElementarySchool5, label: '초5' },
   { value: FreeTrialUserGrade.ElementarySchool6, label: '초6' },
