@@ -48,7 +48,14 @@ export const DongaSciencePromotion = () => {
   const [selectedPromotionOption, setSelectedPromotionOption] = useState<'1' | '2' | '3'>('1');
   const [isTermsDrawerOpen, setIsTermsDrawerOpen] = useState(false);
   const [isDetailDrawerOpen, setIsDetailDrawerOpen] = useState(false);
-  const { setPromotion, rental: beforeAgreeRentalDevice, prevStep, nextStep, backToStep } = useRegisterFreeTrialStore();
+  const {
+    setPromotion,
+    rental: beforeAgreeRentalDevice,
+    inflowCode,
+    prevStep,
+    nextStep,
+    backToStep,
+  } = useRegisterFreeTrialStore();
 
   /** mutation */
   const freeTrialUserState = useRegisterFreeTrialStore((state) => state);
@@ -56,9 +63,10 @@ export const DongaSciencePromotion = () => {
     store: freeTrialUserState,
     onSuccessCallback: () => {
       if (typeof window !== undefined) {
-        fbq.customEvent('상세폼 제출 성공', {
+        fbq.customEvent('상세폼 제출 완료', {
           formName: 'register-free-trial',
-          promotionCode: selectedPromotionOption,
+          promotionCode: inflowCode,
+          selectOption: selectedPromotionOption,
         });
       }
       nextStep();

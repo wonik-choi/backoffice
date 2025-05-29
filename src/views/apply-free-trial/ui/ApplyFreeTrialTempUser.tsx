@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
 // shared
+import * as fbq from '@/shared/lib/meta-pixel/fpixel';
 
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/shared/components/atomics/select';
 import { formatPhoneNumber, unformatPhoneNumber } from '@/shared/utils/format';
@@ -40,6 +41,12 @@ export function ApplyFreeTrialTempUser() {
   const { applyTempUser, isPending, error } = useApplyFreeTrial({
     onSuccessCallback: () => {
       // 완료 페이지로 이동
+      if (typeof window !== undefined) {
+        fbq.customEvent('랜딩 무료체험 신청 완료', {
+          formName: 'apply-free-trial',
+          promotionCode: inflowCode,
+        });
+      }
       navigate('https://class.susimdal.com/consult_ending');
     },
     onErrorCallback: (error: Error) => {
