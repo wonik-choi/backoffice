@@ -3,6 +3,9 @@
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 
+// lib
+import * as fbq from '@/shared/lib/meta-pixel/fpixel';
+
 // features
 import { useApplyFreeTrialStore } from '@/features/apply-free-trial/model/store';
 

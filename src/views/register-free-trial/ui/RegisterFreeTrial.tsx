@@ -32,13 +32,11 @@ const RegisterFreeTrial = () => {
     if (inflowCode) {
       setInflowCode(String(inflowCode));
     }
-  }, [searchParams]);
 
-  useEffect(() => {
     if (typeof window !== undefined) {
-      fbq.customEvent('상세폼 접속', { formName: 'register-free-trial' });
+      fbq.customEvent('상세폼 접속', { formName: 'register-free-trial', promotionCode: inflowCode });
     }
-  }, []);
+  }, [searchParams]);
 
   const renderStep = () => {
     switch (currentStep) {
