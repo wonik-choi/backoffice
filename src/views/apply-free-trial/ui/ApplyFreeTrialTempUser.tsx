@@ -21,7 +21,8 @@ import { FreeTrialUserGrade } from '@/entities/free-trial-user/models/enums';
 import { ApplyFreeTrialTermCode } from '@/entities/temp-user/models/enums';
 
 // features
-import { gradeOptions } from '@/features/register-free-trial/config/const';
+import { applyFreeTrialGradeOptions } from '@/features/apply-free-trial/config/const';
+
 import {
   applyFreeTrialFormSchema,
   type ApplyFreeTrialForm,
@@ -49,7 +50,7 @@ export function ApplyFreeTrialTempUser() {
         });
       } else {
         toast.error(`[ERROR]이런! 폼 제출에 실패했어요`, {
-          description: '관리자에게 문의해주세요 (1899-3884)',
+          description: error ? error.message : `관리자에게 문의해주세요 (1899-3884)`,
           duration: 6000,
         });
       }
@@ -162,7 +163,7 @@ export function ApplyFreeTrialTempUser() {
                       <SelectValue placeholder="학년을 선택해주세요" className="w-full" />
                     </SelectTrigger>
                     <SelectContent className="w-full bg-white">
-                      {gradeOptions.map((option) => {
+                      {applyFreeTrialGradeOptions.map((option) => {
                         return (
                           <SelectItem
                             key={option.value}
