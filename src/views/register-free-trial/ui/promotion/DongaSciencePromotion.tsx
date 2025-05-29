@@ -6,6 +6,9 @@ import { ChevronRight } from 'lucide-react';
 import { toast } from 'sonner';
 import Image from 'next/image';
 
+// lib
+import * as fbq from '@/shared/lib/meta-pixel/fpixel';
+
 // shared
 import { RadioButton } from '@/shared/components/radio-button/RadioButton';
 import { RadioGroup, RadioGroupItem } from '@/shared/components/atomics/radio-group';
@@ -52,6 +55,9 @@ export const DongaSciencePromotion = () => {
   const { submitFreeTrialUserForm, isPending, error } = usePostFreeTrialUserForm({
     store: freeTrialUserState,
     onSuccessCallback: () => {
+      if (typeof window !== undefined) {
+        fbq.event('상세폼 제출 성공', { formName: 'register-free-trial', promotionCode: selectedPromotionOption });
+      }
       nextStep();
     },
     onErrorCallback: (error: Error) => {

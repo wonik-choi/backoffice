@@ -3,6 +3,9 @@
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 
+// lib
+import * as fbq from '@/shared/lib/meta-pixel/fpixel';
+
 // features
 import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
 import { FormStep } from '@/features/register-free-trial/model/store/interface';
@@ -30,6 +33,12 @@ const RegisterFreeTrial = () => {
       setInflowCode(String(inflowCode));
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      fbq.event('상세폼 접속', { formName: 'register-free-trial' });
+    }
+  }, []);
 
   const renderStep = () => {
     switch (currentStep) {
