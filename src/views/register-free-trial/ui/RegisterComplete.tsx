@@ -34,7 +34,14 @@ export function Completion() {
   const startDate = formatKoreanTitle(decodeQueryDate(freeTrial.startDate));
 
   return (
-    <RegisterFreeTrialLayout title={'무료체험 신청이\n완료되었습니다'} progressStep={8} totalSteps={9} titleDelay={1.3}>
+    <RegisterFreeTrialLayout
+      title={'무료체험 신청이\n완료되었습니다'}
+      eventName={'상세폼진입-제출완료'}
+      progressStep={8}
+      totalSteps={9}
+      titleDelay={1.3}
+      exception={true}
+    >
       <motion.div
         initial={{ opacity: 0, x: -10 }}
         animate={{ opacity: 1, x: 0 }}

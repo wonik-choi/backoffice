@@ -103,7 +103,12 @@ export function ScheduleSelection() {
   }, []);
 
   return (
-    <RegisterFreeTrialLayout title={`수심달에서 공부할\n6시간을 설정해주세요`} progressStep={2} totalSteps={9}>
+    <RegisterFreeTrialLayout
+      title={`수심달에서 공부할\n6시간을 설정해주세요`}
+      eventName={'상세폼진입-스케줄설정'}
+      progressStep={2}
+      totalSteps={9}
+    >
       <div className="flex flex-1 flex-col justify-start items-start h-full relative space-y-8">
         <motion.div
           className="w-full space-y-8 scrollbar-hide pb-[18rem]"
