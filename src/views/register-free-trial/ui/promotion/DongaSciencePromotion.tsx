@@ -156,7 +156,7 @@ export const DongaSciencePromotion = () => {
   };
 
   return (
-    <PromotionLayout progressStep={7} totalSteps={9}>
+    <PromotionLayout progressStep={7} eventName={'상세폼진입-동아프로모션'} totalSteps={9}>
       <section className="flex flex-1 flex-col w-full h-full justify-start relative">
         <motion.div
           initial={{ opacity: 0 }}

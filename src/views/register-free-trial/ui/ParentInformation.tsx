@@ -84,7 +84,13 @@ export function ParentInformation() {
   };
 
   return (
-    <RegisterFreeTrialLayout title={'학부모님 정보를\n입력해주세요'} progressStep={0} totalSteps={9}>
+    <RegisterFreeTrialLayout
+      title={'학부모님 정보를\n입력해주세요'}
+      eventName={'상세폼진입-학부모정보'}
+      progressStep={0}
+      totalSteps={9}
+      exception={true}
+    >
       <form
         onSubmit={(e) => {
           e.preventDefault();

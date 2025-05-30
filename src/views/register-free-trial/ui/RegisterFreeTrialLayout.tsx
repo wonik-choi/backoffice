@@ -1,28 +1,49 @@
 'use client';
 
+import { motion } from 'framer-motion';
+
 // shared
 import { SusimdalLogo } from '@/shared/components/svgs/susimdal-logo/SusimdalLogo';
 import { Progress } from '@/shared/components/atomics/progress';
 
-import { motion } from 'framer-motion';
+// features
+import { useStepTracker } from '@/features/tracking-register-free-trial/services/useStepTracker';
 
 interface PageLayoutProps {
   title: string;
+  eventName: string;
   subtitle?: string;
   children: React.ReactNode;
   progressStep: number;
   totalSteps?: number;
   titleDelay?: number;
+  exception?: boolean;
 }
 
 const RegisterFreeTrialLayout = ({
   title,
+  eventName,
   subtitle,
   children,
   progressStep,
   titleDelay = 0,
   totalSteps = 5,
+  exception = false,
 }: PageLayoutProps) => {
+  /**
+   * @description
+   * 전달되는 페이지 정보로 이벤트를 추적합니다. (meta pixel)
+   */
+  useStepTracker({
+    step: progressStep,
+    eventName: eventName,
+    eventParams: {
+      formName: 'register-free-trial',
+      step: progressStep.toString(),
+    },
+    exception: exception,
+  });
+
   return (
     <div className="flex flex-col h-dvh w-full">
       <nav className="mb-[8px] w-full bg-susimdal-element-primary-light">

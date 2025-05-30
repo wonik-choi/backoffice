@@ -81,7 +81,12 @@ export function StudentInformation() {
   };
 
   return (
-    <RegisterFreeTrialLayout title={'자녀 정보를\n입력해주세요'} progressStep={1} totalSteps={9}>
+    <RegisterFreeTrialLayout
+      title={'자녀 정보를\n입력해주세요'}
+      eventName={'상세폼진입-학생정보'}
+      progressStep={1}
+      totalSteps={9}
+    >
       <form
         onSubmit={(e) => {
           e.preventDefault();
