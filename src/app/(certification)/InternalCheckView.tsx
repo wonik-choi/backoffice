@@ -5,7 +5,7 @@ const InternalCheckView = async ({ children }: { children: React.ReactNode }) =>
   const promisedHeaders = await headers();
   const host = promisedHeaders.get('host');
 
-  if (host?.includes('localhost')) {
+  if (!host?.includes('localhost')) {
     notFound();
   }
 
