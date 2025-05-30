@@ -8,7 +8,6 @@ export interface TrackingRegisterFreeTrialState {
 
   /** action */
   addStep: (step: number) => void;
-  hasStep: (step: number) => boolean;
 
   /**
    * @description

@@ -8,8 +8,8 @@ export const useTrackingRegisterFreeTrialStore = create<TrackingRegisterFreeTria
     steps: new Set(),
 
     // Actions
-    addStep: (step: number) => set((state) => ({ steps: state.steps.add(step) })),
-    hasStep: (step: number) => get().steps.has(step),
-    resetSteps: () => set({ steps: new Set() }),
+    addStep: (step: number) =>
+      set((state) => ({ steps: state.steps.add(step) }), undefined, 'TrackingRegisterFreeTrial/addStep'),
+    resetSteps: () => set({ steps: new Set() }, undefined, 'TrackingRegisterFreeTrial/resetSteps'),
   }))
 );
