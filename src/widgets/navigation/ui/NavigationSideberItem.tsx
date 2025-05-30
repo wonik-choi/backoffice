@@ -15,7 +15,7 @@ interface NavigationListItemProps {
 }
 
 const navigationItemVariants = cva(
-  'py-1 text-base font-semibold text-gray-500 hover:text-violet-700 transition-colors border-b-[0.15rem] border-transparent hover:border-violet-400',
+  'py-[0.8rem] text-[1.8rem] w-full font-semibold text-gray-500 hover:text-violet-700 transition-colors border-b-[0.15rem] border-transparent',
   {
     variants: {
       isActive: {
@@ -34,8 +34,8 @@ const NavigationSidebarItem = ({ label, href, isActive, icon }: NavigationListIt
     <SidebarMenuItem className={cn(navigationItemVariants({ isActive }))}>
       <SidebarMenuButton asChild>
         <Link href={href}>
-          {React.createElement(icon)}
-          <Label>{label}</Label>
+          {React.createElement(icon, { style: { width: '1.4rem', height: '1.4rem' } })}
+          <Label className="text-[1.2rem]">{label}</Label>
         </Link>
       </SidebarMenuButton>
     </SidebarMenuItem>

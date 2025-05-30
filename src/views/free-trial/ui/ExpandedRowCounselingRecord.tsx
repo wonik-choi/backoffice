@@ -1,6 +1,6 @@
 const EmptyCounselingRecord = () => {
   return (
-    <div className="text-center py-10 text-gray-500">
+    <div className="text-center py-[4rem] text-gray-500">
       <p>상담 기록이 없습니다.</p>
     </div>
   );
@@ -10,7 +10,7 @@ const EmptyCounselingRecord = () => {
 // dto 내 포함이라면 props 처리
 const ExpandedRowCounselingRecord = () => {
   return (
-    <section className="col-span-3 bg-white rounded-lg p-5 shadow-sm border border-gray-100">
+    <section className="col-span-3 bg-white rounded-lg p-[2rem] shadow-sm border border-gray-100">
       <EmptyCounselingRecord />
     </section>
   );
