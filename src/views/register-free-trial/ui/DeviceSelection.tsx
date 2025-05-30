@@ -42,7 +42,12 @@ export function DeviceSelection() {
   };
 
   return (
-    <RegisterFreeTrialLayout title={'학습 기기를\n가지고 있으신가요?'} progressStep={5} totalSteps={9}>
+    <RegisterFreeTrialLayout
+      title={'학습 기기를\n가지고 있으신가요?'}
+      eventName={'상세폼진입-대여선택'}
+      progressStep={5}
+      totalSteps={9}
+    >
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}

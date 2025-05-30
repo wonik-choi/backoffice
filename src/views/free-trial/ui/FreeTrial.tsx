@@ -104,8 +104,10 @@ const FreeTrial = () => {
     <section className="flex flex-col items-start justify-start mb-6 gap-5">
       <div className="flex justify-between items-end w-full">
         <div className="flex flex-col items-start">
-          <h1 className="text-2xl font-bold text-violet-700 tracking-tight">무료체험 고객관리</h1>
-          <p className="text-sm text-gray-500 mt-1">무료체험 신청, 진행, 대여 현황을 한눈에 관리하세요.</p>
+          <h1 className="text-[2.5rem] font-bold text-violet-700 tracking-tight">무료체험 고객관리</h1>
+          <p className="text-[1.6rem] text-susimdal-text-subtle mt-1">
+            무료체험 신청, 진행, 대여 현황을 한눈에 관리하세요.
+          </p>
         </div>
         <div className="w-fit h-full">
           <WrappingExportButton fileName="무료체험 고객관리" columns={freeTrialTableColumns} tableData={tableData} />

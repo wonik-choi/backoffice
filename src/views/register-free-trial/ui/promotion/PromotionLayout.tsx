@@ -4,13 +4,26 @@
 import { SusimdalLogo } from '@/shared/components/svgs/susimdal-logo/SusimdalLogo';
 import { Progress } from '@/shared/components/atomics/progress';
 
+// features
+import { useStepTracker } from '@/features/tracking-register-free-trial/services/useStepTracker';
+
 interface PageLayoutProps {
   children: React.ReactNode;
   progressStep: number;
+  eventName: string;
   totalSteps?: number;
 }
 
-export const PromotionLayout = ({ children, progressStep, totalSteps = 5 }: PageLayoutProps) => {
+export const PromotionLayout = ({ children, progressStep, eventName, totalSteps = 5 }: PageLayoutProps) => {
+  useStepTracker({
+    step: progressStep,
+    eventName: eventName,
+    eventParams: {
+      formName: 'register-free-trial',
+      step: progressStep.toString(),
+    },
+  });
+
   return (
     <div className="flex flex-col h-full w-full">
       <nav className="mb-[8px] w-full bg-susimdal-element-primary-light">

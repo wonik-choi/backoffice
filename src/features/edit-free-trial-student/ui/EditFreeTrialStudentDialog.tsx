@@ -64,8 +64,8 @@ const EditFreeTrialStudentDialog = ({ student }: { student: EditFreeTrialStudent
   return (
     <Dialog modal={false}>
       <DialogTrigger asChild>
-        <Button className="bg-violet-50 text-violet-700 border border-violet-200 hover:bg-violet-100 hover:text-violet-800 hover:border-violet-300 font-medium rounded-lg shadow-sm flex items-center gap-2 px-5 py-2">
-          <NoteAndPen className="size-4" />
+        <Button className="bg-violet-50 text-violet-700 border border-violet-200 hover:bg-violet-100 hover:text-violet-800 hover:border-violet-300 font-medium rounded-lg shadow-sm flex items-center size-fit text-[1.3rem] px-[1rem] py-[0.7rem]">
+          <NoteAndPen className="size-[1.4rem]" />
           정보 수정
         </Button>
       </DialogTrigger>
@@ -82,14 +82,16 @@ const EditFreeTrialStudentDialog = ({ student }: { student: EditFreeTrialStudent
             <DialogDescription>수정할 정보가 존재한다면 수정해주세요.</DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-6 py-4 max-h-[60vh] overflow-y-auto">
-            <div className="space-y-4">
-              <h3 className="font-medium text-gray-900 flex items-center gap-2">기본 정보</h3>
-              <div className="grid gap-4 py-4">
+          <div className="space-y-[2.4rem] py-[1.6rem] max-h-[60vh] overflow-y-auto">
+            <div className="space-y-[1.6rem]">
+              <h3 className="font-medium text-susimdal-text-basic flex items-center gap-[0.8rem] text-[1.6rem]">
+                기본 정보
+              </h3>
+              <div className="grid gap-[1.6rem] py-[1.6rem]">
                 <form.Field name="name">
                   {(field) => {
                     return (
-                      <div className="grid grid-cols-4 items-center gap-1">
+                      <div className="grid grid-cols-4 items-center gap-[0.4rem]">
                         <Label htmlFor={field.name}>학생 이름</Label>
                         <Input
                           id={field.name}
@@ -108,7 +110,7 @@ const EditFreeTrialStudentDialog = ({ student }: { student: EditFreeTrialStudent
                 <form.Field name="phone">
                   {(field) => {
                     return (
-                      <div className="grid grid-cols-4 items-center gap-1">
+                      <div className="grid grid-cols-4 items-center gap-[0.4rem]">
                         <Label htmlFor={field.name}>연락가능번호</Label>
                         <Input
                           type="tel"
@@ -130,7 +132,7 @@ const EditFreeTrialStudentDialog = ({ student }: { student: EditFreeTrialStudent
                 <form.Field name="registrationDate">
                   {(field) => {
                     return (
-                      <div className="grid grid-cols-4 items-center gap-1">
+                      <div className="grid grid-cols-4 items-center gap-[0.4rem]">
                         <Label htmlFor={field.name}>등록일자</Label>
                         <SingleDatePicker
                           dateLabel={field.state.value ? field.state.value.toLocaleDateString() : '날짜 선택'}
@@ -150,7 +152,7 @@ const EditFreeTrialStudentDialog = ({ student }: { student: EditFreeTrialStudent
                 <form.Field name="enterancePath">
                   {(field) => {
                     return (
-                      <div className="grid grid-cols-4 items-center gap-1">
+                      <div className="grid grid-cols-4 items-center gap-[0.4rem]">
                         <Label htmlFor={field.name}>방문경로</Label>
                         <Input
                           id={field.name}
@@ -168,13 +170,15 @@ const EditFreeTrialStudentDialog = ({ student }: { student: EditFreeTrialStudent
                 </form.Field>
               </div>
             </div>
-            <div className="space-y-4">
-              <h3 className="font-medium text-gray-900 flex items-center gap-2">체험 기간</h3>
-              <div className="grid gap-4 py-4">
+            <div className="space-y-[1.6rem]">
+              <h3 className="font-medium text-susimdal-text-basic flex items-center gap-[0.8rem] text-[1.6rem]">
+                체험 기간
+              </h3>
+              <div className="grid gap-[1.6rem] py-[1.6rem]">
                 <form.Field name="testPeriod.startDate">
                   {(field) => {
                     return (
-                      <div className="grid grid-cols-4 items-center gap-1">
+                      <div className="grid grid-cols-4 items-center gap-[0.4rem]">
                         <Label htmlFor={field.name}>체험 시작일</Label>
                         <SingleDatePicker
                           dateLabel={field.state.value ? field.state.value.toLocaleDateString() : '날짜 선택'}
@@ -194,7 +198,7 @@ const EditFreeTrialStudentDialog = ({ student }: { student: EditFreeTrialStudent
                 <form.Field name="testPeriod.endDate">
                   {(field) => {
                     return (
-                      <div className="grid grid-cols-4 items-center gap-1">
+                      <div className="grid grid-cols-4 items-center gap-[0.4rem]">
                         <Label htmlFor={field.name}>체험 종료일</Label>
                         <SingleDatePicker
                           dateLabel={field.state.value ? field.state.value.toLocaleDateString() : '날짜 선택'}
@@ -213,13 +217,15 @@ const EditFreeTrialStudentDialog = ({ student }: { student: EditFreeTrialStudent
                 </form.Field>
               </div>
             </div>
-            <div className="space-y-4">
-              <h3 className="font-medium text-gray-900 flex items-center gap-2">아이패드 대여</h3>
-              <div className="grid gap-4 py-4">
+            <div className="space-y-[1.6rem]">
+              <h3 className="font-medium text-susimdal-text-basic flex items-center gap-[0.8rem] text-[1.6rem]">
+                아이패드 대여
+              </h3>
+              <div className="grid gap-[1.6rem] py-[1.6rem]">
                 <form.Field name="deviceRental.deviceRentalAddress">
                   {(field) => {
                     return (
-                      <div className="grid grid-cols-4 items-center gap-1">
+                      <div className="grid grid-cols-4 items-center gap-[0.4rem]">
                         <Label htmlFor={field.name}>수령지주소</Label>
                         <Input
                           id={field.name}
@@ -238,7 +244,7 @@ const EditFreeTrialStudentDialog = ({ student }: { student: EditFreeTrialStudent
                 <form.Field name="deviceRental.rentalDate">
                   {(field) => {
                     return (
-                      <div className="grid grid-cols-4 items-center gap-1">
+                      <div className="grid grid-cols-4 items-center gap-[0.4rem]">
                         <Label htmlFor={field.name}>대여일</Label>
                         <SingleDatePicker
                           dateLabel={field.state.value ? field.state.value.toLocaleDateString() : '날짜 선택'}
@@ -258,7 +264,7 @@ const EditFreeTrialStudentDialog = ({ student }: { student: EditFreeTrialStudent
                 <form.Field name="deviceRental.returnDate">
                   {(field) => {
                     return (
-                      <div className="grid grid-cols-4 items-center gap-1">
+                      <div className="grid grid-cols-4 items-center gap-[0.4rem]">
                         <Label htmlFor={field.name}>반납일</Label>
                         <SingleDatePicker
                           dateLabel={field.state.value ? field.state.value.toLocaleDateString() : '날짜 선택'}

@@ -61,8 +61,8 @@ const AddFreeTrialStudentDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="bg-violet-50 text-violet-700 border border-violet-200 hover:bg-violet-100 hover:text-violet-800 hover:border-violet-300 font-medium rounded-lg shadow-sm flex items-center gap-2 px-5 py-2">
-          <CirclePlus className="size-4" />
+        <Button className="bg-violet-50 text-violet-700 border border-violet-200 hover:bg-violet-100 hover:text-violet-800 hover:border-violet-300 font-medium rounded-lg shadow-sm flex items-center size-fit text-[1.3rem] px-[1rem] py-[0.7rem]">
+          <CirclePlus className="size-[1.4rem]" />
           무료체험 학생추가
         </Button>
       </DialogTrigger>
@@ -73,17 +73,18 @@ const AddFreeTrialStudentDialog = () => {
             e.stopPropagation();
             form.handleSubmit();
           }}
+          className="w-full"
         >
           <DialogHeader>
             <DialogTitle>무료체험 신청하기</DialogTitle>
             <DialogDescription>새로운 학생의 무료체험 신청 정보를 입력해주세요.</DialogDescription>
           </DialogHeader>
 
-          <div className="grid gap-4 py-4">
+          <div className="grid gap-[1.6rem] py-[1.6rem] w-full overflow-y-auto max-h-[50rem] scrollbar-thin">
             <form.Field name="studentName">
               {(field) => {
                 return (
-                  <div className="grid grid-cols-4 items-center gap-1">
+                  <div className="grid grid-cols-4 items-center gap-[0.4rem]">
                     <Label htmlFor={field.name}>학생 이름</Label>
                     <Input
                       id={field.name}
@@ -102,7 +103,7 @@ const AddFreeTrialStudentDialog = () => {
             <form.Field name="phone">
               {(field) => {
                 return (
-                  <div className="grid grid-cols-4 items-center gap-1">
+                  <div className="grid grid-cols-4 items-center gap-[0.4rem]">
                     <Label htmlFor={field.name}>연락가능번호</Label>
                     <Input
                       type="tel"
@@ -124,7 +125,7 @@ const AddFreeTrialStudentDialog = () => {
             <form.Field name="enterancePath">
               {(field) => {
                 return (
-                  <div className="grid grid-cols-4 items-center gap-1">
+                  <div className="grid grid-cols-4 items-center gap-[0.4rem]">
                     <Label htmlFor={field.name}>방문경로</Label>
                     <Input
                       id={field.name}
@@ -143,7 +144,7 @@ const AddFreeTrialStudentDialog = () => {
             <form.Field name="status">
               {(field) => {
                 return (
-                  <div className="grid grid-cols-4 items-center gap-1">
+                  <div className="grid grid-cols-4 items-center gap-[0.4rem]">
                     <Label htmlFor={field.name}>처리상태</Label>
                     <Select defaultValue={field.state.value}>
                       <SelectTrigger className="col-span-3">
@@ -168,7 +169,7 @@ const AddFreeTrialStudentDialog = () => {
             <form.Field name="parentName">
               {(field) => {
                 return (
-                  <div className="grid grid-cols-4 items-center gap-1">
+                  <div className="grid grid-cols-4 items-center gap-[0.4rem]">
                     <Label htmlFor={field.name}>부모님 성함</Label>
                     <Input
                       type="tel"
@@ -188,7 +189,7 @@ const AddFreeTrialStudentDialog = () => {
             <form.Field name="parentPhone">
               {(field) => {
                 return (
-                  <div className="grid grid-cols-4 items-center gap-1">
+                  <div className="grid grid-cols-4 items-center gap-[0.4rem]">
                     <Label htmlFor={field.name}>부모님 연락가능번호</Label>
                     <Input
                       type="tel"
@@ -208,7 +209,7 @@ const AddFreeTrialStudentDialog = () => {
             <form.Field name="deviceRental">
               {(field) => {
                 return (
-                  <div className="grid grid-cols-4 items-center gap-1">
+                  <div className="grid grid-cols-4 items-center gap-[0.4rem]">
                     <Label htmlFor={field.name}>대여상태</Label>
                     <Select defaultValue={field.state.value}>
                       <SelectTrigger className="col-span-3">
@@ -233,7 +234,7 @@ const AddFreeTrialStudentDialog = () => {
             <form.Field name="memo">
               {(field) => {
                 return (
-                  <div className="grid grid-cols-4 items-center gap-1">
+                  <div className="grid grid-cols-4 items-center gap-[0.4rem]">
                     <Label htmlFor={field.name}>추가 메모 사항</Label>
                     <Textarea
                       id={field.name}
@@ -252,12 +253,14 @@ const AddFreeTrialStudentDialog = () => {
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline">취소</Button>
+              <Button variant="outline" size="lg" className="text-[1.4rem]">
+                취소
+              </Button>
             </DialogClose>
             <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
               {([canSubmit, isSubmitting]) => {
                 return (
-                  <Button type="submit" disabled={!canSubmit}>
+                  <Button size="lg" type="submit" disabled={!canSubmit} className="text-[1.4rem]">
                     {isSubmitting ? '저장중...' : '저장'}
                   </Button>
                 );

@@ -18,17 +18,17 @@ interface UserInfoCardProps {
 
 const UserInfoCard = ({ title, lists, titleIcon }: UserInfoCardProps) => {
   return (
-    <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
-      <h3 className="font-medium text-gray-900 flex items-center gap-2 mb-4">
+    <div className="bg-white rounded-lg p-[2rem] shadow-sm border border-gray-100">
+      <h3 className="font-medium text-gray-900 flex items-center gap-[0.8rem] mb-[1.6rem]">
         {titleIcon}
         {title}
       </h3>
-      <dl className="space-y-3">
+      <dl className="space-y-[1.2rem]">
         {lists.map((list) => {
           return (
             <div key={list.id} className="flex items-center">
-              <dt className="w-24 flex-shrink-0 text-sm text-gray-500">{list.label}</dt>
-              <dd className="text-sm font-medium text-gray-900">{list.value}</dd>
+              <dt className="w-[9.6rem] flex-shrink-0 text-[1.4rem] text-gray-500">{list.label}</dt>
+              <dd className="text-[1.4rem] font-medium text-gray-900">{list.value}</dd>
             </div>
           );
         })}
@@ -122,7 +122,7 @@ const ExpandedRowUserInfo = <TData extends ExpandedRowData>({ row }: ExpandedRow
   };
 
   return (
-    <section className="grid grid-cols-3 gap-6">
+    <section className="grid grid-cols-3 gap-[2.4rem]">
       <UserInfoCard {...basicInfo} />
       <UserInfoCard {...checkPeriodInfo} />
       <UserInfoCard {...deviceRentalInfo} />

@@ -26,10 +26,10 @@ const SingleDatePicker = ({ dateLabel, selectedDate, onSelect, disabled }: Singl
         <Button
           variant="outline"
           type="button"
-          className="col-span-3 flex justify-start w-full pl-3 text-right font-normal"
+          className="col-span-3 flex justify-start w-full pl-[1.2rem] text-right font-normal text-[1.4rem]"
           onClick={handleOpen}
         >
-          <CalendarIcon className="h-4 w-4 opacity-50" />
+          <CalendarIcon className="h-[1.6rem] w-[1.6rem] opacity-50" />
           {dateLabel}
         </Button>
       </PopoverTrigger>

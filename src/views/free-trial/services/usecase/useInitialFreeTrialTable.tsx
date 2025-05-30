@@ -52,7 +52,7 @@ export const useInitialFreeTrialTable = <TData, TValue>({
         ),
         enableSorting: false,
         enableHiding: false,
-        size: 40,
+        size: 4,
       },
       ...filteredSelectColumns.map((col) => {
         if (col.id === 'status') {
@@ -84,11 +84,13 @@ export const useInitialFreeTrialTable = <TData, TValue>({
               const dateTimes = value.match(dateTimePattern) || [];
 
               return (
-                <div className="text-sm">
+                <div className="text-[1.4rem]">
                   {parts.map((part, index) => (
                     <React.Fragment key={index}>
                       {part}
-                      {dateTimes[index] && <span className="text-xs text-gray-500 ml-1">{dateTimes[index]}</span>}
+                      {dateTimes[index] && (
+                        <span className="text-[1.2rem] text-gray-500 ml-[0.4rem]">{dateTimes[index]}</span>
+                      )}
                     </React.Fragment>
                   ))}
                 </div>

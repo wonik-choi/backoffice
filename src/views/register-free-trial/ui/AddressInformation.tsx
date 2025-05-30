@@ -75,7 +75,12 @@ export function AddressInformation() {
   };
 
   return (
-    <RegisterFreeTrialLayout title={'아이패드를 받을\n주소지를 입력해주세요'} progressStep={6} totalSteps={9}>
+    <RegisterFreeTrialLayout
+      title={'아이패드를 받을\n주소지를 입력해주세요'}
+      eventName={'상세폼진입-주소지입력'}
+      progressStep={6}
+      totalSteps={9}
+    >
       <form
         onSubmit={(e) => {
           e.preventDefault();

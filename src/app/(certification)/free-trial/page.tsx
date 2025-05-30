@@ -1,7 +1,12 @@
+import InternalCheckView from '@/app/(certification)/InternalCheckView';
 import FreeTrial from '@/views/free-trial/ui/FreeTrial';
 
 const Page = () => {
-  return <FreeTrial />;
+  return (
+    <InternalCheckView>
+      <FreeTrial />
+    </InternalCheckView>
+  );
 };
 
 export default Page;

@@ -63,7 +63,13 @@ export function StartDateSelection() {
     : '좋아요!\n첫 수업은 언제가 좋을까요?';
 
   return (
-    <RegisterFreeTrialLayout title={titleText} subtitle={subtitleText} progressStep={4} totalSteps={9}>
+    <RegisterFreeTrialLayout
+      title={titleText}
+      eventName={'상세폼진입-시작날짜선택'}
+      subtitle={subtitleText}
+      progressStep={4}
+      totalSteps={9}
+    >
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
