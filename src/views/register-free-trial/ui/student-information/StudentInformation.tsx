@@ -200,7 +200,7 @@ export function StudentInformation() {
             }}
             transition={{ duration: 0.3, ease: 'easeIn', delay: 0.9 }}
             tabIndex={-1}
-            className="w-full mt-auto pt-6"
+            className="w-full mt-auto pt-6 bg-whtie z-1"
           >
             <form.Subscribe selector={(state) => [state.canSubmit]}>
               {([canSubmit]) => (
