@@ -22,7 +22,7 @@ const FreeTrialTable = ({ columns, tableData }: FreeTrialTableUsecaseProps<Expan
                 return (
                   <TableHead
                     key={group.name}
-                    className=" text-center py-3 font-semibold text-gray-900 border-r last:border-r-0"
+                    className="text-center py-[1.2rem] font-semibold text-gray-900 border-r last:border-r-0"
                     colSpan={group.colSpan}
                   >
                     {group.name}
@@ -39,7 +39,7 @@ const FreeTrialTable = ({ columns, tableData }: FreeTrialTableUsecaseProps<Expan
                     return (
                       <TableHead
                         key={header.id}
-                        className=" text-center whitespace-nowrap py-3 text-sm font-medium text-gray-700 border-r last:border-r-0"
+                        className="text-center whitespace-nowrap py-[1.2rem] text-[1.4rem] font-medium text-gray-700 border-r last:border-r-0"
                       >
                         <div className="flex justify-center items-center">
                           {flexRender(header.column.columnDef.header, header.getContext())}
@@ -58,7 +58,10 @@ const FreeTrialTable = ({ columns, tableData }: FreeTrialTableUsecaseProps<Expan
               })
             ) : (
               <TableRow>
-                <TableCell colSpan={table.getAllColumns().length} className="h-24 text-center text-sm text-gray-600">
+                <TableCell
+                  colSpan={table.getAllColumns().length}
+                  className="h-[9.6rem] text-center text-[1.4rem] text-gray-600"
+                >
                   결과가 없습니다.
                 </TableCell>
               </TableRow>
@@ -66,21 +69,21 @@ const FreeTrialTable = ({ columns, tableData }: FreeTrialTableUsecaseProps<Expan
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-between py-4 w-full">
-        <div className="text-sm text-gray-700">
+      <div className="flex items-center justify-between py-[1.6rem] w-full">
+        <div className="text-[1.4rem] text-gray-700">
           총 <span className="font-medium text-gray-900">{table.getFilteredRowModel().rows.length}</span>개 항목
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-[0.8rem]">
           <Button
             variant="outline"
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
-            className="h-8 px-4 text-xs bg-white hover:bg-gray-50/80"
+            className="h-[3.2rem] px-[1.6rem] text-[1.2rem] bg-white hover:bg-gray-50/80"
           >
             이전
           </Button>
-          <span className="text-sm font-medium text-gray-900">
+          <span className="text-[1.4rem] font-medium text-gray-900">
             {table.getState().pagination.pageIndex + 1} / {table.getPageCount()}
           </span>
           <Button
@@ -88,7 +91,7 @@ const FreeTrialTable = ({ columns, tableData }: FreeTrialTableUsecaseProps<Expan
             size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
-            className="h-8 px-4 text-xs bg-white hover:bg-gray-50/80"
+            className="h-[3.2rem] px-[1.6rem] text-[1.2rem] bg-white hover:bg-gray-50/80"
           >
             다음
           </Button>

@@ -7,8 +7,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     <div className="size-full">
       <SidebarProvider>
         <NavigationSidebar />
-        <SidebarTrigger className="sticky top-[10px] ml-2 mt-2" />
-        <main className="size-full py-10 px-5">{children}</main>
+        <SidebarTrigger className="sticky top-[1rem] ml-[2rem] mt-[2rem]" />
+        <main className="size-full py-[3rem] px-[3rem]">{children}</main>
       </SidebarProvider>
     </div>
   );

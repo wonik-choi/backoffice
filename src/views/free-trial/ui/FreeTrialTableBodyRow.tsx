@@ -30,8 +30,8 @@ const FreeTrialTableBodyRow = ({ row }: { row: Row<ExpandedRowData> }) => {
           return (
             <TableCell
               key={cell.id}
-              className={`text-center whitespace-pre-line py-3 text-sm border-r last:border-r-0 group-hover:bg-gray-50/80 transition-colors ${
-                cell.column.id === 'row-select' ? 'w-[48px]' : ''
+              className={`text-center whitespace-pre-line py-[1.2rem] text-[1.4rem] border-r last:border-r-0 group-hover:bg-gray-50/80 transition-colors ${
+                cell.column.id === 'row-select' ? 'w-[4.8rem]' : ''
               }`}
             >
               {flexRender(cell.column.columnDef.cell, cell.getContext())}

@@ -5,7 +5,7 @@ import TableFilter from '@/views/free-trial/ui/TableFilter';
 const FreeTrialFilterSection = () => {
   return (
     <section className="flex items-center justify-between w-full">
-      <div className="flex justify-items-center gap-2 min-w-[20rem]">
+      <div className="flex justify-items-center gap-2 min-w-[25rem]">
         <SearchFreeTrial />
         <TableFilter />
       </div>

@@ -39,56 +39,56 @@ const ChangeUserStateButton = ({ row }: { row: Row<any> }) => {
         <Button
           variant="outline"
           size="sm"
-          className="p-[18px] bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100"
+          className="p-[1.8rem] bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100"
         >
           작업
-          <ChevronDown className="ml-1" />
+          <ChevronDown className="ml-[0.4rem]" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-48">
+      <DropdownMenuContent align="end" className="w-[19.2rem]">
         <DropdownMenuItem
-          className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 cursor-pointer"
+          className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 cursor-pointer text-[1.2rem]"
           onSelect={(e) => {
             e.preventDefault();
             handleDeleteStudent(String(row.original.id));
           }}
           title="학생의 무료체험 신청을 취소하고 데이터를 삭제합니다."
         >
-          <Trash className="mr-2" />
+          <Trash className="mr-[0.8rem] size-[1.2rem]" />
           신청 취소
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="text-amber-600 hover:text-amber-700 hover:bg-amber-50 cursor-pointer"
+          className="text-amber-600 hover:text-amber-700 hover:bg-amber-50 cursor-pointer  text-[1.2rem]"
           onSelect={(e) => {
             e.preventDefault();
             handleStatusChange(row.original, '신청보류');
           }}
           title="학생의 무료체험 신청을 보류 상태로 변경합니다."
         >
-          <StaticSpinner className="mr-2" />
+          <StaticSpinner className="mr-[0.8rem] size-[1.2rem]" />
           신청 보류
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="text-red-600 hover:text-red-700 hover:bg-red-50 cursor-pointer"
+          className="text-red-600 hover:text-red-700 hover:bg-red-50 cursor-pointer  text-[1.2rem]"
           onSelect={(e) => {
             e.preventDefault();
             handleStatusChange(row.original, '체험 중단');
           }}
           title="학생의 무료체험을 중단 처리합니다."
         >
-          <XIcon className="mr-2" />
+          <XIcon className="mr-[0.8rem] size-[1.2rem]" />
           체험 중단
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
-          className="text-violet-600 hover:text-violet-700 hover:bg-violet-50 cursor-pointer"
+          className="text-violet-600 hover:text-violet-700 hover:bg-violet-50 cursor-pointer  text-[1.2rem]"
           onSelect={(e) => {
             e.preventDefault();
             handleStatusChange(row.original, '유료 전환');
           }}
           title="학생의 상태를 유료 전환으로 변경합니다."
         >
-          <ArrowRight className="mr-2" />
+          <ArrowRight className="mr-[0.8rem] size-[1.2rem]" />
           유료 전환
         </DropdownMenuItem>
       </DropdownMenuContent>

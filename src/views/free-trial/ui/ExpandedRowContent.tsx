@@ -1,11 +1,10 @@
 'use client';
 import { useState, useCallback } from 'react';
 
-import { Row } from '@tanstack/react-table';
-
 import Message from '@/shared/components/svgs/message/Message';
 import PeopleTop from '@/shared/components/svgs/people-top/PeopleTop';
 import CirclePlus from '@/shared/components/svgs/circle-plus/CirclePlus';
+import { UserRoundCheck } from 'lucide-react';
 
 // features
 import EditFreeTrialStudentDialog from '@/features/edit-free-trial-student/ui/EditFreeTrialStudentDialog';
@@ -46,7 +45,7 @@ const ExpandedRowContentNavigationItem = ({
 
   return (
     <button
-      className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium ${
+      className={`inline-flex items-center gap-[0.8rem] px-[1.6rem] py-[0.8rem] text-[1.4rem] font-medium [&>svg]:size-[1.5rem] ${
         active
           ? 'text-blue-600/90 border-b-2 border-blue-600/90'
           : 'text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 border-transparent'
@@ -71,7 +70,7 @@ const ExpandedRowContentNavigation = ({ activeTab, setActiveTab }: ExpandedRowCo
     {
       label: '상담 기록',
       type: 'counseling',
-      icon: <CirclePlus />,
+      icon: <UserRoundCheck />,
     },
     {
       label: '알림톡 내역',
@@ -81,7 +80,7 @@ const ExpandedRowContentNavigation = ({ activeTab, setActiveTab }: ExpandedRowCo
   ];
 
   return (
-    <nav className="flex flex-wrap gap-2 mb-px">
+    <nav className="flex flex-wrap gap-[0.8rem] mb-px">
       {navigationItems.map((item) => {
         return (
           <ExpandedRowContentNavigationItem
@@ -125,10 +124,10 @@ const ExpandedRowContent = <TData extends ExpandedRowData>({
   };
 
   return (
-    <div className="p-4 bg-gray-50">
-      <div className="flex justify-between items-center pb-2 border-b border-gray-200 mb-6">
+    <div className="p-[1.6rem] bg-gray-50">
+      <div className="flex justify-between items-center pb-[0.8rem] border-b border-gray-200 mb-[2.4rem]">
         <ExpandedRowContentNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-[0.8rem]">
           <EditFreeTrialStudentDialog student={exampleStudent} />
           <ChangeUserStateButton row={row} />
         </div>

@@ -30,10 +30,10 @@ const navigationList = [
 const NavigationSidebar = () => {
   const pathname = usePathname();
   return (
-    <Sidebar>
+    <Sidebar className="w-[25rem] p-[1rem]">
       <SidebarContent className="bg-white">
         <SidebarGroup>
-          <SidebarGroupLabel className="font-semibold text-lg mb-4">Backoffice</SidebarGroupLabel>
+          <SidebarGroupLabel className="font-semibold text-[2rem] pt-[1rem] mb-[3rem]">Backoffice</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {navigationList.map((item) => (
