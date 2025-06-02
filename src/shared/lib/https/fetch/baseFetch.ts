@@ -1,5 +1,5 @@
 // FetchAdapter.ts
-import type { HttpClient, RequestOptions } from '@/shared/lib/https/interface';
+import type { HttpClient, RequestOptions, HttpResponse } from '@/shared/lib/https/interface';
 
 export class FetchAdapter implements HttpClient {
   private baseURL: string;
@@ -8,29 +8,33 @@ export class FetchAdapter implements HttpClient {
     this.baseURL = process.env.NEXT_PUBLIC_API_URL || '';
   }
 
-  // GET 요청: queryParams를 붙여서 호출
-  async get<T>(url: string, opts: RequestOptions = {}): Promise<T> {
-    const queryString = opts.queryParams
-      ? '?' +
-        new URLSearchParams(
-          Object.entries(opts.queryParams)
-            .filter(([, v]) => v != null)
-            .map(([k, v]) => [k, String(v)])
-        ).toString()
-      : '';
-
-    const res = await fetch(`${this.baseURL}${url}${queryString}`, {
+  /**
+   * @description get 요청 (query 포함)
+   * @param url get 요청 (query 포함)
+   * @param opts options
+   */
+  async get<T>(url: string, opts: RequestOptions = {}): Promise<HttpResponse<T>> {
+    const response = await fetch(`${this.baseURL}${url}`, {
       method: 'GET',
       headers: { ...opts.headers },
       credentials: opts.credentials, // 필요 시 include 등
       next: opts.next,
     });
 
-    return this.parseResponse<T>(res);
+    return {
+      data: response.json() as Promise<T>,
+      headers: response.headers,
+      status: response.status,
+    };
   }
 
-  // POST 요청: JSON 또는 x-www-form-urlencoded
-  async post<T>(url: string, body: unknown, opts: RequestOptions = {}): Promise<T> {
+  /**
+   * @description post 요청 (JSON 또는 x-www-form-urlencoded)
+   * @param url post 요청 (JSON 또는 x-www-form-urlencoded)
+   * @param body body
+   * @param opts options
+   */
+  async post<T>(url: string, body: unknown, opts: RequestOptions = {}): Promise<HttpResponse<T>> {
     // 1) headers 복사 (caller가 헤더에 Content-Type을 지정했을 수 있음)
     const headers: Record<string, string> = { ...opts.headers };
 
@@ -56,7 +60,7 @@ export class FetchAdapter implements HttpClient {
       serializedBody = JSON.stringify(body);
     }
 
-    const res = await fetch(`${this.baseURL}${url}`, {
+    const response = await fetch(`${this.baseURL}${url}`, {
       method: 'POST',
       headers,
       body: serializedBody,
@@ -64,15 +68,24 @@ export class FetchAdapter implements HttpClient {
       next: opts.next,
     });
 
-    return this.parseResponse<T>(res);
+    return {
+      data: response.json() as Promise<T>,
+      headers: response.headers,
+      status: response.status,
+    };
   }
 
-  // PUT 요청 (JSON 전용)
-  async put<T>(url: string, body: unknown, opts: RequestOptions = {}): Promise<T> {
+  /**
+   * @description put 요청 (JSON 전용)
+   * @param url put 요청 (JSON 전용)
+   * @param body body
+   * @param opts options
+   */
+  async put<T>(url: string, body: unknown, opts: RequestOptions = {}): Promise<HttpResponse<T>> {
     const headers: Record<string, string> = { ...opts.headers };
     headers['Content-Type'] = headers['Content-Type'] || 'application/json;charset=UTF-8';
 
-    const res = await fetch(`${this.baseURL}${url}`, {
+    const response = await fetch(`${this.baseURL}${url}`, {
       method: 'PUT',
       headers,
       body: JSON.stringify(body),
@@ -80,15 +93,24 @@ export class FetchAdapter implements HttpClient {
       next: opts.next,
     });
 
-    return this.parseResponse<T>(res);
+    return {
+      data: response.json() as Promise<T>,
+      headers: response.headers,
+      status: response.status,
+    };
   }
 
-  // PATCH 요청 (JSON 전용)
-  async patch<T>(url: string, body: unknown, opts: RequestOptions = {}): Promise<T> {
+  /**
+   * @description patch 요청 (JSON 전용)
+   * @param url patch 요청 (JSON 전용)
+   * @param body body
+   * @param opts options
+   */
+  async patch<T>(url: string, body: unknown, opts: RequestOptions = {}): Promise<HttpResponse<T>> {
     const headers: Record<string, string> = { ...opts.headers };
     headers['Content-Type'] = headers['Content-Type'] || 'application/json;charset=UTF-8';
 
-    const res = await fetch(`${this.baseURL}${url}`, {
+    const response = await fetch(`${this.baseURL}${url}`, {
       method: 'PATCH',
       headers,
       body: JSON.stringify(body),
@@ -96,44 +118,31 @@ export class FetchAdapter implements HttpClient {
       next: opts.next,
     });
 
-    return this.parseResponse<T>(res);
+    return {
+      data: response.json() as Promise<T>,
+      headers: response.headers,
+      status: response.status,
+    };
   }
 
-  // DELETE 요청 (JSON 전용)
-  async delete<T>(url: string, opts: RequestOptions = {}): Promise<T> {
-    const res = await fetch(`${this.baseURL}${url}`, {
+  /**
+   * @description delete 요청 (JSON 전용)
+   * @param url delete 요청 (JSON 전용)
+   * @param opts options
+   */
+  async delete<T>(url: string, opts: RequestOptions = {}): Promise<HttpResponse<T>> {
+    const response = await fetch(`${this.baseURL}${url}`, {
       method: 'DELETE',
       headers: { ...opts.headers },
       credentials: opts.credentials,
       next: opts.next,
     });
 
-    return this.parseResponse<T>(res);
-  }
-
-  // 응답 처리: JSON인지 아닌지 판별 후 파싱, 오류 시 throw
-  private async parseResponse<T>(res: Response): Promise<T> {
-    if (!res.ok) {
-      // 4xx/5xx 에러 시 가능한 JSON 메시지를 뽑아보고, 그렇지 않으면 상태 코드만 표시
-      let errorMsg = `HTTP error: ${res.status}`;
-      try {
-        const data = await res.json();
-        // { error: '메시지'} 같은 구조를 기대
-        errorMsg = data.error || data.message || errorMsg;
-      } catch {
-        // JSON 파싱 실패 시 무시
-      }
-      throw new Error(errorMsg);
-    }
-
-    // 성공 응답: Content-Type을 보고 파싱
-    const contentType = res.headers.get('Content-Type') || '';
-    if (contentType.includes('application/json')) {
-      return res.json() as Promise<T>;
-    } else {
-      // JSON이 아니라면 텍스트로 리턴
-      return res.text() as unknown as T;
-    }
+    return {
+      data: response.json() as Promise<T>,
+      headers: response.headers,
+      status: response.status,
+    };
   }
 }
 

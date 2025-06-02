@@ -14,7 +14,7 @@ export class TempUserRepositoryImpl implements TempUserRepository {
       'ky'
     );
 
-    return response;
+    return response.data;
   };
 }
 

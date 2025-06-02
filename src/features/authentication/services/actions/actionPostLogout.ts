@@ -16,8 +16,9 @@ export async function actionPostLogout() {
     // 서버 제출
     const response = await authenticationRepository.postLogout();
 
-    if (!response.ok) {
-      throw new Error(response.statusText);
+    if (response.status !== 200) {
+      const responseData = await response.data;
+      throw new Error(responseData.error);
     }
 
     // 쿠키 삭제
@@ -26,7 +27,7 @@ export async function actionPostLogout() {
 
     // TODO: 만일 로그인에 성공한 뒤, 해당 user 에 대한 정보를 받거나 추가 처리가 필요하다면 여기서 진행
 
-    return response;
+    return response.data;
   } catch (error) {
     console.error('Form submission error:', error);
     throw error;

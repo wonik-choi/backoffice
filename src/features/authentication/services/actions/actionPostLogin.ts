@@ -52,8 +52,9 @@ export async function actionPostLogin(formData: LoginSchema) {
 
   const responseHeaders = response.headers;
 
-  if (!response.ok) {
-    throw new Error(response.statusText);
+  if (response.status !== 200) {
+    const responseData = await response.data;
+    throw new Error(responseData.error);
   }
 
   // headers 에 담겨있는 seesion cookie 를 브라우저에 저장하려고 합니다.
@@ -72,5 +73,5 @@ export async function actionPostLogin(formData: LoginSchema) {
     });
   }
 
-  return response.json();
+  return response.data;
 }
