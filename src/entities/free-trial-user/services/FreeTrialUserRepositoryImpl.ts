@@ -17,7 +17,7 @@ export class FreeTrialUserRepositoryImpl implements FreeTrialUserRepository {
       'ky'
     );
 
-    return response;
+    return response.data;
   };
 
   public getPromotions = async () => {
@@ -26,7 +26,7 @@ export class FreeTrialUserRepositoryImpl implements FreeTrialUserRepository {
       'ky'
     );
 
-    return response;
+    return response.data;
   };
 }
 

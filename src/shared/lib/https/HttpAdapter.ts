@@ -4,7 +4,7 @@ import { FetchAdapter, fetchAdapter } from '@/shared/lib/https/fetch/baseFetch';
 import { baseClientAdapter } from '@/shared/lib/https/ky/baseClient';
 
 // interface
-import { HttpClient, RequestOptions, AdapterKey, HttpAdaptorStruct } from '@/shared/lib/https/interface';
+import { HttpClient, RequestOptions, AdapterKey, HttpAdaptorStruct, HttpResponse } from '@/shared/lib/https/interface';
 
 // kakao
 import { kakaoSearchClientAdapter, KakaoSearchClient } from '@/shared/lib/https/ky/kakaoSearchClient';
@@ -28,23 +28,23 @@ export class HttpAdaptor implements HttpAdaptorStruct {
     return this.instance[key];
   }
 
-  get<T>(url: string, key: AdapterKey = 'ky', options?: RequestOptions): Promise<T> {
+  get<T>(url: string, key: AdapterKey = 'ky', options?: RequestOptions): Promise<HttpResponse<T>> {
     return this.client(key).get<T>(url, options);
   }
 
-  post<T>(url: string, data?: unknown, key: AdapterKey = 'ky', options?: RequestOptions): Promise<T> {
+  post<T>(url: string, data?: unknown, key: AdapterKey = 'ky', options?: RequestOptions): Promise<HttpResponse<T>> {
     return this.client(key).post<T>(url, data, options);
   }
 
-  patch<T>(url: string, data: unknown, key: AdapterKey = 'ky', options?: RequestOptions): Promise<T> {
+  patch<T>(url: string, data: unknown, key: AdapterKey = 'ky', options?: RequestOptions): Promise<HttpResponse<T>> {
     return this.client(key).patch<T>(url, data, options);
   }
 
-  put<T>(url: string, data: unknown, key: AdapterKey = 'ky', options?: RequestOptions): Promise<T> {
+  put<T>(url: string, data: unknown, key: AdapterKey = 'ky', options?: RequestOptions): Promise<HttpResponse<T>> {
     return this.client(key).put<T>(url, data, options);
   }
 
-  delete<T>(url: string, key: AdapterKey = 'ky', options?: RequestOptions): Promise<T> {
+  delete<T>(url: string, key: AdapterKey = 'ky', options?: RequestOptions): Promise<HttpResponse<T>> {
     return this.client(key).delete<T>(url, options);
   }
 }

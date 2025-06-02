@@ -1,5 +1,5 @@
 import { createKyClient } from '@/shared/lib/https/ky/kyClientsCreater';
-import { HttpClient, RequestOptions } from '@/shared/lib/https/interface';
+import { HttpClient, HttpResponse, RequestOptions } from '@/shared/lib/https/interface';
 import { KyInstance } from 'ky';
 import { convertKyOptions } from '@/shared/lib/https/ky/interceptor';
 
@@ -13,15 +13,19 @@ export const kakaoSearchClient = createKyClient({
 export class KakaoSearchClient implements HttpClient {
   constructor(private readonly client: KyInstance) {}
 
-  public get = async <T>(url: string, options?: RequestOptions): Promise<T> => {
+  public get = async <T>(url: string, options?: RequestOptions): Promise<HttpResponse<T>> => {
     const kyOptions = convertKyOptions(options);
 
-    const response = await this.client.get(url, kyOptions);
+    const response = await this.client.get<T>(url, kyOptions);
 
-    return response.json<T>();
+    return {
+      data: response.json(),
+      headers: response.headers,
+      status: response.status,
+    };
   };
 
-  public post = async <T>(url: string, body: unknown, options?: RequestOptions): Promise<T> => {
+  public post = async <T>(url: string, body: unknown, options?: RequestOptions): Promise<HttpResponse<T>> => {
     const kyOptions = convertKyOptions(options);
 
     const wrapperdOptions = {
@@ -29,12 +33,16 @@ export class KakaoSearchClient implements HttpClient {
       json: body,
     };
 
-    const response = await this.client.post(url, wrapperdOptions);
+    const response = await this.client.post<T>(url, wrapperdOptions);
 
-    return response.json<T>();
+    return {
+      data: response.json(),
+      headers: response.headers,
+      status: response.status,
+    };
   };
 
-  public patch = async <T>(url: string, body: unknown, options?: RequestOptions): Promise<T> => {
+  public patch = async <T>(url: string, body: unknown, options?: RequestOptions): Promise<HttpResponse<T>> => {
     const kyOptions = convertKyOptions(options);
 
     const wrapperdOptions = {
@@ -42,12 +50,16 @@ export class KakaoSearchClient implements HttpClient {
       json: body,
     };
 
-    const response = await this.client.patch(url, wrapperdOptions);
+    const response = await this.client.patch<T>(url, wrapperdOptions);
 
-    return response.json<T>();
+    return {
+      data: response.json(),
+      headers: response.headers,
+      status: response.status,
+    };
   };
 
-  public put = async <T>(url: string, body: unknown, options?: RequestOptions): Promise<T> => {
+  public put = async <T>(url: string, body: unknown, options?: RequestOptions): Promise<HttpResponse<T>> => {
     const kyOptions = convertKyOptions(options);
 
     const wrapperdOptions = {
@@ -57,15 +69,23 @@ export class KakaoSearchClient implements HttpClient {
 
     const response = await this.client.put(url, wrapperdOptions);
 
-    return response.json<T>();
+    return {
+      data: response.json(),
+      headers: response.headers,
+      status: response.status,
+    };
   };
 
-  public delete = async <T>(url: string, options?: RequestOptions): Promise<T> => {
+  public delete = async <T>(url: string, options?: RequestOptions): Promise<HttpResponse<T>> => {
     const kyOptions = convertKyOptions(options);
 
-    const response = await this.client.delete(url, kyOptions);
+    const response = await this.client.delete<T>(url, kyOptions);
 
-    return response.json<T>();
+    return {
+      data: response.json(),
+      headers: response.headers,
+      status: response.status,
+    };
   };
 }
 

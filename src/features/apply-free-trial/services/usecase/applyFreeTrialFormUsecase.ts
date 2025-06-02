@@ -11,7 +11,7 @@ import { applyFreeTrialRequestSchema } from '@/features/apply-free-trial/config/
  * @param formData 작성한 폼 데이터
  * @param repository 무료체험 신청 repository (inject)
  */
-export async function actionApplyFreeTrialForm({ formData, repository, inflowCode }: ActionApplyFreeTrialForm) {
+export async function applyFreeTrialFormUsecase({ formData, repository, inflowCode }: ActionApplyFreeTrialForm) {
   try {
     // 검증
     const validatedBody: TempUserRequestDto = applyFreeTrialRequestSchema.parse(formData);
