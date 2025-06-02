@@ -122,7 +122,7 @@ export const DongaSciencePromotion = () => {
         optionIds: [Number(selectedPromotionOption)],
         terms: [
           {
-            termCode: PromotionTermCode.DONGASCIENCE_001,
+            termCode: PromotionTermCode.PROMOTION_001,
             agreed: true,
           },
         ],

@@ -4,8 +4,13 @@ import { HttpAdaptor, httpAdaptor } from '@/shared/lib/https/HttpAdapter';
 import {
   FreeTrialApplicationsResponseDto,
   GetFreeTrialPromotionsResponseDto,
+  GetFreeTrialUsersResponseDto,
 } from '@/entities/free-trial-user/models/dtos';
-import { FreeTrialUserRepository, FreeTrialUserRequestDto } from '@/entities/free-trial-user/models/repository';
+import {
+  FreeTrialUserRepository,
+  FreeTrialUserRequestDto,
+  GetFreeTrialUsersRequestDto,
+} from '@/entities/free-trial-user/models/repository';
 
 export class FreeTrialUserRepositoryImpl implements FreeTrialUserRepository {
   constructor(private readonly httpAdaptor: HttpAdaptor) {}
@@ -16,6 +21,34 @@ export class FreeTrialUserRepositoryImpl implements FreeTrialUserRepository {
       request,
       'ky'
     );
+
+    return response.data;
+  };
+
+  public getFreeTrialUsers = async (request: GetFreeTrialUsersRequestDto) => {
+    let url = `back-office/free-trial-users?`;
+
+    if (request.periodType) {
+      url += `periodType=${request.periodType}&`;
+    }
+
+    if (request.baseDate) {
+      url += `baseDate=${request.baseDate}&`;
+    }
+
+    if (request.timeZone) {
+      url += `timeZone=${request.timeZone}&`;
+    }
+
+    if (request.page) {
+      url += `page=${request.page}&`;
+    }
+
+    if (request.size) {
+      url += `size=${request.size}&`;
+    }
+
+    const response = await this.httpAdaptor.get<GetFreeTrialUsersResponseDto>(url, 'ky');
 
     return response.data;
   };
