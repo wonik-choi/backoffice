@@ -3,7 +3,7 @@
 import { cookies } from 'next/headers';
 
 // features
-import type { ActionPostLogoutProps } from '@/features/authentication/model/interface';
+import { authenticationRepository } from '@/entities/common/authentication/services/repositoryImpl';
 
 /**
  * @description
@@ -11,10 +11,14 @@ import type { ActionPostLogoutProps } from '@/features/authentication/model/inte
  * @param formData login form
  * @param repository auth repository (inject)
  */
-export async function actionPostLogout({ repository }: ActionPostLogoutProps) {
+export async function actionPostLogout() {
   try {
     // 서버 제출
-    const response = await repository.postLogout();
+    const response = await authenticationRepository.postLogout();
+
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
 
     // 쿠키 삭제
     const cookieStore = await cookies();

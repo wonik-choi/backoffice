@@ -1,32 +1,76 @@
 'use server';
 
+import { cookies } from 'next/headers';
+import { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies';
+
 // features
-import type { ActionPostLoginProps } from '@/features/authentication/model/interface';
-import { loginSchema } from '@/features/authentication/config/schema';
+import { LoginSchema } from '@/features/authentication/config/schema';
+import { postLoginUsecase } from '@/features/authentication/services/usecase/postLoginUsecase';
+
+// entities
+import { authenticationRepository } from '@/entities/common/authentication/services/repositoryImpl';
+
+export const parseSessionCookie = async (sessionCookie: string) => {
+  const [value, ...options] = sessionCookie.split(';').map((option) => option.trim());
+  const optionsMap: Partial<ResponseCookie> = {
+    maxAge: 60 * 60 * 24 * 30,
+  };
+
+  options.forEach((option) => {
+    const [key, value] = option.split('=').map((item) => item.trim());
+
+    switch (key.toLowerCase()) {
+      case 'httponly':
+        optionsMap.httpOnly = true;
+        break;
+      case 'secure':
+        optionsMap.secure = true;
+        break;
+      case 'samesite':
+        optionsMap.sameSite = value.toLowerCase() as 'lax' | 'strict' | 'none';
+        break;
+      case 'path':
+        optionsMap.path = value;
+        break;
+    }
+  });
+
+  return {
+    name: value.split('=')[0],
+    value: value.split('=')[1],
+    ...optionsMap,
+  };
+};
 
 /**
  * @description
  * login 요청 액션
  * @param formData login form
- * @param repository auth repository (inject)
  */
-export async function actionPostLogin({ formData, repository }: ActionPostLoginProps) {
-  try {
-    // 검증
-    const validatedBody = loginSchema.safeParse(formData);
+export async function actionPostLogin(formData: LoginSchema) {
+  const response = await postLoginUsecase(formData, authenticationRepository);
 
-    if (!validatedBody.success) {
-      throw new Error('z : invalid form data', { cause: validatedBody.error });
-    }
+  const responseHeaders = response.headers;
 
-    // 서버 제출
-    const response = await repository.postLogin(validatedBody.data);
-
-    // TODO: 만일 로그인에 성공한 뒤, 해당 user 에 대한 정보를 받거나 추가 처리가 필요하다면 여기서 진행
-
-    return response;
-  } catch (error) {
-    console.error('Form submission error:', error);
-    throw error;
+  if (!response.ok) {
+    throw new Error(response.statusText);
   }
+
+  // headers 에 담겨있는 seesion cookie 를 브라우저에 저장하려고 합니다.
+  const sessionCookie = responseHeaders.get('Set-Cookie');
+
+  if (sessionCookie) {
+    const parsedSessionCookie = await parseSessionCookie(sessionCookie);
+
+    const cookieStore = await cookies();
+    cookieStore.set(parsedSessionCookie.name, parsedSessionCookie.value, {
+      httpOnly: parsedSessionCookie.httpOnly,
+      secure: parsedSessionCookie.secure,
+      maxAge: parsedSessionCookie.maxAge,
+      path: parsedSessionCookie.path,
+      sameSite: parsedSessionCookie.sameSite,
+    });
+  }
+
+  return response.json();
 }

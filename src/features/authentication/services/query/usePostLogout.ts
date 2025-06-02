@@ -1,8 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
 
-// entities
-import { authenticationRepository } from '@/entities/common/authentication/services/repositoryImpl';
-
 // features
 import { actionPostLogout } from '@/features/authentication/services/actions/actionPostLogout';
 import { PostAuthenticationMutationProps } from '@/features/authentication/model/interface';
@@ -15,7 +12,7 @@ export const usePostLogout = ({ onSuccessCallback, onErrorCallback }: PostAuthen
     error,
   } = useMutation({
     ...AuthenticationQueryKeys.logout,
-    mutationFn: () => actionPostLogout({ repository: authenticationRepository }),
+    mutationFn: () => actionPostLogout(),
     onSuccess: () => {
       if (onSuccessCallback) {
         onSuccessCallback();

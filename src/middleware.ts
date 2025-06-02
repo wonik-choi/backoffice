@@ -5,6 +5,13 @@ export async function middleware(req: NextRequest) {
   const session = req.cookies.get('SESSION')?.value;
 
   /**
+   * 백오피스 (server)경로는 세션 검사를 하지 않습니다.
+   */
+  if (pathname.startsWith('/backoffice')) {
+    return NextResponse.next();
+  }
+
+  /**
    * 보호가 필요한 경로 목록은 다음과 같습니다.
    * 전달받은 patchname 이 해당 경로에 해당하는지 확인합니다.
    *  */

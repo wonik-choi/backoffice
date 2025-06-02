@@ -6,6 +6,6 @@ export interface PostLoginRequestDto {
 }
 
 export interface AuthenticationRepository {
-  postLogin: (request: PostLoginRequestDto) => Promise<{ result: string }>;
-  postLogout: () => Promise<{ result: string }>;
+  postLogin: (request: PostLoginRequestDto) => Promise<Response>;
+  postLogout: () => Promise<Response>;
 }
