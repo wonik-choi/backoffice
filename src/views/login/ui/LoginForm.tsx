@@ -22,7 +22,7 @@ const LoginForm = () => {
 
   const { postLogin, isPending } = usePostLogin({
     onSuccessCallback: () => {
-      router.push('/home');
+      router.replace('/home');
     },
     onErrorCallback: (error: Error) => {
       if (error instanceof KyServerError) {

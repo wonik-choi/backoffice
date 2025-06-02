@@ -11,7 +11,7 @@ export const useNavigationContext = () => {
   const router = useRouter();
   const { postLogout, isPending: isPostLogoutPending } = usePostLogout({
     onSuccessCallback: () => {
-      router.push('/login');
+      router.replace('/login');
     },
     onErrorCallback: (error) => {
       if (error instanceof KyServerError) {
