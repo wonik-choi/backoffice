@@ -1,12 +1,9 @@
-import InternalCheckView from '@/app/(certification)/InternalCheckView';
 import Home from '@/views/home/ui/Home';
 
+export const dynamic = 'force-dynamic';
+
 const Page = () => {
-  return (
-    <InternalCheckView>
-      <Home />
-    </InternalCheckView>
-  );
+  return <Home />;
 };
 
 export default Page;

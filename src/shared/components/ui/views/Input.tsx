@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 export const Input = ({ className, type, ...props }: React.ComponentProps<'input'>) => {
   return (
     <motion.div
-      className="relative"
+      className="relative w-full"
       whileTap={{ scale: 0.99, borderColor: 'var(--susimdal-border-gray-darker)' }}
       transition={{ duration: 0.1 }}
       tabIndex={-1}

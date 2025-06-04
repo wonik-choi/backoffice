@@ -19,20 +19,26 @@ export interface RequestOptions {
   next?: NextFetchRequestConfig;
 }
 
+export interface HttpResponse<T> {
+  data: Promise<T>;
+  headers: Headers;
+  status: number;
+}
+
 export interface HttpClient {
-  get<T>(url: string, options?: RequestOptions): Promise<T>;
-  post<T>(url: string, data?: unknown, options?: RequestOptions): Promise<T>;
-  patch<T>(url: string, data: unknown, options?: RequestOptions): Promise<T>;
-  put<T>(url: string, data: unknown, options?: RequestOptions): Promise<T>;
-  delete<T>(url: string, options?: RequestOptions): Promise<T>;
+  get<T>(url: string, options?: RequestOptions): Promise<HttpResponse<T>>;
+  post<T>(url: string, data?: unknown, options?: RequestOptions): Promise<HttpResponse<T>>;
+  patch<T>(url: string, data: unknown, options?: RequestOptions): Promise<HttpResponse<T>>;
+  put<T>(url: string, data: unknown, options?: RequestOptions): Promise<HttpResponse<T>>;
+  delete<T>(url: string, options?: RequestOptions): Promise<HttpResponse<T>>;
 }
 
 export type AdapterKey = 'ky' | 'fetch' | 'kakao';
 
 export interface HttpAdaptorStruct {
-  get<T>(url: string, key?: AdapterKey, options?: RequestOptions): Promise<T>;
-  post<T>(url: string, data?: unknown, key?: AdapterKey, options?: RequestOptions): Promise<T>;
-  patch<T>(url: string, data: unknown, key?: AdapterKey, options?: RequestOptions): Promise<T>;
-  put<T>(url: string, data: unknown, key?: AdapterKey, options?: RequestOptions): Promise<T>;
-  delete<T>(url: string, key?: AdapterKey, options?: RequestOptions): Promise<T>;
+  get<T>(url: string, key?: AdapterKey, options?: RequestOptions): Promise<HttpResponse<T>>;
+  post<T>(url: string, data?: unknown, key?: AdapterKey, options?: RequestOptions): Promise<HttpResponse<T>>;
+  patch<T>(url: string, data: unknown, key?: AdapterKey, options?: RequestOptions): Promise<HttpResponse<T>>;
+  put<T>(url: string, data: unknown, key?: AdapterKey, options?: RequestOptions): Promise<HttpResponse<T>>;
+  delete<T>(url: string, key?: AdapterKey, options?: RequestOptions): Promise<HttpResponse<T>>;
 }

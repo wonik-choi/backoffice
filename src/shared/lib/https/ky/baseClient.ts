@@ -1,15 +1,14 @@
+import { KyInstance } from 'ky-universal';
+
 import { createKyClient } from '@/shared/lib/https/ky/kyClientsCreater';
 
-import { setUserTokenOnHeader, convertKyOptions, extendKyErrorAfterResponse } from '@/shared/lib/https/ky/interceptor';
-import { HttpClient, RequestOptions } from '@/shared/lib/https/interface';
-import { KyInstance } from 'ky';
-
-const setTokenOnHeader = setUserTokenOnHeader(() => localStorage.getItem('accessToken'));
+import { convertKyOptions, extendKyErrorAfterResponse } from '@/shared/lib/https/ky/interceptor';
+import { HttpClient, HttpResponse, RequestOptions } from '@/shared/lib/https/interface';
 
 export const baseClient = createKyClient({
   prefixUrl: process.env.NEXT_PUBLIC_API_URL,
+  credentials: 'include',
   hooks: {
-    beforeRequest: [setTokenOnHeader],
     afterResponse: [extendKyErrorAfterResponse],
   },
 });
@@ -22,12 +21,16 @@ export class BaseClient implements HttpClient {
    * @param options ky 내 설정된 options
    * @returns json 형식의 Promise<T>
    */
-  public get = async <T>(url: string, options?: RequestOptions): Promise<T> => {
+  public get = async <T>(url: string, options?: RequestOptions): Promise<HttpResponse<T>> => {
     const kyOptions = convertKyOptions(options);
 
-    const response = await this.client.get(url, kyOptions);
+    const response = await this.client.get<T>(url, kyOptions);
 
-    return response.json<T>();
+    return {
+      data: response.json(),
+      headers: response.headers,
+      status: response.status,
+    };
   };
 
   /**
@@ -36,7 +39,7 @@ export class BaseClient implements HttpClient {
    * @param options ky 내 설정된 options
    * @returns json 형식의 Promise<T>
    */
-  public post = async <T>(url: string, body: unknown, options?: RequestOptions) => {
+  public post = async <T>(url: string, body: unknown, options?: RequestOptions): Promise<HttpResponse<T>> => {
     const kyOptions = convertKyOptions(options);
 
     const wrapperdOptions = {
@@ -44,9 +47,13 @@ export class BaseClient implements HttpClient {
       json: body,
     };
 
-    const response = await this.client.post(url, wrapperdOptions);
+    const response = await this.client.post<T>(url, wrapperdOptions);
 
-    return response.json<T>();
+    return {
+      data: response.json(),
+      headers: response.headers,
+      status: response.status,
+    };
   };
 
   /**
@@ -55,7 +62,7 @@ export class BaseClient implements HttpClient {
    * @param options ky 내 설정된 options
    * @returns json 형식의 Promise<T>
    */
-  public patch = async <T>(url: string, body: unknown, options?: RequestOptions) => {
+  public patch = async <T>(url: string, body: unknown, options?: RequestOptions): Promise<HttpResponse<T>> => {
     const kyOptions = convertKyOptions(options);
 
     const wrapperdOptions = {
@@ -63,9 +70,13 @@ export class BaseClient implements HttpClient {
       json: body,
     };
 
-    const response = await this.client.patch(url, wrapperdOptions);
+    const response = await this.client.patch<T>(url, wrapperdOptions);
 
-    return response.json<T>();
+    return {
+      data: response.json(),
+      headers: response.headers,
+      status: response.status,
+    };
   };
 
   /**
@@ -74,7 +85,7 @@ export class BaseClient implements HttpClient {
    * @param options ky 내 설정된 options
    * @returns json 형식의 Promise<T>
    */
-  public put = async <T>(url: string, body: unknown, options?: RequestOptions) => {
+  public put = async <T>(url: string, body: unknown, options?: RequestOptions): Promise<HttpResponse<T>> => {
     const kyOptions = convertKyOptions(options);
 
     const wrapperdOptions = {
@@ -82,9 +93,13 @@ export class BaseClient implements HttpClient {
       json: body,
     };
 
-    const response = await this.client.put(url, wrapperdOptions);
+    const response = await this.client.put<T>(url, wrapperdOptions);
 
-    return response.json<T>();
+    return {
+      data: response.json(),
+      headers: response.headers,
+      status: response.status,
+    };
   };
 
   /**
@@ -92,12 +107,16 @@ export class BaseClient implements HttpClient {
    * @param options ky 내 설정된 options
    * @returns json 형식의 Promise<T>
    */
-  public delete = async <T>(url: string, options?: RequestOptions) => {
+  public delete = async <T>(url: string, options?: RequestOptions): Promise<HttpResponse<T>> => {
     const kyOptions = convertKyOptions(options);
 
-    const response = await this.client.delete(url, kyOptions);
+    const response = await this.client.delete<T>(url, kyOptions);
 
-    return response.json<T>();
+    return {
+      data: response.json(),
+      headers: response.headers,
+      status: response.status,
+    };
   };
 }
 

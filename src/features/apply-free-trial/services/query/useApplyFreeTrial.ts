@@ -3,8 +3,8 @@ import { useMutation } from '@tanstack/react-query';
 // entities
 import { tempUserRepository } from '@/entities/temp-user/services/TempUserRepositoryImpl';
 
-// actions
-import { actionApplyFreeTrialForm } from '@/features/apply-free-trial/services/actions/actionApplyFreeTrialForm';
+// usecase
+import { applyFreeTrialFormUsecase } from '@/features/apply-free-trial/services/usecase/applyFreeTrialFormUsecase';
 
 // models
 import { PostTempUserFormProps, ApplyFreeTrialFormData } from '@/features/apply-free-trial/model/interface';
@@ -22,10 +22,10 @@ export const useApplyFreeTrial = ({ onSuccessCallback, onErrorCallback }: PostTe
     mutationFn: ({ tempFormData, inflowCode }: { tempFormData: ApplyFreeTrialFormData; inflowCode: string | null }) => {
       // 유입코드가 존재할 경우
       if (inflowCode) {
-        return actionApplyFreeTrialForm({ formData: tempFormData, repository: tempUserRepository, inflowCode });
+        return applyFreeTrialFormUsecase({ formData: tempFormData, repository: tempUserRepository, inflowCode });
       }
 
-      return actionApplyFreeTrialForm({ formData: tempFormData, repository: tempUserRepository });
+      return applyFreeTrialFormUsecase({ formData: tempFormData, repository: tempUserRepository });
     },
     throwOnError: false,
     onSuccess: () => {

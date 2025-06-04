@@ -1,26 +1,10 @@
-import { KyRequest, KyResponse, NormalizedOptions, HTTPError } from 'ky';
+import { KyRequest, KyResponse, NormalizedOptions, HTTPError } from 'ky-universal';
 import { REFRESH_URL } from '@/shared/lib/https/config';
 import { RequestOptions } from '@/shared/lib/https/interface';
 
-import { ServerError } from '@/shared/lib/https/interface';
-
-export class KyServerError extends Error {
-  public status: number;
-  public message: string;
-  public error: string;
-  public debug: {
-    exception: string;
-    message: string;
-  };
-
-  constructor(payload: ServerError) {
-    super(payload.message);
-    this.status = payload.status;
-    this.message = payload.message;
-    this.error = payload.error;
-    this.debug = payload.debug;
-  }
-}
+// errors
+import { ServerError } from '@/shared/lib/errors/errors';
+import { parsingErrorCapture } from '@/shared/lib/errors/ParsingErrorCapture';
 
 /**
  * @description 공통 타입 → Ky options 변환
@@ -28,19 +12,11 @@ export class KyServerError extends Error {
  * @returns {NormalizedOptions}
  */
 export const convertKyOptions = (options?: RequestOptions) => {
-  const searchParams = options?.queryParams
-    ? Object.entries(options.queryParams)
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .filter(([_, value]) => value !== null)
-        .map(([key, value]) => [key, String(value)])
-    : undefined;
-
   return {
     method: options?.method,
     headers: options?.headers,
     timeout: options?.timeout,
     responseType: options?.responseType,
-    searchParams,
     credentials: options?.credentials,
     signal: options?.signal,
   };
@@ -63,7 +39,9 @@ export const extendKyErrorAfterResponse = async (
       throw new HTTPError(response, request, options);
     }
 
-    throw new KyServerError(payload);
+    // custom error 를 반환해줍니다.
+    // 해당 instance에 대한 분기처리는 view 단에서 처리합니다.
+    throw parsingErrorCapture.capture(payload);
   }
 };
 

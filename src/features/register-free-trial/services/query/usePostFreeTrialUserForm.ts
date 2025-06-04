@@ -3,13 +3,12 @@ import { useMutation } from '@tanstack/react-query';
 // entities
 import { freeTrialUserRepository } from '@/entities/free-trial-user/services/FreeTrialUserRepositoryImpl';
 
-// actions
-import { actionSubmitFreeTrialForm } from '@/features/register-free-trial/services/actions/actionSubmitFreeTrialForm';
+// usecase
+import { submitFreeTrialFormUsecase } from '@/features/register-free-trial/services/usecase/submitFreeTrialFormUsecase';
 
 // config
 import { RegisterFreeTrialQueryKeys } from '@/features/register-free-trial/config/query-keys';
 import { PostFreeTrialUserFormProps } from '@/features/register-free-trial/model/interface';
-import { KyServerError } from '@/shared/lib/https/ky/interceptor';
 
 export const usePostFreeTrialUserForm = ({ store, onSuccessCallback, onErrorCallback }: PostFreeTrialUserFormProps) => {
   const {
@@ -23,10 +22,10 @@ export const usePostFreeTrialUserForm = ({ store, onSuccessCallback, onErrorCall
 
       // 유입코드가 존재할 경우
       if (inflowCode) {
-        return actionSubmitFreeTrialForm({ formData: store, repository: freeTrialUserRepository, inflowCode });
+        return submitFreeTrialFormUsecase({ formData: store, repository: freeTrialUserRepository, inflowCode });
       }
 
-      return actionSubmitFreeTrialForm({ formData: store, repository: freeTrialUserRepository });
+      return submitFreeTrialFormUsecase({ formData: store, repository: freeTrialUserRepository });
     },
     throwOnError: false,
     onSuccess: () => {
