@@ -1,3 +1,6 @@
+// shared
+import { ClientCustomError } from '@/shared/lib/errors/errors';
+
 // FetchAdapter.ts
 import type { HttpClient, RequestOptions, HttpResponse } from '@/shared/lib/https/interface';
 
@@ -52,7 +55,7 @@ export class FetchAdapter implements HttpClient {
         serializedBody = body;
       } else {
         // 잘못된 사용: 객체가 넘어왔는데 Content-Type만 form-urlencoded인 경우
-        throw new Error('[FetchAdapter] form-urlencoded 요청 시 body를 URLSearchParams 또는 문자열로 넘겨주세요');
+        throw new ClientCustomError('form-urlencoded 요청 시 body를 URLSearchParams 또는 문자열로 넘겨주세요');
       }
     } else {
       // 기본: JSON 요청
