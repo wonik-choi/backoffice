@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { useForm } from '@tanstack/react-form';
 import { toast } from 'sonner';
@@ -11,7 +11,7 @@ import * as fbq from '@/shared/lib/meta-pixel/fpixel';
 
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/shared/components/atomics/select';
 import { formatPhoneNumber, unformatPhoneNumber } from '@/shared/utils/format';
-import { KyServerError } from '@/shared/lib/https/ky/interceptor';
+import { ClientCustomError, ServerCustomError } from '@/shared/lib/errors/errors';
 import { Checkbox } from '@/shared/components/ui/views/Checkbox';
 import { useTopNavigation } from '@/shared/hooks/useTopNavigation';
 
@@ -35,8 +35,7 @@ import { useApplyFreeTrial } from '@/features/apply-free-trial/services/query/us
 // views
 
 export function ApplyFreeTrialTempUser() {
-  const router = useRouter();
-  const { tempUser, inflowCode, setTempUser } = useApplyFreeTrialStore();
+  const { inflowCode, setTempUser } = useApplyFreeTrialStore();
   const { navigate } = useTopNavigation();
   const { applyTempUser, isPending, error } = useApplyFreeTrial({
     onSuccessCallback: () => {
@@ -50,7 +49,7 @@ export function ApplyFreeTrialTempUser() {
       navigate('https://class.susimdal.com/consult_ending');
     },
     onErrorCallback: (error: Error) => {
-      if (error instanceof KyServerError) {
+      if (error instanceof ServerCustomError) {
         toast.error(`[${error ? error.status : 'ERROR'}]이런! 폼 제출에 실패했어요`, {
           description: error ? error.debug.message : '관리자에게 문의해주세요 (1899-3884)',
           duration: 6000,
@@ -85,7 +84,7 @@ export function ApplyFreeTrialTempUser() {
 
       if (!validatedTempUser.success) {
         toast.error('입력 정보가 적합하지 않습니다.');
-        return;
+        throw new ClientCustomError('입력 정보가 적합하지 않습니다.');
       }
 
       setTempUser(validatedTempUser.data);

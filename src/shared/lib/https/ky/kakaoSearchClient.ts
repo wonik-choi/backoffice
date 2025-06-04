@@ -1,6 +1,6 @@
 import { createKyClient } from '@/shared/lib/https/ky/kyClientsCreater';
 import { HttpClient, HttpResponse, RequestOptions } from '@/shared/lib/https/interface';
-import { KyInstance } from 'ky';
+import { KyInstance } from 'ky-universal';
 import { convertKyOptions } from '@/shared/lib/https/ky/interceptor';
 
 export const kakaoSearchClient = createKyClient({

@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 
 // shared
 import { Button, Em, Input, Label } from '@/shared/components/ui';
-import { KyServerError } from '@/shared/lib/https/ky/interceptor';
+import { ServerCustomError } from '@/shared/lib/errors/errors';
 
 // features
 import { loginSchema, LoginSchema } from '@/features/authentication/config/schema';
@@ -25,7 +25,7 @@ const LoginForm = () => {
       router.replace('/home');
     },
     onErrorCallback: (error: Error) => {
-      if (error instanceof KyServerError) {
+      if (error instanceof ServerCustomError) {
         toast.error(`[${error ? error.status : 'ERROR'}]이런! 로그인에 실패했어요`, {
           description: error ? error.debug.message : '개발자 문의 필요',
           duration: 6000,

@@ -1,18 +1,19 @@
+import { KyInstance } from 'ky-universal';
+
 import { createKyClient } from '@/shared/lib/https/ky/kyClientsCreater';
 
-import { setUserTokenOnHeader, convertKyOptions, extendKyErrorAfterResponse } from '@/shared/lib/https/ky/interceptor';
+import { convertKyOptions, extendKyErrorAfterResponse } from '@/shared/lib/https/ky/interceptor';
 import { HttpClient, HttpResponse, RequestOptions } from '@/shared/lib/https/interface';
-import { KyInstance } from 'ky';
 
 export const baseClient = createKyClient({
   prefixUrl: process.env.NEXT_PUBLIC_API_URL,
+  credentials: 'include',
   hooks: {
     afterResponse: [extendKyErrorAfterResponse],
   },
   headers: {
     'Content-Type': 'application/json',
   },
-  credentials: 'include',
 });
 
 export class BaseClient implements HttpClient {

@@ -2,7 +2,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 // shared
-import { KyServerError } from '@/shared/lib/https/ky/interceptor';
+import { ServerCustomError } from '@/shared/lib/errors/errors';
 
 // features
 import { usePostLogout } from '@/features/authentication/services/query/usePostLogout';
@@ -14,7 +14,7 @@ export const useNavigationContext = () => {
       router.replace('/login');
     },
     onErrorCallback: (error) => {
-      if (error instanceof KyServerError) {
+      if (error instanceof ServerCustomError) {
         toast.error(`[${error ? error.status : 'ERROR'}]이런! 로그아웃에 실패했어요`, {
           description: error ? error.debug.message : '개발자 문의 필요',
           duration: 6000,
