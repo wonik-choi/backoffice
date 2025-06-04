@@ -12,7 +12,6 @@ export const createKyClient = (config: ClientConfig): KyInstance => {
       'Access-Control-Allow-Credentials': 'true',
       ...config.headers,
     },
-    retry: { limit: 3, methods: ['get'] },
     ...config,
   });
 };

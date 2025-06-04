@@ -15,7 +15,7 @@ import { Badge } from '@/shared/components/atomics/badge';
 
 // pages
 import { useFreeTrialStore } from '@/views/free-trial/models/store';
-import { COLUMN_GROUPS } from '@/views/free-trial/models/const/table';
+import { FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS } from '@/views/free-trial/models/const/table';
 import type { FreeTrialTableUsecaseProps } from '@/views/free-trial/models/converter/interface';
 
 // TODO: 추후 dto 를 받아와 처리할 수 있도록 변경될 예정이며 현재는 mock data 로 임시 처리합니다.
@@ -28,7 +28,10 @@ export const useInitialFreeTrialTable = <TData, TValue>({
   const convertedColumns = useMemo(() => {
     const filteredSelectColumns = columns.filter((column) => column.id !== 'select' && column.id !== 'row-select');
 
-    // 테이블 헤더 컴포넌트 생성
+    /**
+     * @description
+     * 최대한 UI 의 형식을 설정해주고, 내부 데이터의 형태는 converter 를 통해 처리해줍니다.
+     */
     return [
       {
         id: 'row-select',
@@ -64,7 +67,7 @@ export const useInitialFreeTrialTable = <TData, TValue>({
             },
           };
         }
-        if (col.id === 'upgrade.returnStatus') {
+        if (col.id === 'rental.status') {
           return {
             ...col,
             cell: ({ getValue }: { getValue: () => unknown }) => {
@@ -73,28 +76,21 @@ export const useInitialFreeTrialTable = <TData, TValue>({
             },
           };
         }
-        if (col.id === 'latestRecord') {
+        if (col.id === 'period.status') {
           return {
             ...col,
             cell: ({ getValue }: { getValue: () => unknown }) => {
-              const value = String(getValue() || '-');
-              // 날짜와 시간 형식 (YYYY.MM.DD HH:MM:SS) 패턴 매칭
-              const dateTimePattern = /\d{4}\.\d{2}\.\d{2}(?:\s+\d{2}:\d{2}(?::\d{2})?)?/g;
-              const parts = value.split(dateTimePattern);
-              const dateTimes = value.match(dateTimePattern) || [];
-
-              return (
-                <div className="text-[1.4rem]">
-                  {parts.map((part, index) => (
-                    <React.Fragment key={index}>
-                      {part}
-                      {dateTimes[index] && (
-                        <span className="text-[1.2rem] text-gray-500 ml-[0.4rem]">{dateTimes[index]}</span>
-                      )}
-                    </React.Fragment>
-                  ))}
-                </div>
-              );
+              const value = getValue();
+              return <Badge variant="outline">{String(value)}</Badge>;
+            },
+          };
+        }
+        if (col.id === 'inflow') {
+          return {
+            ...col,
+            cell: ({ getValue }: { getValue: () => unknown }) => {
+              const value = getValue();
+              return <Badge variant="outline">{String(value)}</Badge>;
             },
           };
         }
@@ -119,6 +115,6 @@ export const useInitialFreeTrialTable = <TData, TValue>({
   return {
     convertedColumns,
     table,
-    COLUMN_GROUPS,
+    FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS,
   };
 };

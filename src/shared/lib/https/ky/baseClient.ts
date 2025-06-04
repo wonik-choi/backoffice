@@ -11,6 +11,9 @@ export const baseClient = createKyClient({
   hooks: {
     afterResponse: [extendKyErrorAfterResponse],
   },
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 export class BaseClient implements HttpClient {

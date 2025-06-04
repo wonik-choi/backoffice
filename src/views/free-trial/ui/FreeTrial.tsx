@@ -1,104 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense } from 'react';
+
+import { useGetFreeTrialUsersBody } from '@/views/free-trial/services/query/useGetFreeTrialUsersBody';
 
 import FreeTrialFilterSection from '@/views/free-trial/ui/FreeTrialFilterSection';
 import WrappingExportButton from '@/views/free-trial/ui/buttons/wrapping-export-button/WrappingExportButton';
-import EditFreeTrialStudentDialog from '@/features/edit-free-trial-student/ui/EditFreeTrialStudentDialog';
+
 import FreeTrialTable from '@/views/free-trial/ui/FreeTrialTable';
 
-import { useInitialFreeTrialTable } from '@/views/free-trial/services/usecase/useInitialFreeTrialTable';
-import { freeTrialTableColumns } from '@/views/free-trial/models/const/table';
-import { ExpandedRowData } from '@/views/free-trial/models/interface';
-
-const data: ExpandedRowData[] = [
-  {
-    id: '1',
-    name: '신윤식',
-    phone: '010-7474-0994',
-    status: '1차 해피콜 대기',
-    latestRecord: '체험신청\n2025.04.01 11:10:00',
-    registrationDate: new Date('2025-04-01T11:10:00'),
-    checkPeriod: {
-      startDate: new Date('2025-04-01T11:10:00'),
-      endDate: new Date('2025-04-01T11:10:00'),
-      duration: '-',
-      status: '-',
-    },
-    upgrade: {
-      deviceRentalAddress: '-',
-      completionStatus: '-',
-      rentalDate: new Date('2025-04-01T11:10:00'),
-      returnStatus: '-',
-    },
-  },
-  {
-    id: '2',
-    name: '김재환',
-    phone: '010-7342-0114',
-    status: '1차 해피콜 대기',
-    latestRecord: '체험신청\n2025.04.01 11:10:00',
-    registrationDate: new Date('2025-04-01T11:10:00'),
-    checkPeriod: {
-      startDate: new Date('2025-04-01T11:10:00'),
-      endDate: new Date('2025-04-01T11:10:00'),
-      duration: '-',
-      status: '-',
-    },
-    upgrade: {
-      deviceRentalAddress: '-',
-      completionStatus: '-',
-      rentalDate: new Date('2025-04-01T11:10:00'),
-      returnStatus: '-',
-    },
-  },
-  {
-    id: '3',
-    name: '최원익',
-    phone: '010-2274-5345',
-    status: '1차 해피콜 대기',
-    latestRecord: '체험신청\n2025.04.01 11:10:00',
-    registrationDate: new Date('2025-04-01T11:10:00'),
-    checkPeriod: {
-      startDate: new Date('2025-04-01T11:10:00'),
-      endDate: new Date('2025-04-01T11:10:00'),
-      duration: '-',
-      status: '-',
-    },
-    upgrade: {
-      deviceRentalAddress: '-',
-      completionStatus: '-',
-      rentalDate: new Date('2025-04-01T11:10:00'),
-      returnStatus: '-',
-    },
-  },
-  {
-    id: '4',
-    name: '박상민',
-    phone: '010-4455-2341',
-    status: '1차 해피콜 대기',
-    latestRecord: '체험신청\n2025.04.01 11:10:00',
-    registrationDate: new Date('2025-04-01T11:10:00'),
-    checkPeriod: {
-      startDate: new Date('2025-04-01T11:10:00'),
-      endDate: new Date('2025-04-01T11:10:00'),
-      duration: '-',
-      status: '-',
-    },
-    upgrade: {
-      deviceRentalAddress: '-',
-      completionStatus: '-',
-      rentalDate: new Date('2025-04-01T11:10:00'),
-      returnStatus: '-',
-    },
-  },
-];
+import { FREE_TRIAL_USERS_TABLE_COLUMNS } from '@/views/free-trial/models/const/table';
 
 const FreeTrial = () => {
-  // 아마 추후에는 데이터를 받아와서 convert 한 뒤 tableData 로 전달할 것으로 예상
-  // 현재는 일단 useState 로 mock 처리
-
-  const [tableData, setTableData] = useState<ExpandedRowData[]>(data);
+  const { tableData } = useGetFreeTrialUsersBody();
 
   return (
     <section className="flex flex-col items-start justify-start mb-6 gap-5">
@@ -110,12 +24,18 @@ const FreeTrial = () => {
           </p>
         </div>
         <div className="w-fit h-full">
-          <WrappingExportButton fileName="무료체험 고객관리" columns={freeTrialTableColumns} tableData={tableData} />
+          <WrappingExportButton
+            fileName="무료체험 고객관리"
+            columns={FREE_TRIAL_USERS_TABLE_COLUMNS}
+            tableData={tableData}
+          />
         </div>
       </div>
 
       <FreeTrialFilterSection />
-      <FreeTrialTable columns={freeTrialTableColumns} tableData={tableData} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <FreeTrialTable columns={FREE_TRIAL_USERS_TABLE_COLUMNS} tableData={tableData} />
+      </Suspense>
     </section>
   );
 };
