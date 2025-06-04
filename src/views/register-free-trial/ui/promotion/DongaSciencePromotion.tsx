@@ -13,7 +13,7 @@ import * as fbq from '@/shared/lib/meta-pixel/fpixel';
 import { RadioButton } from '@/shared/components/radio-button/RadioButton';
 import { RadioGroup, RadioGroupItem } from '@/shared/components/atomics/radio-group';
 import { Button, Label } from '@/shared/components/ui';
-import { KyServerError } from '@/shared/lib/https/ky/interceptor';
+import { ServerCustomError } from '@/shared/lib/errors/errors';
 
 // entities
 import { PromotionTermCode } from '@/entities/free-trial-user/models/enums';
@@ -72,9 +72,9 @@ export const DongaSciencePromotion = () => {
       nextStep();
     },
     onErrorCallback: (error: Error) => {
-      if (error instanceof KyServerError) {
+      if (error instanceof ServerCustomError) {
         toast.error(`[${error ? error.status : 'ERROR'}]이런! 폼 제출에 실패했어요`, {
-          description: error ? error.message : '관리자에게 문의해주세요 (1899-3884)',
+          description: error ? error.debug.message : '관리자에게 문의해주세요 (1899-3884)',
           duration: 6000,
         });
       } else {
