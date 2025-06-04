@@ -32,16 +32,15 @@ const EditFreeTrialStudentDialog = ({ student }: { student: EditFreeTrialStudent
   const defaultValue: EditFreeTrialStudentForm = {
     name: student.name,
     phone: student.phone,
-    registrationDate: student.registrationDate,
-    enterancePath: student.enterancePath,
-    testPeriod: {
-      startDate: student.testPeriod.startDate,
-      endDate: student.testPeriod.endDate,
+    registrationDate: student.registrationDate ?? new Date(),
+    period: {
+      startDate: student.period.startDate ?? new Date(),
+      endDate: student.period.endDate ?? new Date(),
     },
-    deviceRental: {
-      deviceRentalAddress: student.deviceRental.deviceRentalAddress,
-      rentalDate: student.deviceRental.rentalDate,
-      returnDate: student.deviceRental.returnDate,
+    rental: {
+      deviceRentalAddress: student.rental.deviceRentalAddress,
+      rentalDate: student.rental.rentalDate ?? new Date(),
+      returnDate: student.rental.returnDate ?? new Date(),
     },
   };
 
@@ -149,25 +148,6 @@ const EditFreeTrialStudentDialog = ({ student }: { student: EditFreeTrialStudent
                     );
                   }}
                 </form.Field>
-                <form.Field name="enterancePath">
-                  {(field) => {
-                    return (
-                      <div className="grid grid-cols-4 items-center gap-[0.4rem]">
-                        <Label htmlFor={field.name}>방문경로</Label>
-                        <Input
-                          id={field.name}
-                          name={field.name}
-                          value={field.state.value}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          className="col-span-3"
-                        />
-                        {field.state.value && field.state.meta.isTouched && field.state.meta.errors.length > 0 && (
-                          <Em>{[...new Set(field.state.meta.errors)].map((error) => error?.message)}</Em>
-                        )}
-                      </div>
-                    );
-                  }}
-                </form.Field>
               </div>
             </div>
             <div className="space-y-[1.6rem]">
@@ -175,7 +155,7 @@ const EditFreeTrialStudentDialog = ({ student }: { student: EditFreeTrialStudent
                 체험 기간
               </h3>
               <div className="grid gap-[1.6rem] py-[1.6rem]">
-                <form.Field name="testPeriod.startDate">
+                <form.Field name="period.startDate">
                   {(field) => {
                     return (
                       <div className="grid grid-cols-4 items-center gap-[0.4rem]">
@@ -195,7 +175,7 @@ const EditFreeTrialStudentDialog = ({ student }: { student: EditFreeTrialStudent
                     );
                   }}
                 </form.Field>
-                <form.Field name="testPeriod.endDate">
+                <form.Field name="period.endDate">
                   {(field) => {
                     return (
                       <div className="grid grid-cols-4 items-center gap-[0.4rem]">
@@ -222,7 +202,7 @@ const EditFreeTrialStudentDialog = ({ student }: { student: EditFreeTrialStudent
                 아이패드 대여
               </h3>
               <div className="grid gap-[1.6rem] py-[1.6rem]">
-                <form.Field name="deviceRental.deviceRentalAddress">
+                <form.Field name="rental.deviceRentalAddress">
                   {(field) => {
                     return (
                       <div className="grid grid-cols-4 items-center gap-[0.4rem]">
@@ -241,7 +221,7 @@ const EditFreeTrialStudentDialog = ({ student }: { student: EditFreeTrialStudent
                     );
                   }}
                 </form.Field>
-                <form.Field name="deviceRental.rentalDate">
+                <form.Field name="rental.rentalDate">
                   {(field) => {
                     return (
                       <div className="grid grid-cols-4 items-center gap-[0.4rem]">
@@ -261,7 +241,7 @@ const EditFreeTrialStudentDialog = ({ student }: { student: EditFreeTrialStudent
                     );
                   }}
                 </form.Field>
-                <form.Field name="deviceRental.returnDate">
+                <form.Field name="rental.returnDate">
                   {(field) => {
                     return (
                       <div className="grid grid-cols-4 items-center gap-[0.4rem]">

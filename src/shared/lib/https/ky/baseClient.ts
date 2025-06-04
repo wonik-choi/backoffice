@@ -4,14 +4,15 @@ import { setUserTokenOnHeader, convertKyOptions, extendKyErrorAfterResponse } fr
 import { HttpClient, HttpResponse, RequestOptions } from '@/shared/lib/https/interface';
 import { KyInstance } from 'ky';
 
-const setTokenOnHeader = setUserTokenOnHeader(() => localStorage.getItem('accessToken'));
-
 export const baseClient = createKyClient({
   prefixUrl: process.env.NEXT_PUBLIC_API_URL,
   hooks: {
-    beforeRequest: [setTokenOnHeader],
     afterResponse: [extendKyErrorAfterResponse],
   },
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  credentials: 'include',
 });
 
 export class BaseClient implements HttpClient {

@@ -1,51 +1,42 @@
-import { ExpandedRowDataKeys, ExpandedRowData } from '@/views/free-trial/models/interface';
+import {
+  ExpandedFreeTrialUsersTableRowData,
+  FreeTrialUsersTableColumnGroup,
+} from '@/views/free-trial/models/interface';
 import { ColumnDef } from '@tanstack/react-table';
 
-export interface TableColumnGroup {
-  name: string;
-  colSpan: number;
-  columns: Array<{
-    id: ExpandedRowDataKeys | 'row-select';
-    label: string;
-  }>;
-}
-
-export const COLUMN_GROUPS: TableColumnGroup[] = [
+export const FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS: FreeTrialUsersTableColumnGroup[] = [
   {
     name: '기본 정보',
-    colSpan: 6,
+    colSpan: 5,
     columns: [
       { id: 'row-select', label: '선택' },
-      { id: 'name', label: '학생명' },
+      { id: 'name', label: '이름' },
       { id: 'phone', label: '연락가능번호' },
-      { id: 'status', label: '처리상태' },
-      { id: 'latestRecord', label: '최근기록' },
-      { id: 'registrationDate', label: '유입경로' },
+      { id: 'status', label: '학생상태' },
+      { id: 'inflow', label: '유입경로' },
     ],
   },
   {
     name: '체험기간',
     colSpan: 4,
     columns: [
-      { id: 'checkPeriod.startDate', label: '시작일' },
-      { id: 'checkPeriod.endDate', label: '종료일' },
-      { id: 'checkPeriod.duration', label: '진행일수' },
-      { id: 'checkPeriod.status', label: '상태' },
+      { id: 'period.startDate', label: '시작일' },
+      { id: 'period.endDate', label: '종료일' },
+      { id: 'period.status', label: '진행상태' },
     ],
   },
   {
     name: '아이패드 대여',
-    colSpan: 5,
+    colSpan: 3,
     columns: [
-      { id: 'upgrade.deviceRentalAddress', label: '수령지주소' },
-      { id: 'upgrade.completionStatus', label: '수령일' },
-      { id: 'upgrade.rentalDate', label: '대여일자' },
-      { id: 'upgrade.returnStatus', label: '반납일' },
+      { id: 'rental.status', label: '대여상태' },
+      { id: 'rental.deviceNumber', label: '기기번호' },
+      { id: 'rental.returnDate', label: '반납일' },
     ],
   },
 ];
 
-export const freeTrialTableColumns: ColumnDef<ExpandedRowData>[] = [
+export const FREE_TRIAL_USERS_TABLE_COLUMNS: ColumnDef<ExpandedFreeTrialUsersTableRowData>[] = [
   {
     id: 'name',
     accessorKey: 'name',
@@ -65,64 +56,45 @@ export const freeTrialTableColumns: ColumnDef<ExpandedRowData>[] = [
     cell: ({ row }) => row.original.status || '미처리',
   },
   {
-    id: 'latestRecord',
-    accessorKey: 'latestRecord',
-    header: '최근기록',
-    cell: ({ row }) => row.original.latestRecord || '-',
+    id: 'inflow',
+    accessorKey: 'inflow',
+    header: '유입경로',
+    cell: ({ row }) => row.original.inflow || '-',
   },
   {
-    id: 'registrationDate',
-    accessorKey: 'registrationDate',
-    header: '등록일자',
-    cell: ({ row }) => row.original.registrationDate?.toLocaleDateString('ko-KR') || '-',
-  },
-  {
-    id: 'checkPeriod.startDate',
-    accessorFn: (row) => row.checkPeriod?.startDate,
+    id: 'period.startDate',
+    accessorFn: (row) => row.period?.startDate,
     header: '시작일',
-    cell: ({ row }) => row.original.checkPeriod?.startDate?.toLocaleDateString('ko-KR') || '-',
+    cell: ({ row }) => row.original.period?.startDate || '-',
   },
   {
-    id: 'checkPeriod.endDate',
-    accessorFn: (row) => row.checkPeriod?.endDate,
+    id: 'period.endDate',
+    accessorFn: (row) => row.period?.endDate,
     header: '종료일',
-    cell: ({ row }) => row.original.checkPeriod?.endDate?.toLocaleDateString('ko-KR') || '-',
+    cell: ({ row }) => row.original.period?.endDate || '-',
   },
   {
-    id: 'checkPeriod.duration',
-    accessorFn: (row) => row.checkPeriod?.duration,
-    header: '진행일수',
-    cell: ({ row }) => `${row.original.checkPeriod?.duration || 0}일`,
+    id: 'period.status',
+    accessorFn: (row) => row.period?.status,
+    header: '진행상태',
+    cell: ({ row }) => row.original.period?.status || '-',
   },
   {
-    id: 'checkPeriod.status',
-    accessorFn: (row) => row.checkPeriod?.status,
-    header: '상태',
-    cell: ({ row }) => row.original.checkPeriod?.status || '-',
+    id: 'rental.status',
+    accessorFn: (row) => row.rental?.status,
+    header: '대여상태',
+    cell: ({ row }) => row.original.rental?.status || '미대여',
   },
   {
-    id: 'upgrade.deviceRentalAddress',
-    accessorFn: (row) => row.upgrade?.deviceRentalAddress,
-    header: '대여여부',
-    cell: ({ row }) => row.original.upgrade?.deviceRentalAddress || '미대여',
-  },
-
-  {
-    id: 'upgrade.rentalDate',
-    accessorFn: (row) => row.upgrade?.rentalDate,
-    header: '대여일자',
-    cell: ({ row }) => row.original.upgrade?.rentalDate?.toLocaleDateString('ko-KR') || '-',
+    id: 'rental.deviceNumber',
+    accessorFn: (row) => row.rental?.deviceNumber,
+    header: '기기번호',
+    cell: ({ row }) => row.original.rental?.deviceNumber || '-',
   },
   {
-    id: 'upgrade.returnDate',
-    accessorFn: (row) => row.upgrade?.returnDate,
+    id: 'rental.returnDate',
+    accessorFn: (row) => row.rental?.returnDate,
     header: '반납일',
-    cell: ({ row }) => row.original.upgrade?.returnDate?.toLocaleDateString('ko-KR') || '-',
-  },
-  {
-    id: 'upgrade.completionStatus',
-    accessorFn: (row) => row.upgrade?.completionStatus,
-    header: '상태',
-    cell: ({ row }) => row.original.upgrade?.completionStatus || '-',
+    cell: ({ row }) => row.original.rental?.returnDate || '-',
   },
 ];

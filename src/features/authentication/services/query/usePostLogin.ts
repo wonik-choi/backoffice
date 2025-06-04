@@ -1,7 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
 
+// entities
+import { authenticationRepository } from '@/entities/common/authentication/services/repositoryImpl';
+
 // features
-import { actionPostLogin } from '@/features/authentication/services/actions/actionPostLogin';
+import { postLoginUsecase } from '@/features/authentication/services/usecase/postLoginUsecase';
 import { PostAuthenticationMutationProps } from '@/features/authentication/model/interface';
 import { LoginSchema } from '@/features/authentication/config/schema';
 import { AuthenticationQueryKeys } from '@/features/authentication/config/query-keys';
@@ -14,7 +17,7 @@ export const usePostLogin = ({ onSuccessCallback, onErrorCallback }: PostAuthent
   } = useMutation({
     ...AuthenticationQueryKeys.login,
     mutationFn: (formData: LoginSchema) => {
-      return actionPostLogin(formData);
+      return postLoginUsecase(formData, authenticationRepository);
     },
     onSuccess: () => {
       if (onSuccessCallback) {
