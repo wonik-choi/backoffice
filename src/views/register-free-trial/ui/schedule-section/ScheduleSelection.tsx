@@ -76,8 +76,19 @@ export function ScheduleSelection() {
   };
 
   const handleSubmit = () => {
+    // 시간 + 12
+    const updatedSelectedTimes = selectedTimes.map((time) => {
+      return {
+        ...time,
+        startAt: {
+          ...time.startAt,
+          hour: time.startAt.hour + 12,
+        },
+      };
+    });
+
     // 스키마 검증
-    const validatedSchedule = schedulePageSchema.safeParse({ schedules: selectedTimes });
+    const validatedSchedule = schedulePageSchema.safeParse({ schedules: updatedSelectedTimes });
 
     if (!validatedSchedule.success) {
       toast.error('시간 설정이 올바르지 않습니다');
