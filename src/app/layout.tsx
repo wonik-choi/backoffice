@@ -3,6 +3,7 @@ import { pretendard } from '@/app/fonts';
 import './globals.css';
 
 import { Providers } from './Providers';
+import { Analytics } from '@vercel/analytics/next';
 
 // script
 import MetaPixel from '@/app/(script)/MetaPixel';
@@ -59,6 +60,7 @@ export default function RootLayout({
       <body className={`font-pretendard antialiased`}>
         <Providers>
           {children}
+          <Analytics />
           <Toaster />
         </Providers>
         <MetaPixel />
