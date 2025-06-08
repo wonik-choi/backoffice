@@ -41,25 +41,25 @@ const RegisterFreeTrial = () => {
   const renderStep = () => {
     switch (currentStep) {
       case FormStep.ParentInfo:
-        return <ParentInformation />;
+        return <ParentInformation currentStep={FormStep.ParentInfo} totalSteps={9} />;
       case FormStep.StudentInfo:
-        return <StudentInformation />;
+        return <StudentInformation currentStep={FormStep.StudentInfo} totalSteps={9} />;
       case FormStep.StartDate:
-        return <StartDateSelection />;
+        return <StartDateSelection currentStep={FormStep.StartDate} totalSteps={9} />;
       case FormStep.Schedule:
-        return <ScheduleSelection />;
+        return <ScheduleSelection currentStep={FormStep.Schedule} totalSteps={9} />;
       case FormStep.Semester:
-        return <SemesterSelection />;
+        return <SemesterSelection currentStep={FormStep.Semester} totalSteps={9} />;
       case FormStep.DeviceSelection:
-        return <DeviceSelection />;
+        return <DeviceSelection currentStep={FormStep.DeviceSelection} totalSteps={9} />;
       case FormStep.AddressEntry:
-        return <AddressInformation />;
+        return <AddressInformation currentStep={FormStep.AddressEntry} totalSteps={9} />;
       case FormStep.Promotion:
-        return <DongaSciencePromotion />;
+        return <DongaSciencePromotion currentStep={FormStep.Promotion} totalSteps={9} />;
       case FormStep.Completion:
-        return <Completion />;
+        return <Completion currentStep={FormStep.Completion} totalSteps={9} />;
       default:
-        return <ParentInformation />;
+        return <ParentInformation currentStep={FormStep.ParentInfo} totalSteps={9} />;
     }
   };
 

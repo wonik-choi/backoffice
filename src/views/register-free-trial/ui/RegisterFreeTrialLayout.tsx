@@ -58,7 +58,7 @@ const RegisterFreeTrialLayout = ({
       </nav>
 
       <div className="flex flex-col w-full h-full px-[2rem] bg-white">
-        {progressStep !== 8 ? (
+        {progressStep !== totalSteps ? (
           <div className="flex items-center gap-[1.6rem] self-stretch mb-[1.6rem]">
             <Progress value={((progressStep + 1) / totalSteps) * 100} />
             <p className="text-[1.2rem] font-normal text-susimdal-text-subtle whitespace-nowrap">{`${

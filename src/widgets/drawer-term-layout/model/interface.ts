@@ -10,4 +10,5 @@ export interface DrawerTermLayoutProps {
   titleClassName?: string;
   buttonText: string;
   leftButtonText?: string;
+  isPending?: boolean;
 }
