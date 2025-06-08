@@ -19,13 +19,21 @@ export class FreeTrialUserRepositoryImpl implements FreeTrialUserRepository {
     const response = await this.httpAdaptor.post<FreeTrialApplicationsResponseDto>(
       `back-office/free-trial-application`,
       request,
-      'ky'
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      }
     );
 
     return response.data;
   };
 
-  public getFreeTrialUsers = async (request: GetFreeTrialUsersRequestDto) => {
+  public getFreeTrialUsers = async (
+    request: GetFreeTrialUsersRequestDto,
+    options?: { headers?: Record<string, string> }
+  ) => {
     let url = `back-office/free-trial-users?`;
 
     if (request.periodType) {
@@ -48,15 +56,16 @@ export class FreeTrialUserRepositoryImpl implements FreeTrialUserRepository {
       url += `size=${request.size}&`;
     }
 
-    const response = await this.httpAdaptor.get<GetFreeTrialUsersResponseDto>(url, 'ky');
+    const response = await this.httpAdaptor.get<GetFreeTrialUsersResponseDto>(url, {
+      ...options,
+    });
 
     return response.data;
   };
 
   public getPromotions = async () => {
     const response = await this.httpAdaptor.get<GetFreeTrialPromotionsResponseDto>(
-      `back-office/free-trial-application/promotions`,
-      'ky'
+      `back-office/free-trial-application/promotions`
     );
 
     return response.data;

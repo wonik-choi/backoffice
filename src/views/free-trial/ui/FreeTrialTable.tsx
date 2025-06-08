@@ -1,3 +1,5 @@
+'use client';
+
 // pages
 import FreeTrialTableBodyRow from '@/views/free-trial/ui/FreeTrialTableBodyRow';
 import { useInitialFreeTrialTable } from '@/views/free-trial/services/usecase/useInitialFreeTrialTable';

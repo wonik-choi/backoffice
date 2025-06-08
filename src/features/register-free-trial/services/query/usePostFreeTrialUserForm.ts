@@ -1,14 +1,18 @@
 import { useMutation } from '@tanstack/react-query';
 
+// shared
+import { wrapperSentry } from '@/shared/lib/errors/wrapperSentry';
+import { SENTRY_OP_GUIDE } from '@/shared/lib/errors/config';
+
 // entities
 import { freeTrialUserRepository } from '@/entities/free-trial-user/services/FreeTrialUserRepositoryImpl';
-
-// usecase
-import { submitFreeTrialFormUsecase } from '@/features/register-free-trial/services/usecase/submitFreeTrialFormUsecase';
+import { FreeTrialUserRequestDto } from '@/entities/free-trial-user/models/repository';
 
 // config
 import { RegisterFreeTrialQueryKeys } from '@/features/register-free-trial/config/query-keys';
 import { PostFreeTrialUserFormProps } from '@/features/register-free-trial/model/interface';
+
+import { freeTrialUserRequestBodySchema } from '@/features/register-free-trial/config/schema';
 
 export const usePostFreeTrialUserForm = ({ store, onSuccessCallback, onErrorCallback }: PostFreeTrialUserFormProps) => {
   const {
@@ -20,12 +24,29 @@ export const usePostFreeTrialUserForm = ({ store, onSuccessCallback, onErrorCall
     mutationFn: () => {
       const { inflowCode } = store;
 
-      // 유입코드가 존재할 경우
-      if (inflowCode) {
-        return submitFreeTrialFormUsecase({ formData: store, repository: freeTrialUserRepository, inflowCode });
-      }
+      return wrapperSentry(
+        async () => {
+          try {
+            // 검증
+            const validatedBody: FreeTrialUserRequestDto = freeTrialUserRequestBodySchema.parse(store);
+            // 유입 코드가 존재할 경우 같이 전달
+            if (inflowCode) {
+              validatedBody.inflow = {
+                code: inflowCode,
+              };
+            }
+            // 서버 제출
+            const response = await freeTrialUserRepository.createFreeTrialUser(validatedBody);
 
-      return submitFreeTrialFormUsecase({ formData: store, repository: freeTrialUserRepository });
+            return response;
+          } catch (error) {
+            console.error('Form submission error:', error);
+            throw error;
+          }
+        },
+        'submitFreeTrialFormUsecase',
+        SENTRY_OP_GUIDE.QUERY_MUTATION
+      );
     },
     throwOnError: false,
     onSuccess: () => {
