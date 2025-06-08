@@ -134,7 +134,7 @@ export interface FreeTrialUserDto {
   grade: FreeTrialUserGrade;
   createdAt: string;
   inflow: Inflow;
-  rental: Rental;
+  rental?: Rental;
   freeTrial: FreeTrial;
   latestNotifictaion: Notification;
   latestEventHistory: EventHistory;

@@ -20,7 +20,6 @@ export interface ExpandedFreeTrialUsersTableRowData {
   };
   rental?: {
     status: string;
-    deviceNumber: string;
     returnDate?: string;
     startDate?: string;
     deviceRentalAddress?: string;

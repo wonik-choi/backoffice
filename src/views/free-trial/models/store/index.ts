@@ -3,7 +3,7 @@
 import { create } from 'zustand';
 
 // shared
-import { convertISOString } from '@/shared/lib/date-fns/utls';
+import { formatKoreanTitle } from '@/shared/lib/date-fns/utls';
 
 // entities
 import { PeriodType } from '@/entities/free-trial-user/models/enums';
@@ -14,9 +14,9 @@ import { FreeTrialState } from '@/views/free-trial/models/store/interface';
 export const useFreeTrialStore = create<FreeTrialState>((set, get) => ({
   userKeyword: '',
   columnFilters: [],
-  page: 1,
-  periodType: PeriodType.DAY,
-  baseDate: convertISOString(new Date()),
+  page: 0,
+  periodType: PeriodType.MONTH,
+  baseDate: formatKoreanTitle(new Date(), 'yyyy-MM-dd'),
 
   setKeyword: (keyword: string) => {
     set({ userKeyword: keyword });
@@ -66,7 +66,7 @@ export const useFreeTrialStore = create<FreeTrialState>((set, get) => ({
    */
   setBaseDate: (baseDate: Date) => {
     set(() => {
-      const baseDateString = convertISOString(baseDate);
+      const baseDateString = formatKoreanTitle(baseDate);
 
       return {
         baseDate: baseDateString,

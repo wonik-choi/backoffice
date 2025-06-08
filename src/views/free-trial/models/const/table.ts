@@ -27,10 +27,9 @@ export const FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS: FreeTrialUsersTableColumnGrou
   },
   {
     name: '아이패드 대여',
-    colSpan: 3,
+    colSpan: 2,
     columns: [
       { id: 'rental.status', label: '대여상태' },
-      { id: 'rental.deviceNumber', label: '기기번호' },
       { id: 'rental.returnDate', label: '반납일' },
     ],
   },
@@ -84,12 +83,6 @@ export const FREE_TRIAL_USERS_TABLE_COLUMNS: ColumnDef<ExpandedFreeTrialUsersTab
     accessorFn: (row) => row.rental?.status,
     header: '대여상태',
     cell: ({ row }) => row.original.rental?.status || '미대여',
-  },
-  {
-    id: 'rental.deviceNumber',
-    accessorFn: (row) => row.rental?.deviceNumber,
-    header: '기기번호',
-    cell: ({ row }) => row.original.rental?.deviceNumber || '-',
   },
   {
     id: 'rental.returnDate',

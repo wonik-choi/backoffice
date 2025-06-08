@@ -50,6 +50,7 @@ export const useFilterFreeTrialUsers = (filter: GetFreeTrialUsersRequestDto) => 
         SENTRY_OP_GUIDE.QUERY_MUTATION
       );
     },
+    refetchOnMount: true,
   });
 
   return {

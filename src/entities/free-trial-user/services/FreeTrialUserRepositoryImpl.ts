@@ -56,6 +56,8 @@ export class FreeTrialUserRepositoryImpl implements FreeTrialUserRepository {
       url += `size=${request.size}&`;
     }
 
+    console.log('url', url);
+
     const response = await this.httpAdaptor.get<GetFreeTrialUsersResponseDto>(url, {
       ...options,
     });

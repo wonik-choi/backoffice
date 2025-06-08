@@ -20,7 +20,6 @@ export const freeTrialUsersTableBodyConverter = (data: FreeTrialUserDto[]): Expa
       createdAt: registrationAt,
       inflow: { inflowSource },
       freeTrial: { startDate: trialStart, endDate: trialEnd, trialDays },
-      rental: { deviceNumber, rentalStartDate, rentalReturnDate, address: deviceRentalAddress, detailAddress },
     } = user;
 
     const periodStart = new Date(trialStart);
@@ -35,16 +34,18 @@ export const freeTrialUsersTableBodyConverter = (data: FreeTrialUserDto[]): Expa
       periodStatus = '종료';
     }
 
-    const rentalStart = new Date(rentalStartDate);
-    const rentalEnd = new Date(rentalReturnDate);
+    if (user.rental) {
+      const rentalStart = new Date(user.rental.rentalStartDate);
+      const rentalEnd = new Date(user.rental.rentalReturnDate);
 
-    let rentalStatus: string;
-    if (rentalStart > now) {
-      rentalStatus = '미대여';
-    } else if (rentalEnd > now) {
-      rentalStatus = '대여중';
-    } else {
-      rentalStatus = '반납기일 지남';
+      let rentalStatus: string;
+      if (rentalStart > now) {
+        rentalStatus = '미대여';
+      } else if (rentalEnd > now) {
+        rentalStatus = '대여중';
+      } else {
+        rentalStatus = '반납기일 지남';
+      }
     }
 
     return {
@@ -60,14 +61,6 @@ export const freeTrialUsersTableBodyConverter = (data: FreeTrialUserDto[]): Expa
         endDate: formatISOStringToKoreanTitle(trialEnd, 'yyyy-MM-dd'),
         duration: `${trialDays}일`,
         status: periodStatus,
-      },
-      rental: {
-        status: rentalStatus,
-        deviceNumber,
-        returnDate: formatISOStringToKoreanTitle(rentalReturnDate, 'yyyy-MM-dd'),
-        startDate: formatISOStringToKoreanTitle(rentalStartDate, 'yyyy-MM-dd'),
-        deviceRentalAddress,
-        detailAddress,
       },
     };
   });
