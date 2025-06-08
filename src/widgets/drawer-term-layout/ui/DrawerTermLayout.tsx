@@ -28,6 +28,7 @@ export const DrawerTermLayout = ({
   buttonText,
   leftButtonText,
   titleClassName,
+  isPending,
 }: DrawerTermLayoutProps) => {
   return (
     <Drawer open={openState} onOpenChange={setOpenState}>
@@ -59,7 +60,7 @@ export const DrawerTermLayout = ({
                     {leftButtonText}
                   </Button>
                 )}
-                <Button type="button" className={cn('w-full')} onClick={agreeTerms}>
+                <Button type="button" className={cn('w-full')} onClick={agreeTerms} loading={isPending}>
                   {buttonText}
                 </Button>
               </motion.div>

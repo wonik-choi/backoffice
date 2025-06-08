@@ -5,6 +5,7 @@ export interface DeviceRentalTermsProps {
   openState: boolean;
   setOpenState: Dispatch<SetStateAction<boolean>>;
   agreeTerms: () => void;
+  isPending?: boolean;
 }
 
 /** scheduleSelection */
@@ -23,4 +24,12 @@ export interface FreeTrialPageBadge<T> {
   selected?: boolean;
   disabled?: boolean;
   onClick: () => void;
+}
+
+/** 페이지들의 steps props */
+export interface StepProps {
+  currentStep: number;
+  totalSteps: number;
+  onCompleteSubmitForm?: (args?: any) => void;
+  onPendingSubmitForm?: boolean;
 }

@@ -20,6 +20,7 @@ import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFree
 
 // view
 import { SEMESTER_OPTIONS } from '@/views/register-free-trial/config/const';
+import { StepProps } from '@/views/register-free-trial/model/interface';
 
 // Zod 스키마 정의
 const semesterSchema = freeTrialSchemaInStore.pick({
@@ -28,7 +29,7 @@ const semesterSchema = freeTrialSchemaInStore.pick({
 
 type SemesterFormValues = z.infer<typeof semesterSchema>;
 
-export function SemesterSelection() {
+export function SemesterSelection({ currentStep, totalSteps }: StepProps) {
   const { freeTrial, setSemester, nextStep, prevStep } = useRegisterFreeTrialStore();
 
   const defaultValue: SemesterFormValues = {
@@ -57,8 +58,8 @@ export function SemesterSelection() {
     <RegisterFreeTrialLayout
       title={'어떤 학기를\n공부할까요?'}
       eventName={'상세폼진입-학기선택'}
-      progressStep={3}
-      totalSteps={9}
+      progressStep={currentStep}
+      totalSteps={totalSteps}
     >
       <form
         onSubmit={(e) => {
