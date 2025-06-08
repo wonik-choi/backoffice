@@ -1,17 +1,23 @@
+// shared/lib/errors/wrapperSentry.ts
 import * as Sentry from '@sentry/nextjs';
+import { SENTRY_OP_GUIDE } from './config';
 
-import { SENTRY_OP_GUIDE } from '@/shared/lib/errors/config';
-
-export const wrapperSentry = (fn: (payload?: any) => Promise<any>, name: string, op: SENTRY_OP_GUIDE) => {
+export const wrapperSentry = <T>(fn: (payload?: any) => Promise<T>, name: string, op: SENTRY_OP_GUIDE) => {
   return Sentry.startSpan(
     {
       name,
       op,
     },
-    async () => {
-      const result = await fn();
+    async (span) => {
+      try {
+        const result = await fn();
 
-      return result;
+        span.end();
+        return result;
+      } catch (error) {
+        span.end();
+        throw error;
+      }
     }
   );
 };

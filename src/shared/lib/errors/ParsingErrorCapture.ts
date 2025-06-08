@@ -26,6 +26,10 @@ export class ParsingErrorCapture {
         throw new ServerCustomError(error);
     }
   };
+
+  public isServerError(error: unknown): error is ServerError {
+    return typeof error === 'object' && error !== null && 'debug' in error;
+  }
 }
 
 export const parsingErrorCapture = new ParsingErrorCapture();

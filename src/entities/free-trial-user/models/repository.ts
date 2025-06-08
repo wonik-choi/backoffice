@@ -62,6 +62,9 @@ export interface GetFreeTrialUsersRequestDto {
 
 export interface FreeTrialUserRepository {
   createFreeTrialUser: (request: FreeTrialUserRequestDto) => Promise<FreeTrialApplicationsResponseDto>;
-  getFreeTrialUsers: (request: GetFreeTrialUsersRequestDto) => Promise<GetFreeTrialUsersResponseDto>;
+  getFreeTrialUsers: (
+    request: GetFreeTrialUsersRequestDto,
+    options?: { headers?: Record<string, string> }
+  ) => Promise<GetFreeTrialUsersResponseDto>;
   getPromotions: () => Promise<GetFreeTrialPromotionsResponseDto>;
 }

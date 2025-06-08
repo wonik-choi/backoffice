@@ -26,19 +26,9 @@ export interface HttpResponse<T> {
 }
 
 export interface HttpClient {
-  get<T>(url: string, options?: RequestOptions): Promise<HttpResponse<T>>;
-  post<T>(url: string, data?: unknown, options?: RequestOptions): Promise<HttpResponse<T>>;
-  patch<T>(url: string, data: unknown, options?: RequestOptions): Promise<HttpResponse<T>>;
-  put<T>(url: string, data: unknown, options?: RequestOptions): Promise<HttpResponse<T>>;
-  delete<T>(url: string, options?: RequestOptions): Promise<HttpResponse<T>>;
-}
-
-export type AdapterKey = 'ky' | 'fetch' | 'kakao';
-
-export interface HttpAdaptorStruct {
-  get<T>(url: string, key?: AdapterKey, options?: RequestOptions): Promise<HttpResponse<T>>;
-  post<T>(url: string, data?: unknown, key?: AdapterKey, options?: RequestOptions): Promise<HttpResponse<T>>;
-  patch<T>(url: string, data: unknown, key?: AdapterKey, options?: RequestOptions): Promise<HttpResponse<T>>;
-  put<T>(url: string, data: unknown, key?: AdapterKey, options?: RequestOptions): Promise<HttpResponse<T>>;
-  delete<T>(url: string, key?: AdapterKey, options?: RequestOptions): Promise<HttpResponse<T>>;
+  get<T>(url: string, options?: RequestOptions, serverAction?: boolean): Promise<HttpResponse<T>>;
+  post<T>(url: string, data?: unknown, options?: RequestOptions, serverAction?: boolean): Promise<HttpResponse<T>>;
+  patch<T>(url: string, data: unknown, options?: RequestOptions, serverAction?: boolean): Promise<HttpResponse<T>>;
+  put<T>(url: string, data: unknown, options?: RequestOptions, serverAction?: boolean): Promise<HttpResponse<T>>;
+  delete<T>(url: string, options?: RequestOptions, serverAction?: boolean): Promise<HttpResponse<T>>;
 }
