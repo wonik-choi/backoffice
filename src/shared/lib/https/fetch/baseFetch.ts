@@ -3,6 +3,7 @@ import { ClientCustomError } from '@/shared/lib/errors/errors';
 
 // FetchAdapter.ts
 import type { HttpClient, RequestOptions, HttpResponse } from '@/shared/lib/https/interface';
+import { parsingErrorCapture } from '../../errors/ParsingErrorCapture';
 
 export class FetchAdapter implements HttpClient {
   private baseURL: string;
@@ -16,13 +17,22 @@ export class FetchAdapter implements HttpClient {
    * @param url get 요청 (query 포함)
    * @param opts options
    */
-  async get<T>(url: string, opts: RequestOptions = {}): Promise<HttpResponse<T>> {
-    const response = await fetch(`${this.baseURL}${url}`, {
+  async get<T>(url: string, opts: RequestOptions = {}, serverAction: boolean = false): Promise<HttpResponse<T>> {
+    const baseUrl = serverAction ? `${url}` : `${this.baseURL}${url}`;
+    const response = await fetch(baseUrl, {
       method: 'GET',
       headers: { ...opts.headers },
       credentials: opts.credentials, // 필요 시 include 등
       next: opts.next,
     });
+
+    if (!response.ok) {
+      const error = await response.json();
+      if (parsingErrorCapture.isServerError(error)) {
+        throw parsingErrorCapture.capture(error);
+      }
+      throw error;
+    }
 
     return {
       data: response.json() as Promise<T>,
@@ -37,7 +47,12 @@ export class FetchAdapter implements HttpClient {
    * @param body body
    * @param opts options
    */
-  async post<T>(url: string, body: unknown, opts: RequestOptions = {}): Promise<HttpResponse<T>> {
+  async post<T>(
+    url: string,
+    body: unknown,
+    opts: RequestOptions = {},
+    serverAction: boolean = false
+  ): Promise<HttpResponse<T>> {
     // 1) headers 복사 (caller가 헤더에 Content-Type을 지정했을 수 있음)
     const headers: Record<string, string> = { ...opts.headers };
 
@@ -49,9 +64,8 @@ export class FetchAdapter implements HttpClient {
 
     if (headers['Content-Type']?.startsWith('application/x-www-form-urlencoded')) {
       // caller가 URLSearchParams를 body로 넘겼다면:
-      if (body instanceof URLSearchParams) {
-        serializedBody = body.toString();
-      } else if (typeof body === 'string') {
+
+      if (typeof body === 'string') {
         serializedBody = body;
       } else {
         // 잘못된 사용: 객체가 넘어왔는데 Content-Type만 form-urlencoded인 경우
@@ -63,13 +77,23 @@ export class FetchAdapter implements HttpClient {
       serializedBody = JSON.stringify(body);
     }
 
-    const response = await fetch(`${this.baseURL}${url}`, {
+    const baseUrl = serverAction ? `${url}` : `${this.baseURL}${url}`;
+
+    const response = await fetch(baseUrl, {
       method: 'POST',
       headers,
       body: serializedBody,
       credentials: opts.credentials,
       next: opts.next,
     });
+
+    if (!response.ok) {
+      const error = await response.json();
+      if (parsingErrorCapture.isServerError(error)) {
+        throw parsingErrorCapture.capture(error);
+      }
+      throw error;
+    }
 
     return {
       data: response.json() as Promise<T>,
@@ -84,17 +108,32 @@ export class FetchAdapter implements HttpClient {
    * @param body body
    * @param opts options
    */
-  async put<T>(url: string, body: unknown, opts: RequestOptions = {}): Promise<HttpResponse<T>> {
+  async put<T>(
+    url: string,
+    body: unknown,
+    opts: RequestOptions = {},
+    serverAction: boolean = false
+  ): Promise<HttpResponse<T>> {
     const headers: Record<string, string> = { ...opts.headers };
     headers['Content-Type'] = headers['Content-Type'] || 'application/json;charset=UTF-8';
 
-    const response = await fetch(`${this.baseURL}${url}`, {
+    const baseUrl = serverAction ? `${url}` : `${this.baseURL}${url}`;
+
+    const response = await fetch(baseUrl, {
       method: 'PUT',
       headers,
       body: JSON.stringify(body),
       credentials: opts.credentials,
       next: opts.next,
     });
+
+    if (!response.ok) {
+      const error = await response.json();
+      if (parsingErrorCapture.isServerError(error)) {
+        throw parsingErrorCapture.capture(error);
+      }
+      throw error;
+    }
 
     return {
       data: response.json() as Promise<T>,
@@ -109,17 +148,32 @@ export class FetchAdapter implements HttpClient {
    * @param body body
    * @param opts options
    */
-  async patch<T>(url: string, body: unknown, opts: RequestOptions = {}): Promise<HttpResponse<T>> {
+  async patch<T>(
+    url: string,
+    body: unknown,
+    opts: RequestOptions = {},
+    serverAction: boolean = false
+  ): Promise<HttpResponse<T>> {
     const headers: Record<string, string> = { ...opts.headers };
     headers['Content-Type'] = headers['Content-Type'] || 'application/json;charset=UTF-8';
 
-    const response = await fetch(`${this.baseURL}${url}`, {
+    const baseUrl = serverAction ? `${url}` : `${this.baseURL}${url}`;
+
+    const response = await fetch(baseUrl, {
       method: 'PATCH',
       headers,
       body: JSON.stringify(body),
       credentials: opts.credentials,
       next: opts.next,
     });
+
+    if (!response.ok) {
+      const error = await response.json();
+      if (parsingErrorCapture.isServerError(error)) {
+        throw parsingErrorCapture.capture(error);
+      }
+      throw error;
+    }
 
     return {
       data: response.json() as Promise<T>,
@@ -133,13 +187,23 @@ export class FetchAdapter implements HttpClient {
    * @param url delete 요청 (JSON 전용)
    * @param opts options
    */
-  async delete<T>(url: string, opts: RequestOptions = {}): Promise<HttpResponse<T>> {
-    const response = await fetch(`${this.baseURL}${url}`, {
+  async delete<T>(url: string, opts: RequestOptions = {}, serverAction: boolean = false): Promise<HttpResponse<T>> {
+    const baseUrl = serverAction ? `${url}` : `${this.baseURL}${url}`;
+
+    const response = await fetch(baseUrl, {
       method: 'DELETE',
       headers: { ...opts.headers },
       credentials: opts.credentials,
       next: opts.next,
     });
+
+    if (!response.ok) {
+      const error = await response.json();
+      if (parsingErrorCapture.isServerError(error)) {
+        throw parsingErrorCapture.capture(error);
+      }
+      throw error;
+    }
 
     return {
       data: response.json() as Promise<T>,
@@ -148,5 +212,4 @@ export class FetchAdapter implements HttpClient {
     };
   }
 }
-
 export const fetchAdapter = new FetchAdapter();

@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/nextjs';
 
-export interface ServerError {
+export interface ServerError extends Error {
   status: number;
   message: string;
   error: string;
@@ -32,7 +32,7 @@ export class ServerCustomError extends CustomError {
   };
 
   constructor(payload: ServerError, skipCapture = false) {
-    super(payload.debug.message, 'ServerCustomError');
+    super(payload.message, 'ServerCustomError');
     this.status = payload.status;
     this.message = payload.message;
     this.error = payload.error;

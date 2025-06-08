@@ -1,10 +1,10 @@
 import { ColumnDef, Table } from '@tanstack/react-table';
-import { ExpandedRowData } from '@/views/free-trial/models/interface';
+import { ExpandedFreeTrialUsersTableRowData } from '@/views/free-trial/models/interface';
 
 /**
  * @description 내보내기 버튼 컴포넌트의 타입 정의
  */
-export interface ExportButtonProps<TData extends ExpandedRowData> {
+export interface ExportButtonProps<TData extends ExpandedFreeTrialUsersTableRowData> {
   table: Table<TData>;
   data: TData[];
   userColumns: ColumnDef<TData, unknown>[];

@@ -4,8 +4,13 @@ import { HttpAdaptor, httpAdaptor } from '@/shared/lib/https/HttpAdapter';
 import {
   FreeTrialApplicationsResponseDto,
   GetFreeTrialPromotionsResponseDto,
+  GetFreeTrialUsersResponseDto,
 } from '@/entities/free-trial-user/models/dtos';
-import { FreeTrialUserRepository, FreeTrialUserRequestDto } from '@/entities/free-trial-user/models/repository';
+import {
+  FreeTrialUserRepository,
+  FreeTrialUserRequestDto,
+  GetFreeTrialUsersRequestDto,
+} from '@/entities/free-trial-user/models/repository';
 
 export class FreeTrialUserRepositoryImpl implements FreeTrialUserRepository {
   constructor(private readonly httpAdaptor: HttpAdaptor) {}
@@ -14,16 +19,55 @@ export class FreeTrialUserRepositoryImpl implements FreeTrialUserRepository {
     const response = await this.httpAdaptor.post<FreeTrialApplicationsResponseDto>(
       `back-office/free-trial-application`,
       request,
-      'ky'
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      }
     );
+
+    return response.data;
+  };
+
+  public getFreeTrialUsers = async (
+    request: GetFreeTrialUsersRequestDto,
+    options?: { headers?: Record<string, string> }
+  ) => {
+    let url = `back-office/free-trial-users?`;
+
+    if (request.periodType) {
+      url += `periodType=${request.periodType}&`;
+    }
+
+    if (request.baseDate) {
+      url += `baseDate=${request.baseDate}&`;
+    }
+
+    if (request.timeZone) {
+      url += `timeZone=${request.timeZone}&`;
+    }
+
+    if (request.page) {
+      url += `page=${request.page}&`;
+    }
+
+    if (request.size) {
+      url += `size=${request.size}&`;
+    }
+
+    console.log('url', url);
+
+    const response = await this.httpAdaptor.get<GetFreeTrialUsersResponseDto>(url, {
+      ...options,
+    });
 
     return response.data;
   };
 
   public getPromotions = async () => {
     const response = await this.httpAdaptor.get<GetFreeTrialPromotionsResponseDto>(
-      `back-office/free-trial-application/promotions`,
-      'ky'
+      `back-office/free-trial-application/promotions`
     );
 
     return response.data;

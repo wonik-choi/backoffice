@@ -1,14 +1,77 @@
 'use client';
 
 import { create } from 'zustand';
+
+// shared
+import { formatKoreanTitle } from '@/shared/lib/date-fns/utls';
+
+// entities
+import { PeriodType } from '@/entities/free-trial-user/models/enums';
+
+// views
 import { FreeTrialState } from '@/views/free-trial/models/store/interface';
 
 export const useFreeTrialStore = create<FreeTrialState>((set, get) => ({
   userKeyword: '',
   columnFilters: [],
+  page: 0,
+  periodType: PeriodType.MONTH,
+  baseDate: formatKoreanTitle(new Date(), 'yyyy-MM-dd'),
 
   setKeyword: (keyword: string) => {
     set({ userKeyword: keyword });
+  },
+
+  /**
+   * @description 다음 페이지 이동
+   */
+  setNextPage: () => {
+    set((state) => {
+      return {
+        page: state.page + 1,
+      };
+    });
+  },
+
+  /**
+   * @description 이전 페이지 이동
+   */
+  setPrevPage: () => {
+    set((state) => {
+      return {
+        page: state.page - 1,
+      };
+    });
+  },
+
+  /**
+   * @description 페이지 이동
+   * @param page 페이지 번호
+   */
+  setPage: (page: number) => {
+    set({ page });
+  },
+
+  /**
+   * @description 기간 타입 설정
+   * @param periodType 기간 타입
+   */
+  setPeriodType: (periodType: PeriodType) => {
+    set({ periodType });
+  },
+
+  /**
+   * @description 기간 날짜 설정 (isoString)
+   * @param baseDate 기간 날짜
+   */
+  setBaseDate: (baseDate: Date) => {
+    set(() => {
+      const baseDateString = formatKoreanTitle(baseDate);
+
+      return {
+        baseDate: baseDateString,
+      };
+    });
   },
 
   /**

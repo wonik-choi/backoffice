@@ -7,8 +7,7 @@ export const EditFreeTrialStudentSchema = z.object({
     .regex(/^01[016789]-\d{3,4}-\d{4}$/, '전화번호 형식이 올바르지 않습니다.')
     .optional(),
   registrationDate: z.date().optional(),
-  enterancePath: z.string().min(1, '입장 경로를 입력해주세요.').optional(),
-  testPeriod: z
+  period: z
     .object({
       startDate: z.date().optional(),
       endDate: z.date().optional(),
@@ -23,7 +22,7 @@ export const EditFreeTrialStudentSchema = z.object({
         path: ['endDate'],
       }
     ),
-  deviceRental: z
+  rental: z
     .object({
       deviceRentalAddress: z.string().optional(),
       rentalDate: z.date().optional(),

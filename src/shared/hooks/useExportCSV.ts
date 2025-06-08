@@ -2,18 +2,22 @@
 
 import React from 'react';
 import { ColumnDef, CellContext, Table } from '@tanstack/react-table';
-import { ExpandedRowData } from '@/views/free-trial/models/interface';
+import { ExpandedFreeTrialUsersTableRowData } from '@/views/free-trial/models/interface';
 
 // UTF-8 BOM 문자
 const BOM = '\uFEFF';
 
-interface UseExportCSVProps<TData extends ExpandedRowData> {
+interface UseExportCSVProps<TData extends ExpandedFreeTrialUsersTableRowData> {
   table: Table<TData>;
   data: TData[];
   userColumns: ColumnDef<TData, unknown>[];
 }
 
-export function useExportCSV<TData extends ExpandedRowData>({ table, data, userColumns }: UseExportCSVProps<TData>) {
+export function useExportCSV<TData extends ExpandedFreeTrialUsersTableRowData>({
+  table,
+  data,
+  userColumns,
+}: UseExportCSVProps<TData>) {
   const handleExport = React.useCallback(() => {
     const selectedRows = table.getSelectedRowModel().rows;
     const dataToExport = selectedRows.length > 0 ? selectedRows.map((row) => row.original) : data;

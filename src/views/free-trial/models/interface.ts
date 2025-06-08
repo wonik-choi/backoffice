@@ -1,30 +1,29 @@
-import { ColumnDef, RowSelectionState, Table, ColumnFilter, Row } from '@tanstack/react-table';
-import { StatusOption, DeviceRentalOption } from './const/freeTrialUserStatus';
+import { Row } from '@tanstack/react-table';
 
 /**
  * @description
  * 무료체험 테이블 Row 데이터 타입
  */
-export interface ExpandedRowData {
+export interface ExpandedFreeTrialUsersTableRowData {
   id: string;
-  status?: string;
-  latestRecord?: string;
-  registrationDate?: Date;
-  enterancePath?: string;
   name?: string;
   phone?: string;
-  checkPeriod?: {
-    startDate?: Date;
-    endDate?: Date;
+  status?: string;
+  latestRecord?: string;
+  registrationDate?: string;
+  inflow?: string;
+  period?: {
+    startDate?: string;
+    endDate?: string;
     duration?: string;
     status?: string;
   };
-  upgrade?: {
+  rental?: {
+    status: string;
+    returnDate?: string;
+    startDate?: string;
     deviceRentalAddress?: string;
-    completionStatus?: string;
-    rentalDate?: Date;
-    returnStatus?: string;
-    returnDate?: Date;
+    detailAddress?: string;
   };
 }
 
@@ -35,7 +34,20 @@ type NestedKeyOf<T> = T extends object
     }[keyof T & string]
   : never;
 
-export type ExpandedRowDataKeys = NestedKeyOf<ExpandedRowData>;
+export type ExpandedRowDataKeys = NestedKeyOf<ExpandedFreeTrialUsersTableRowData>;
+
+/**
+ * @description
+ * 테이블 컬럼 그룹
+ */
+export interface FreeTrialUsersTableColumnGroup {
+  name: string;
+  colSpan: number;
+  columns: Array<{
+    id: ExpandedRowDataKeys | 'row-select';
+    label: string;
+  }>;
+}
 
 /**
  * @description
@@ -49,7 +61,7 @@ export interface CounselingRecord {
   counselingContent: string;
 }
 
-export interface ExpandedUserInfoProps<TData extends ExpandedRowData> {
+export interface ExpandedUserInfoProps<TData extends ExpandedFreeTrialUsersTableRowData> {
   row: Row<TData>;
   counselingRecords: CounselingRecord[];
 }

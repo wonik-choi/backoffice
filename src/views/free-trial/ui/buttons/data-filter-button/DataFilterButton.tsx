@@ -3,7 +3,10 @@ import { Filter } from 'lucide-react';
 
 // pages
 import { useFreeTrialStore } from '@/views/free-trial/models/store';
-import { USER_STATUS, USER_DEVICE_RENTAL_STATUS } from '@/views/free-trial/models/const/freeTrialUserStatus';
+import {
+  FREE_TRIAL_USER_STATUS,
+  FREE_TRIAL_USER_DEVICE_RENTAL_STATUS,
+} from '@/views/free-trial/models/const/freeTrialUserStatus';
 
 // shared
 import { Button } from '@/shared/components/atomics/button';
@@ -14,7 +17,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/shared/components/atomics/dropdown-menu';
-import { deviceRentalOptions, statusOptions } from '@/views/free-trial/models/const/freeTrialUserStatus';
+import {
+  freeTrialUserDeviceRentalOptions,
+  freeTrialUserStatusOptions,
+} from '@/views/free-trial/models/const/freeTrialUserStatus';
 
 function DataFilterButton() {
   const { columnFilters, toggleColumnFilter, checkFilterChecked } = useFreeTrialStore();
@@ -37,11 +43,11 @@ function DataFilterButton() {
         <div className="px-[0.8rem] py-[0.6rem]">
           <p className="text-[1.4rem] font-semibold text-gray-900 mb-[0.8rem]">처리상태</p>
           <div className="space-y-[0.4rem]">
-            {statusOptions.map((status) => (
+            {freeTrialUserStatusOptions.map((status) => (
               <div key={status} className="flex items-center">
                 <Checkbox
-                  checked={checkFilterChecked(USER_STATUS, status)}
-                  onCheckedChange={() => toggleColumnFilter(USER_STATUS, status)}
+                  checked={checkFilterChecked(FREE_TRIAL_USER_STATUS, status)}
+                  onCheckedChange={() => toggleColumnFilter(FREE_TRIAL_USER_STATUS, status)}
                   className="data-[state=checked]:bg-violet-600 data-[state=checked]:border-violet-600"
                 />
                 <label className="ml-[0.8rem] text-[1.4rem] text-gray-600">{status}</label>
@@ -53,11 +59,11 @@ function DataFilterButton() {
         <div className="px-[0.8rem] py-[0.6rem]">
           <p className="text-[1.4rem] font-semibold text-gray-900 mb-[0.8rem]">대여여부</p>
           <div className="space-y-[0.4rem]">
-            {deviceRentalOptions.map((status) => (
+            {freeTrialUserDeviceRentalOptions.map((status) => (
               <div key={status} className="flex items-center">
                 <Checkbox
-                  checked={checkFilterChecked(USER_DEVICE_RENTAL_STATUS, status)}
-                  onCheckedChange={() => toggleColumnFilter(USER_DEVICE_RENTAL_STATUS, status)}
+                  checked={checkFilterChecked(FREE_TRIAL_USER_DEVICE_RENTAL_STATUS, status)}
+                  onCheckedChange={() => toggleColumnFilter(FREE_TRIAL_USER_DEVICE_RENTAL_STATUS, status)}
                   className="data-[state=checked]:bg-violet-600 data-[state=checked]:border-violet-600"
                 />
                 <label className="ml-[0.8rem] text-[1.4rem] text-gray-600">{status}</label>
