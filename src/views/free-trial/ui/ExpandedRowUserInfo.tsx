@@ -4,7 +4,7 @@ import PeopleTop from '@/shared/components/svgs/people-top/PeopleTop';
 import ClockCircle from '@/shared/components/svgs/clock-circle/ClockCircle';
 import Pad from '@/shared/components/svgs/pad/Pad';
 
-import { ExpandedRowData } from '@/views/free-trial/models/interface';
+import { ExpandedFreeTrialUsersTableRowData } from '@/views/free-trial/models/interface';
 
 interface UserInfoCardProps {
   title: string;
@@ -42,7 +42,9 @@ interface ExpandedRowUserInfoProps<TData> {
 }
 
 // TODO: 지금은 ExpandedRowData 를 extends 하지만 상황에 따라 어떤식으로 제네릭을 사용할지 정책을 고민해볼 필요가 있음
-const ExpandedRowUserInfo = <TData extends ExpandedRowData>({ row }: ExpandedRowUserInfoProps<TData>) => {
+const ExpandedRowUserInfo = <TData extends ExpandedFreeTrialUsersTableRowData>({
+  row,
+}: ExpandedRowUserInfoProps<TData>) => {
   const userInfo = row.original;
 
   const basicInfo: UserInfoCardProps = {
@@ -61,12 +63,7 @@ const ExpandedRowUserInfo = <TData extends ExpandedRowData>({ row }: ExpandedRow
       {
         id: '2',
         label: '등록일',
-        value: '-',
-      },
-      {
-        id: '3',
-        label: '입학경로',
-        value: userInfo.enterancePath || '-',
+        value: userInfo.registrationDate || '-',
       },
     ],
     titleIcon: <PeopleTop className="text-blue-500" />,
@@ -78,22 +75,22 @@ const ExpandedRowUserInfo = <TData extends ExpandedRowData>({ row }: ExpandedRow
       {
         id: '0',
         label: '시작일',
-        value: userInfo.checkPeriod?.startDate?.toLocaleDateString() || '-',
+        value: userInfo.period?.startDate || '-',
       },
       {
         id: '1',
         label: '종료일',
-        value: userInfo.checkPeriod?.endDate?.toLocaleDateString() || '-',
+        value: userInfo.period?.endDate || '-',
       },
       {
         id: '2',
         label: '진행일수',
-        value: userInfo.checkPeriod?.duration || '-',
+        value: userInfo.period?.duration || '-',
       },
       {
         id: '3',
         label: '상태',
-        value: userInfo.checkPeriod?.status || '-',
+        value: userInfo.period?.status || '-',
       },
     ],
     titleIcon: <ClockCircle className="text-emerald-500" />,
@@ -105,17 +102,17 @@ const ExpandedRowUserInfo = <TData extends ExpandedRowData>({ row }: ExpandedRow
       {
         id: '0',
         label: '수령지',
-        value: userInfo.upgrade?.deviceRentalAddress || '-',
+        value: userInfo.rental?.deviceRentalAddress || '-',
       },
       {
         id: '1',
         label: '대여일자',
-        value: userInfo.upgrade?.rentalDate?.toLocaleDateString() || '-',
+        value: userInfo.rental?.startDate || '-',
       },
       {
         id: '2',
         label: '반납일',
-        value: userInfo.upgrade?.returnDate?.toLocaleDateString() || '-',
+        value: userInfo.rental?.returnDate || '-',
       },
     ],
     titleIcon: <Pad className="text-violet-500" />,

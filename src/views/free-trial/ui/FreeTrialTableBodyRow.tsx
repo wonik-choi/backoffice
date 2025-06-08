@@ -5,12 +5,12 @@ import { flexRender, Row } from '@tanstack/react-table';
 
 // pages
 import ExpandedRowContent from '@/views/free-trial/ui/ExpandedRowContent';
-import type { ExpandedRowData } from '@/views/free-trial/models/interface';
+import type { ExpandedFreeTrialUsersTableRowData } from '@/views/free-trial/models/interface';
 
 // shared
 import { TableCell, TableRow } from '@/shared/components/atomics/table';
 
-const FreeTrialTableBodyRow = ({ row }: { row: Row<ExpandedRowData> }) => {
+const FreeTrialTableBodyRow = ({ row }: { row: Row<ExpandedFreeTrialUsersTableRowData> }) => {
   const [expanded, setExpanded] = React.useState(false);
 
   const toggleExpandedUserInfo = React.useCallback(() => {

@@ -1,16 +1,21 @@
+'use client';
+
 // pages
 import FreeTrialTableBodyRow from '@/views/free-trial/ui/FreeTrialTableBodyRow';
 import { useInitialFreeTrialTable } from '@/views/free-trial/services/usecase/useInitialFreeTrialTable';
 import type { FreeTrialTableUsecaseProps } from '@/views/free-trial/models/converter/interface';
-import { ExpandedRowData } from '@/views/free-trial/models/interface';
+import { ExpandedFreeTrialUsersTableRowData } from '@/views/free-trial/models/interface';
 
 // shared
 import { Table, TableHeader, TableRow, TableHead, TableCell, TableBody } from '@/shared/components/atomics/table';
 import { flexRender } from '@tanstack/react-table';
 import { Button } from '@/shared/components/atomics/button';
 
-const FreeTrialTable = ({ columns, tableData }: FreeTrialTableUsecaseProps<ExpandedRowData, unknown>) => {
-  const { table, COLUMN_GROUPS } = useInitialFreeTrialTable({ columns, tableData });
+const FreeTrialTable = ({
+  columns,
+  tableData,
+}: FreeTrialTableUsecaseProps<ExpandedFreeTrialUsersTableRowData, unknown>) => {
+  const { table, FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS } = useInitialFreeTrialTable({ columns, tableData });
 
   return (
     <>
@@ -18,7 +23,7 @@ const FreeTrialTable = ({ columns, tableData }: FreeTrialTableUsecaseProps<Expan
         <Table>
           <TableHeader>
             <TableRow className="bg-gray-100/80 border-b border-gray-200">
-              {COLUMN_GROUPS.map((group) => {
+              {FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS.map((group) => {
                 return (
                   <TableHead
                     key={group.name}

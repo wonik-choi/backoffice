@@ -11,7 +11,11 @@ export class TempUserRepositoryImpl implements TempUserRepository {
     const response = await this.httpAdaptor.post<TempSelfFreeTrialApplicationResponseDto>(
       `back-office/temp-self-free-trial-application`,
       request,
-      'ky'
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
     );
 
     return response.data;

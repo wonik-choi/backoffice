@@ -46,6 +46,7 @@ export function ApplyFreeTrialTempUser() {
           promotionCode: inflowCode,
         });
       }
+
       navigate('https://class.susimdal.com/consult_ending');
     },
     onErrorCallback: (error: Error) => {

@@ -1,5 +1,9 @@
-import { FreeTrialApplicationsResponseDto, GetFreeTrialPromotionsResponseDto } from './dtos';
-import { FreeTrialUserGrade, DayOfWeek, Semester, RentalTermCode, PromotionTermCode } from './enums';
+import {
+  FreeTrialApplicationsResponseDto,
+  GetFreeTrialPromotionsResponseDto,
+  GetFreeTrialUsersResponseDto,
+} from './dtos';
+import { FreeTrialUserGrade, DayOfWeek, Semester, RentalTermCode, PromotionTermCode, PeriodType } from './enums';
 
 export interface FreeTrialUserRequestDto {
   user: {
@@ -45,9 +49,22 @@ export interface FreeTrialUserRequestDto {
   };
 }
 
+export interface GetFreeTrialUsersRequestDto {
+  periodType: PeriodType;
+  /** YYYY-MM-DD */
+  baseDate: string;
+  timeZone: string;
+  page: number;
+  size: number;
+}
+
 /** repository */
 
 export interface FreeTrialUserRepository {
   createFreeTrialUser: (request: FreeTrialUserRequestDto) => Promise<FreeTrialApplicationsResponseDto>;
+  getFreeTrialUsers: (
+    request: GetFreeTrialUsersRequestDto,
+    options?: { headers?: Record<string, string> }
+  ) => Promise<GetFreeTrialUsersResponseDto>;
   getPromotions: () => Promise<GetFreeTrialPromotionsResponseDto>;
 }

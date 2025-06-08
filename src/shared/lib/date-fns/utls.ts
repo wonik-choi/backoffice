@@ -23,6 +23,12 @@ export const convertISOString = (date: Date) => {
   return formattedISODate;
 };
 
+export const decodeISOString = (date: string) => {
+  const decodedDate = new TZDate(date, 'Asia/Seoul');
+
+  return decodedDate;
+};
+
 export const formatKoreanTitle = (date: Date, formatString: string = 'M월 dd일') => {
   const adjustedTimezone = new TZDate(date, 'Asia/Seoul');
   const formattedISODate = format(adjustedTimezone, formatString);
@@ -52,4 +58,11 @@ export const getNextPossibleFreeTrialDate = (addDay: number) => {
   }
 
   return addDate;
+};
+
+export const formatISOStringToKoreanTitle = (date: string, formatString: string = 'yyyy-MM-dd') => {
+  const decodedDate = decodeISOString(date);
+  const formattedDate = format(decodedDate, formatString);
+
+  return formattedDate;
 };

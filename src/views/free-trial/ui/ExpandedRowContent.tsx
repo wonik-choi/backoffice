@@ -3,8 +3,10 @@ import { useState, useCallback } from 'react';
 
 import Message from '@/shared/components/svgs/message/Message';
 import PeopleTop from '@/shared/components/svgs/people-top/PeopleTop';
-import CirclePlus from '@/shared/components/svgs/circle-plus/CirclePlus';
 import { UserRoundCheck } from 'lucide-react';
+
+// shared
+import { decodeISOString } from '@/shared/lib/date-fns/utls';
 
 // features
 import EditFreeTrialStudentDialog from '@/features/edit-free-trial-student/ui/EditFreeTrialStudentDialog';
@@ -15,7 +17,7 @@ import ExpandedRowUserInfo from '@/views/free-trial/ui/ExpandedRowUserInfo';
 import ExpandedRowCounselingRecord from '@/views/free-trial/ui/ExpandedRowCounselingRecord';
 import ExpandedRowMessageRecord from '@/views/free-trial/ui/ExpandedRowMessageRecord';
 
-import { ExpandedRowData } from '@/views/free-trial/models/interface';
+import { ExpandedFreeTrialUsersTableRowData } from '@/views/free-trial/models/interface';
 import { ExpandedUserInfoProps } from '@/views/free-trial/models/interface';
 
 interface ExpandedRowContentNavigationItemProps {
@@ -97,7 +99,7 @@ const ExpandedRowContentNavigation = ({ activeTab, setActiveTab }: ExpandedRowCo
   );
 };
 
-const ExpandedRowContent = <TData extends ExpandedRowData>({
+const ExpandedRowContent = <TData extends ExpandedFreeTrialUsersTableRowData>({
   row,
   counselingRecords,
 }: ExpandedUserInfoProps<TData>): React.ReactNode => {
@@ -110,16 +112,15 @@ const ExpandedRowContent = <TData extends ExpandedRowData>({
   const exampleStudent = {
     name: userInfo.name,
     phone: userInfo.phone,
-    registrationDate: userInfo.registrationDate,
-    enterancePath: userInfo.enterancePath,
-    testPeriod: {
-      startDate: userInfo.checkPeriod?.startDate,
-      endDate: userInfo.checkPeriod?.endDate,
+    registrationDate: userInfo.registrationDate ? decodeISOString(userInfo.registrationDate) : undefined,
+    period: {
+      startDate: userInfo.period?.startDate ? decodeISOString(userInfo.period?.startDate) : undefined,
+      endDate: userInfo.period?.endDate ? decodeISOString(userInfo.period?.endDate) : undefined,
     },
-    deviceRental: {
-      deviceRentalAddress: userInfo.upgrade?.deviceRentalAddress,
-      rentalDate: userInfo.upgrade?.rentalDate,
-      returnDate: userInfo.upgrade?.returnDate,
+    rental: {
+      deviceRentalAddress: userInfo.rental?.deviceRentalAddress,
+      rentalDate: userInfo.rental?.startDate ? decodeISOString(userInfo.rental?.startDate) : undefined,
+      returnDate: userInfo.rental?.returnDate ? decodeISOString(userInfo.rental?.returnDate) : undefined,
     },
   };
 
