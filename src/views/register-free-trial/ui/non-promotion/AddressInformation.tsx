@@ -21,14 +21,14 @@ import type { DaumPostcodeResultDto } from '@/features/search-address/model/dtos
 import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
 
 // view
-import { RentalDeviceTerms } from '@/views/register-free-trial/ui/RentalDeviceTerms';
+import { RentalDeviceTerms } from '@/views/register-free-trial/ui/non-promotion/RentalDeviceTerms';
 import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFreeTrialLayout';
 import { StepProps } from '@/views/register-free-trial/model/interface';
 
 type AddressFormValues = z.infer<typeof rentalSchema>;
 
-export function AddressInformation({ currentStep, totalSteps }: StepProps) {
-  const { nextStep, prevStep, setRental, rental } = useRegisterFreeTrialStore();
+export function AddressInformation({ currentStep, totalSteps, onCompleteSubmitForm, onPendingSubmitForm }: StepProps) {
+  const { prevStep, setRental, rental } = useRegisterFreeTrialStore();
   const [isTermsDrawerOpen, setIsTermsDrawerOpen] = useState(false);
 
   const defaultValue: AddressFormValues = {
@@ -54,7 +54,10 @@ export function AddressInformation({ currentStep, totalSteps }: StepProps) {
           },
         ],
       });
-      nextStep();
+
+      if (onCompleteSubmitForm) {
+        onCompleteSubmitForm();
+      }
     },
   });
 

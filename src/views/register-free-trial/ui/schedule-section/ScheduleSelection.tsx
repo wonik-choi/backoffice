@@ -22,12 +22,13 @@ import { ScheduleTimeInDay } from '@/views/register-free-trial/ui/schedule-secti
 import { SubSectionLayout } from '@/views/register-free-trial/ui/schedule-section/SubSectionLayout';
 import { useDeterminUserSchedule } from '@/views/register-free-trial/services/useDeterminUserSchedule';
 import { DAY_OF_WEEK_FREE_TRIAL_OPTIONS } from '@/views/register-free-trial/config/const';
+import { StepProps } from '@/views/register-free-trial/model/interface';
 
 const schedulePageSchema = freeTrialSchemaInStore.pick({
   schedules: true,
 });
 
-export function ScheduleSelection() {
+export function ScheduleSelection({ currentStep, totalSteps }: StepProps) {
   const [isDetailDrawerOpen, setIsDetailDrawerOpen] = useState(false);
   const {
     freeTrial,
@@ -117,8 +118,8 @@ export function ScheduleSelection() {
     <RegisterFreeTrialLayout
       title={`수심달에서 공부할\n6시간을 설정해주세요`}
       eventName={'상세폼진입-스케줄설정'}
-      progressStep={2}
-      totalSteps={9}
+      progressStep={currentStep}
+      totalSteps={totalSteps}
     >
       <div className="flex flex-1 flex-col justify-start items-start h-full relative space-y-8">
         <motion.div

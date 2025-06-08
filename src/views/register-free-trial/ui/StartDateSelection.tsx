@@ -23,8 +23,9 @@ import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/
 
 // views
 import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFreeTrialLayout';
+import { StepProps } from '@/views/register-free-trial/model/interface';
 
-export function StartDateSelection() {
+export function StartDateSelection({ currentStep, totalSteps }: StepProps) {
   const { freeTrial, setFreeTrialStartDate, nextStep, prevStep } = useRegisterFreeTrialStore();
   const [date, setDate] = useState<Date | undefined>(freeTrial.startDate ? new Date(freeTrial.startDate) : undefined);
 
@@ -67,8 +68,8 @@ export function StartDateSelection() {
       title={titleText}
       eventName={'상세폼진입-시작날짜선택'}
       subtitle={subtitleText}
-      progressStep={4}
-      totalSteps={9}
+      progressStep={currentStep}
+      totalSteps={totalSteps}
     >
       <motion.div
         initial={{ opacity: 0, x: -20 }}

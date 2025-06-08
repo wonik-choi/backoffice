@@ -29,6 +29,7 @@ import { PromotionLayout } from '@/views/register-free-trial/ui/promotion/Promot
 import { DongaScienceTerms } from '@/views/register-free-trial/ui/promotion/DongaScienceTerms';
 
 import { DetailDongaScience } from './DetailDongaScience';
+import { StepProps } from '@/views/register-free-trial/model/interface';
 
 interface PromotionOptionCardProps {
   promotionOption: string;
@@ -44,7 +45,7 @@ export const PromotionOptionLabel = ({ promotionOption, checked }: PromotionOpti
   );
 };
 
-export const DongaSciencePromotion = () => {
+export const DongaSciencePromotion = ({ currentStep, totalSteps }: StepProps) => {
   const [selectedPromotionOption, setSelectedPromotionOption] = useState<'1' | '2' | '3'>('1');
   const [isTermsDrawerOpen, setIsTermsDrawerOpen] = useState(false);
   const [isDetailDrawerOpen, setIsDetailDrawerOpen] = useState(false);
@@ -156,7 +157,7 @@ export const DongaSciencePromotion = () => {
   };
 
   return (
-    <PromotionLayout progressStep={7} eventName={'상세폼진입-동아프로모션'} totalSteps={9}>
+    <PromotionLayout progressStep={currentStep} eventName={'상세폼진입-동아프로모션'} totalSteps={totalSteps}>
       <section className="flex flex-1 flex-col w-full h-full justify-start relative">
         <motion.div
           initial={{ opacity: 0 }}

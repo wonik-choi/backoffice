@@ -15,8 +15,9 @@ import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/
 
 // views
 import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFreeTrialLayout';
+import { StepProps } from '@/views/register-free-trial/model/interface';
 
-export function Completion() {
+export function Completion({ currentStep, totalSteps }: StepProps) {
   const { freeTrial } = useRegisterFreeTrialStore();
 
   const completeLottieOption = {
@@ -37,8 +38,8 @@ export function Completion() {
     <RegisterFreeTrialLayout
       title={'무료체험 신청이\n완료되었습니다'}
       eventName={'상세폼진입-제출완료'}
-      progressStep={8}
-      totalSteps={9}
+      progressStep={currentStep}
+      totalSteps={totalSteps}
       titleDelay={1.3}
       exception={true}
     >

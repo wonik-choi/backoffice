@@ -18,6 +18,7 @@ import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFree
 
 // views
 import { ConfirmIsCorrectPhoneNumber } from '@/views/register-free-trial/ui/ConfirmIsCorrectPhoneNumber';
+import { StepProps } from '@/views/register-free-trial/model/interface';
 
 // 입력 유효성 검사 스키마
 const parentSchema = validableParentSchema.pick({
@@ -33,7 +34,7 @@ const submitParentSchema = userSchemaInStore.pick({
 
 type ParentFormValues = z.infer<typeof parentSchema>;
 
-export function ParentInformation() {
+export function ParentInformation({ currentStep, totalSteps }: StepProps) {
   const [isCorrectPhoneNumber, setIsCorrectPhoneNumber] = useState(false);
   const { user, setParentInformation, nextStep } = useRegisterFreeTrialStore();
 
@@ -87,8 +88,8 @@ export function ParentInformation() {
     <RegisterFreeTrialLayout
       title={'학부모님 정보를\n입력해주세요'}
       eventName={'상세폼진입-학부모정보'}
-      progressStep={0}
-      totalSteps={9}
+      progressStep={currentStep}
+      totalSteps={totalSteps}
       exception={true}
     >
       <form

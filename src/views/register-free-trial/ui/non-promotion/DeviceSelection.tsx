@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 // shared
@@ -13,16 +13,16 @@ import { Button, Label } from '@/shared/components/ui';
 
 // features
 import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
-import { FormStep } from '@/features/register-free-trial/model/store/interface';
 
 // views
 import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFreeTrialLayout';
+import { RegisterFormTerm } from '@/views/register-free-trial/ui/RegisterFormTerm';
 import { StepProps } from '@/views/register-free-trial/model/interface';
 
-export function DeviceSelection({ currentStep, totalSteps }: StepProps) {
-  const { nextStep, prevStep, goToStep, resetRental } = useRegisterFreeTrialStore();
+export function DeviceSelection({ currentStep, totalSteps, onCompleteSubmitForm, onPendingSubmitForm }: StepProps) {
+  const { nextStep, prevStep, resetRental } = useRegisterFreeTrialStore();
   const [answer, setAnswer] = useState<'yes' | 'no' | ''>('');
-
+  const [openState, setOpenState] = useState(false);
   const decisionRenting = (value: 'yes' | 'no') => {
     // yse 이면 대여를 한다.
     setAnswer(value);
@@ -38,9 +38,31 @@ export function DeviceSelection({ currentStep, totalSteps }: StepProps) {
     } else {
       // 2. 대여를 진행하지 않는다.
       resetRental();
-      goToStep(FormStep.Promotion);
+      handleAgreeTerms();
     }
   };
+
+  /**
+   * @description 아이패드 대여를 하지 않는 경우 바로 제출이기에 동의를 먼저 받습니다.
+   */
+  const handleAgreeTerms = () => {
+    setOpenState(true);
+  };
+
+  /**
+   * @description 동의 확인 후 제출
+   */
+  const agreeTermAndSubmitForm = () => {
+    if (onCompleteSubmitForm) {
+      onCompleteSubmitForm();
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      setOpenState(false);
+    };
+  }, []);
 
   return (
     <RegisterFreeTrialLayout
@@ -137,11 +159,17 @@ export function DeviceSelection({ currentStep, totalSteps }: StepProps) {
           <Button variant="empty" type="button" onClick={prevStep} className="w-[7.8rem] ">
             이전
           </Button>
-          <Button type="button" onClick={submitRentalAnswer} disabled={answer === ''}>
+          <Button type="button" onClick={submitRentalAnswer} disabled={answer === ''} loading={onPendingSubmitForm}>
             다음
           </Button>
         </motion.div>
       </motion.div>
+      <RegisterFormTerm
+        openState={openState}
+        setOpenState={setOpenState}
+        agreeTerms={agreeTermAndSubmitForm}
+        isPending={onPendingSubmitForm}
+      />
     </RegisterFreeTrialLayout>
   );
 }

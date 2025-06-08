@@ -22,7 +22,7 @@ import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFree
 
 // views
 import { gradeOptions } from '@/views/register-free-trial/config/const';
-
+import { StepProps } from '@/views/register-free-trial/model/interface';
 // 제출 검증 스키마
 const studentSchema = userSchemaInStore.pick({
   name: true,
@@ -39,7 +39,7 @@ const checkStudentSchema = validableStudentSchema.pick({
 
 type StudentFormValues = z.infer<typeof studentSchema>;
 
-export function StudentInformation() {
+export function StudentInformation({ currentStep, totalSteps }: StepProps) {
   const { user, setStudentInformation, nextStep, prevStep } = useRegisterFreeTrialStore();
 
   const defaultValue: StudentFormValues = {
@@ -84,8 +84,8 @@ export function StudentInformation() {
     <RegisterFreeTrialLayout
       title={'자녀 정보를\n입력해주세요'}
       eventName={'상세폼진입-학생정보'}
-      progressStep={1}
-      totalSteps={9}
+      progressStep={currentStep}
+      totalSteps={totalSteps}
     >
       <form
         onSubmit={(e) => {
