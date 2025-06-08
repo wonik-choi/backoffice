@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 const RegisterFreeTrial = dynamic(() => import('@/views/register-free-trial/ui/RegisterFreeTrial'), { ssr: false });
@@ -9,7 +10,7 @@ const RegisterFreeTrialNotPromotion = dynamic(
   { ssr: false }
 );
 
-const Page = () => {
+const RegisterFreeTrialPage = () => {
   const searchParams = useSearchParams();
   const promotion = searchParams.get('promotion');
 
@@ -17,6 +18,14 @@ const Page = () => {
     <div className="flex justify-center items-center w-full h-dvh">
       {promotion ? <RegisterFreeTrial /> : <RegisterFreeTrialNotPromotion />}
     </div>
+  );
+};
+
+const Page = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <RegisterFreeTrialPage />
+    </Suspense>
   );
 };
 
