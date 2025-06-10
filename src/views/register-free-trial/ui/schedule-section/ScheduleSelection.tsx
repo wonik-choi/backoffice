@@ -79,7 +79,6 @@ export function ScheduleSelection({ currentStep, totalSteps }: StepProps) {
 
   const handleSubmit = () => {
     // 시간 + 12
-    console.log('before', selectedTimes);
     const updatedSelectedTimes = selectedTimes.map((time) => {
       return {
         ...time,
@@ -89,8 +88,6 @@ export function ScheduleSelection({ currentStep, totalSteps }: StepProps) {
         },
       };
     });
-
-    console.log('after', updatedSelectedTimes);
 
     // 스키마 검증
     const validatedSchedule = schedulePageSchema.safeParse({ schedules: updatedSelectedTimes });
@@ -116,12 +113,6 @@ export function ScheduleSelection({ currentStep, totalSteps }: StepProps) {
         setFirstMountDetailSpecialCourse(false);
       });
     }
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      resetScheduleTimes();
-    };
   }, []);
 
   return (
