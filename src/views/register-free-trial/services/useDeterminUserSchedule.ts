@@ -158,6 +158,12 @@ export const useDeterminUserSchedule = () => {
     return { hours: convertGapToHour, minutes: convertGapToMinute };
   };
 
+  // 시간 초기화
+  const resetScheduleTimes = () => {
+    setSelectedWeekDays([]);
+    setSelectedTimes([]);
+  };
+
   return {
     selectedWeekDays,
     timeRange,
@@ -169,5 +175,6 @@ export const useDeterminUserSchedule = () => {
     toggleDayOfWeek,
     calculateDailyTimeGap,
     convertTotalLearningTimeToText,
+    resetScheduleTimes,
   };
 };
