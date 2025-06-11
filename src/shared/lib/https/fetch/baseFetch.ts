@@ -26,16 +26,20 @@ export class FetchAdapter implements HttpClient {
       next: opts.next,
     });
 
+    const data = (await response.json()) as T;
+
+    /**
+     * 서버 에러 처리
+     */
     if (!response.ok) {
-      const error = await response.json();
-      if (parsingErrorCapture.isServerError(error)) {
-        throw parsingErrorCapture.capture(error);
+      if (parsingErrorCapture.isServerError(data)) {
+        throw parsingErrorCapture.capture(data);
       }
-      throw error;
+      throw data; // { error: 'error message' }
     }
 
     return {
-      data: response.json() as Promise<T>,
+      data: data as Promise<T>,
       headers: response.headers,
       status: response.status,
     };
@@ -87,16 +91,17 @@ export class FetchAdapter implements HttpClient {
       next: opts.next,
     });
 
+    const data = (await response.json()) as T;
+
     if (!response.ok) {
-      const error = await response.json();
-      if (parsingErrorCapture.isServerError(error)) {
-        throw parsingErrorCapture.capture(error);
+      if (parsingErrorCapture.isServerError(data)) {
+        throw parsingErrorCapture.capture(data);
       }
-      throw error;
+      throw data;
     }
 
     return {
-      data: response.json() as Promise<T>,
+      data: data as Promise<T>,
       headers: response.headers,
       status: response.status,
     };
@@ -127,16 +132,17 @@ export class FetchAdapter implements HttpClient {
       next: opts.next,
     });
 
+    const data = (await response.json()) as T;
+
     if (!response.ok) {
-      const error = await response.json();
-      if (parsingErrorCapture.isServerError(error)) {
-        throw parsingErrorCapture.capture(error);
+      if (parsingErrorCapture.isServerError(data)) {
+        throw parsingErrorCapture.capture(data);
       }
-      throw error;
+      throw data;
     }
 
     return {
-      data: response.json() as Promise<T>,
+      data: data as Promise<T>,
       headers: response.headers,
       status: response.status,
     };
@@ -167,16 +173,17 @@ export class FetchAdapter implements HttpClient {
       next: opts.next,
     });
 
+    const data = (await response.json()) as T;
+
     if (!response.ok) {
-      const error = await response.json();
-      if (parsingErrorCapture.isServerError(error)) {
-        throw parsingErrorCapture.capture(error);
+      if (parsingErrorCapture.isServerError(data)) {
+        throw parsingErrorCapture.capture(data);
       }
-      throw error;
+      throw data;
     }
 
     return {
-      data: response.json() as Promise<T>,
+      data: data as Promise<T>,
       headers: response.headers,
       status: response.status,
     };
@@ -197,16 +204,17 @@ export class FetchAdapter implements HttpClient {
       next: opts.next,
     });
 
+    const data = (await response.json()) as T;
+
     if (!response.ok) {
-      const error = await response.json();
-      if (parsingErrorCapture.isServerError(error)) {
-        throw parsingErrorCapture.capture(error);
+      if (parsingErrorCapture.isServerError(data)) {
+        throw parsingErrorCapture.capture(data);
       }
-      throw error;
+      throw data;
     }
 
     return {
-      data: response.json() as Promise<T>,
+      data: data as Promise<T>,
       headers: response.headers,
       status: response.status,
     };
