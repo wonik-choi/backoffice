@@ -51,9 +51,12 @@ export async function POST(request: NextRequest) {
     // 3) 결과를 그대로 클라이언트에 반환
     return NextResponse.json(result, { status: 200 });
   } catch (error: any) {
-    if (parsingErrorCapture.isServerError(error)) {
-      const serverError = parsingErrorCapture.capture(error);
-      return NextResponse.json(serverError);
+    if (parsingErrorCapture.isUnauthorizedError(error)) {
+      return NextResponse.json(error, { status: 401 });
+    }
+
+    if (parsingErrorCapture.isSimplifiedServerError(error)) {
+      return NextResponse.json(error, { status: error.status });
     }
 
     return NextResponse.json(error, { status: 500 });

@@ -3,7 +3,6 @@ import { ClientCustomError } from '@/shared/lib/errors/errors';
 
 // FetchAdapter.ts
 import type { HttpClient, RequestOptions, HttpResponse } from '@/shared/lib/https/interface';
-import { parsingErrorCapture } from '../../errors/ParsingErrorCapture';
 
 export class FetchAdapter implements HttpClient {
   private baseURL: string;
@@ -32,10 +31,7 @@ export class FetchAdapter implements HttpClient {
      * 서버 에러 처리
      */
     if (!response.ok) {
-      if (parsingErrorCapture.isServerError(data)) {
-        throw parsingErrorCapture.capture(data);
-      }
-      throw data; // { error: 'error message' }
+      throw data;
     }
 
     return {
@@ -94,9 +90,6 @@ export class FetchAdapter implements HttpClient {
     const data = (await response.json()) as T;
 
     if (!response.ok) {
-      if (parsingErrorCapture.isServerError(data)) {
-        throw parsingErrorCapture.capture(data);
-      }
       throw data;
     }
 
@@ -135,9 +128,6 @@ export class FetchAdapter implements HttpClient {
     const data = (await response.json()) as T;
 
     if (!response.ok) {
-      if (parsingErrorCapture.isServerError(data)) {
-        throw parsingErrorCapture.capture(data);
-      }
       throw data;
     }
 
@@ -176,9 +166,6 @@ export class FetchAdapter implements HttpClient {
     const data = (await response.json()) as T;
 
     if (!response.ok) {
-      if (parsingErrorCapture.isServerError(data)) {
-        throw parsingErrorCapture.capture(data);
-      }
       throw data;
     }
 
@@ -207,9 +194,6 @@ export class FetchAdapter implements HttpClient {
     const data = (await response.json()) as T;
 
     if (!response.ok) {
-      if (parsingErrorCapture.isServerError(data)) {
-        throw parsingErrorCapture.capture(data);
-      }
       throw data;
     }
 

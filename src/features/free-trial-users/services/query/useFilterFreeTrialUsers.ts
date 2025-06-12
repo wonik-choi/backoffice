@@ -4,6 +4,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { httpAdaptor } from '@/shared/lib/https/HttpAdapter';
 import { wrapperSentry } from '@/shared/lib/errors/wrapperSentry';
 import { SENTRY_OP_GUIDE } from '@/shared/lib/errors/config';
+import { parsingErrorCapture } from '@/shared/lib/errors/ParsingErrorCapture';
 
 // entities
 import { GetFreeTrialUsersResponseDto } from '@/entities/free-trial-user/models/dtos';
@@ -43,7 +44,8 @@ export const useFilterFreeTrialUsers = (filter: GetFreeTrialUsersRequestDto) => 
 
             return response.data;
           } catch (error) {
-            throw error;
+            const customError = parsingErrorCapture.capture(error);
+            throw customError;
           }
         },
         'useFilterFreeTrialUsers',
@@ -51,6 +53,8 @@ export const useFilterFreeTrialUsers = (filter: GetFreeTrialUsersRequestDto) => 
       );
     },
     refetchOnMount: true,
+    retry: false,
+    // 서버에서 에러를 받게 되면 예외처리를 진행 -> cache 삭제
   });
 
   return {

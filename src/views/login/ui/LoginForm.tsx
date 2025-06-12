@@ -27,10 +27,11 @@ const LoginForm = () => {
     onErrorCallback: (error: Error) => {
       if (error instanceof ServerCustomError) {
         toast.error(`[${error ? error.status : 'ERROR'}]이런! 로그인에 실패했어요`, {
-          description: error ? error.debug.message : '개발자 문의 필요',
+          description: error ? (error.debug ? error.debug.message : error.message) : '개발자 문의 필요',
           duration: 6000,
         });
       } else {
+        console.log('error', error);
         toast.error(`[ERROR]이런! 로그인에 실패했어요`, {
           description: error ? error.message : `개발자 문의 필요`,
           duration: 6000,
