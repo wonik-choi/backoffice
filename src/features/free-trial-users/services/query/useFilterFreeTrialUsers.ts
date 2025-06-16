@@ -1,10 +1,11 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery, useSuspenseQuery, useQueryClient } from '@tanstack/react-query';
 
 // shared
 import { httpAdaptor } from '@/shared/lib/https/HttpAdapter';
 import { wrapperSentry } from '@/shared/lib/errors/wrapperSentry';
 import { SENTRY_OP_GUIDE } from '@/shared/lib/errors/config';
 import { parsingErrorCapture } from '@/shared/lib/errors/ParsingErrorCapture';
+import { useSuspenseLikeQuery } from '@/shared/hooks/useSuspenseLikeQuery';
 
 // entities
 import { GetFreeTrialUsersResponseDto } from '@/entities/free-trial-user/models/dtos';
@@ -12,13 +13,12 @@ import { GetFreeTrialUsersRequestDto } from '@/entities/free-trial-user/models/r
 
 // features
 import { FreeTrialUsersQueryKeys } from '@/features/free-trial-users/config/query-keys';
+import { ServerCustomError, UnknownError } from '@/shared/lib/errors/errors';
 
 export const useFilterFreeTrialUsers = (filter: GetFreeTrialUsersRequestDto) => {
-  const {
-    data: submitFreeTrialUserForm,
-    isPending,
-    error,
-  } = useSuspenseQuery({
+  const queryClient = useQueryClient();
+
+  const data = useSuspenseLikeQuery<GetFreeTrialUsersResponseDto, ServerCustomError | UnknownError>({
     ...FreeTrialUsersQueryKeys.free_trial_users.lists({
       periodType: filter.periodType,
       baseDate: filter.baseDate,
@@ -52,14 +52,19 @@ export const useFilterFreeTrialUsers = (filter: GetFreeTrialUsersRequestDto) => 
         SENTRY_OP_GUIDE.QUERY_MUTATION
       );
     },
-    refetchOnMount: true,
     retry: false,
-    // 서버에서 에러를 받게 되면 예외처리를 진행 -> cache 삭제
+    refetchOnMount: true,
+    throwOnError: true,
+    initialData: queryClient.getQueryData(
+      FreeTrialUsersQueryKeys.free_trial_users.lists({
+        periodType: filter.periodType,
+        baseDate: filter.baseDate,
+        timeZone: filter.timeZone,
+        page: filter.page,
+        size: filter.size,
+      }).queryKey
+    ),
   });
 
-  return {
-    submitFreeTrialUserForm,
-    isPending,
-    error,
-  };
+  return data;
 };

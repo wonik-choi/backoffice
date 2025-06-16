@@ -1,5 +1,5 @@
 import { PeriodType } from '@/entities/free-trial-user/models/enums';
-import { ColumnFilter } from '@tanstack/react-table';
+import { ColumnFilter, PaginationState, Updater } from '@tanstack/react-table';
 
 /**
  * @description
@@ -8,6 +8,7 @@ import { ColumnFilter } from '@tanstack/react-table';
 export interface FreeTrialState {
   userKeyword: string;
   columnFilters: Array<ColumnFilter>;
+  pagination: PaginationState;
   page: number;
   periodType: PeriodType;
   baseDate: string;
@@ -22,6 +23,7 @@ export interface FreeTrialState {
   setNextPage: () => void;
   setPrevPage: () => void;
   setPage: (page: number) => void;
+  setPagination: (updater: Updater<PaginationState>) => void;
 
   /** 기간 타입 */
   setPeriodType: (periodType: PeriodType) => void;

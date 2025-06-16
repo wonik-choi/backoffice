@@ -3,7 +3,7 @@
 import { ReactNode } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { queryClient } from '@/shared/lib/tanstack/client';
+import { getQueryClient } from '@/shared/lib/tanstack/getQueryClient';
 import { Toaster } from 'sonner';
 
 type ProvidersProps = {
@@ -11,6 +11,8 @@ type ProvidersProps = {
 };
 
 export function Providers({ children }: ProvidersProps) {
+  const queryClient = getQueryClient();
+
   return (
     <QueryClientProvider client={queryClient}>
       <Toaster />

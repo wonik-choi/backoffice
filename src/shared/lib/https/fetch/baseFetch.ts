@@ -23,6 +23,7 @@ export class FetchAdapter implements HttpClient {
       headers: { ...opts.headers },
       credentials: opts.credentials, // 필요 시 include 등
       next: opts.next,
+      cache: 'no-store',
     });
 
     const data = (await response.json()) as T;
@@ -85,6 +86,7 @@ export class FetchAdapter implements HttpClient {
       body: serializedBody,
       credentials: opts.credentials,
       next: opts.next,
+      cache: 'no-store',
     });
 
     const data = (await response.json()) as T;
@@ -123,6 +125,7 @@ export class FetchAdapter implements HttpClient {
       body: JSON.stringify(body),
       credentials: opts.credentials,
       next: opts.next,
+      cache: 'no-store',
     });
 
     const data = (await response.json()) as T;
@@ -161,6 +164,7 @@ export class FetchAdapter implements HttpClient {
       body: JSON.stringify(body),
       credentials: opts.credentials,
       next: opts.next,
+      cache: 'no-store',
     });
 
     const data = (await response.json()) as T;
@@ -189,6 +193,7 @@ export class FetchAdapter implements HttpClient {
       headers: { ...opts.headers },
       credentials: opts.credentials,
       next: opts.next,
+      cache: 'no-store',
     });
 
     const data = (await response.json()) as T;

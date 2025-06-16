@@ -3,19 +3,22 @@
 // pages
 import FreeTrialTableBodyRow from '@/views/free-trial/ui/FreeTrialTableBodyRow';
 import { useInitialFreeTrialTable } from '@/views/free-trial/services/usecase/useInitialFreeTrialTable';
-import type { FreeTrialTableUsecaseProps } from '@/views/free-trial/models/converter/interface';
-import { ExpandedFreeTrialUsersTableRowData } from '@/views/free-trial/models/interface';
 
 // shared
 import { Table, TableHeader, TableRow, TableHead, TableCell, TableBody } from '@/shared/components/atomics/table';
 import { flexRender } from '@tanstack/react-table';
 import { Button } from '@/shared/components/atomics/button';
+import { useGetFreeTrialUsersBody } from '../services/query/useGetFreeTrialUsersBody';
 
-const FreeTrialTable = ({
-  columns,
-  tableData,
-}: FreeTrialTableUsecaseProps<ExpandedFreeTrialUsersTableRowData, unknown>) => {
-  const { table, FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS } = useInitialFreeTrialTable({ columns, tableData });
+// views
+import { FREE_TRIAL_USERS_TABLE_COLUMNS } from '@/views/free-trial/models/const/table';
+
+const FreeTrialTable = () => {
+  const { tableData, totalCount, totalPages } = useGetFreeTrialUsersBody();
+  const { table, FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS } = useInitialFreeTrialTable({
+    columns: FREE_TRIAL_USERS_TABLE_COLUMNS,
+    tableData,
+  });
 
   return (
     <>
@@ -76,26 +79,28 @@ const FreeTrialTable = ({
       </div>
       <div className="flex items-center justify-between py-[1.6rem] w-full">
         <div className="text-[1.4rem] text-gray-700">
-          총 <span className="font-medium text-gray-900">{table.getFilteredRowModel().rows.length}</span>개 항목
+          총 <span className="font-medium text-gray-900">{totalCount}</span>개 항목
         </div>
         <div className="flex items-center gap-[0.8rem]">
           <Button
             variant="outline"
             size="sm"
             onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            disabled={table.getState().pagination.pageIndex === 0}
             className="h-[3.2rem] px-[1.6rem] text-[1.2rem] bg-white hover:bg-gray-50/80"
           >
             이전
           </Button>
           <span className="text-[1.4rem] font-medium text-gray-900">
-            {table.getState().pagination.pageIndex + 1} / {table.getPageCount()}
+            {table.getState().pagination.pageIndex + 1} / {totalPages}
           </span>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            onClick={() => {
+              table.nextPage();
+            }}
+            disabled={table.getState().pagination.pageIndex === totalPages - 1}
             className="h-[3.2rem] px-[1.6rem] text-[1.2rem] bg-white hover:bg-gray-50/80"
           >
             다음

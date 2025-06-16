@@ -8,29 +8,30 @@ import { freeTrialUsersTableBodyConverter } from '@/views/free-trial/models/conv
 import { useFreeTrialStore } from '@/views/free-trial/models/store';
 
 export const useGetFreeTrialUsersBody = () => {
-  const { page, periodType, baseDate } = useFreeTrialStore();
+  const { periodType, baseDate, pagination } = useFreeTrialStore();
 
   const filter = useMemo(() => {
     return {
       periodType: periodType,
       baseDate: baseDate,
-      page: page,
-      size: 10,
+      page: pagination.pageIndex,
+      size: pagination.pageSize,
       timeZone: 'Asia/Seoul',
     };
-  }, [periodType, baseDate, page]);
+  }, [periodType, baseDate, pagination.pageIndex, pagination.pageSize]);
 
   /** 무료체험 유저 조회 */
-  const { submitFreeTrialUserForm, isPending, error } = useFilterFreeTrialUsers(filter);
+  const data = useFilterFreeTrialUsers(filter);
 
   const tableData = useMemo(() => {
-    const freeTrialUsers = submitFreeTrialUserForm.freeTrialUsers.content;
+    if (!data) return [];
+    const freeTrialUsers = data?.freeTrialUsers.content;
     return freeTrialUsersTableBodyConverter(freeTrialUsers);
-  }, [submitFreeTrialUserForm]);
+  }, [data]);
 
   return {
     tableData,
-    isPending,
-    error,
+    totalCount: data?.freeTrialUsers.totalElements,
+    totalPages: data?.freeTrialUsers.totalPages,
   };
 };
