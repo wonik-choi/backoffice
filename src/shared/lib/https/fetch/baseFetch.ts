@@ -3,7 +3,6 @@ import { ClientCustomError } from '@/shared/lib/errors/errors';
 
 // FetchAdapter.ts
 import type { HttpClient, RequestOptions, HttpResponse } from '@/shared/lib/https/interface';
-import { parsingErrorCapture } from '../../errors/ParsingErrorCapture';
 
 export class FetchAdapter implements HttpClient {
   private baseURL: string;
@@ -24,18 +23,20 @@ export class FetchAdapter implements HttpClient {
       headers: { ...opts.headers },
       credentials: opts.credentials, // 필요 시 include 등
       next: opts.next,
+      cache: 'no-store',
     });
 
+    const data = (await response.json()) as T;
+
+    /**
+     * 서버 에러 처리
+     */
     if (!response.ok) {
-      const error = await response.json();
-      if (parsingErrorCapture.isServerError(error)) {
-        throw parsingErrorCapture.capture(error);
-      }
-      throw error;
+      throw data;
     }
 
     return {
-      data: response.json() as Promise<T>,
+      data: data as Promise<T>,
       headers: response.headers,
       status: response.status,
     };
@@ -85,18 +86,17 @@ export class FetchAdapter implements HttpClient {
       body: serializedBody,
       credentials: opts.credentials,
       next: opts.next,
+      cache: 'no-store',
     });
 
+    const data = (await response.json()) as T;
+
     if (!response.ok) {
-      const error = await response.json();
-      if (parsingErrorCapture.isServerError(error)) {
-        throw parsingErrorCapture.capture(error);
-      }
-      throw error;
+      throw data;
     }
 
     return {
-      data: response.json() as Promise<T>,
+      data: data as Promise<T>,
       headers: response.headers,
       status: response.status,
     };
@@ -125,18 +125,17 @@ export class FetchAdapter implements HttpClient {
       body: JSON.stringify(body),
       credentials: opts.credentials,
       next: opts.next,
+      cache: 'no-store',
     });
 
+    const data = (await response.json()) as T;
+
     if (!response.ok) {
-      const error = await response.json();
-      if (parsingErrorCapture.isServerError(error)) {
-        throw parsingErrorCapture.capture(error);
-      }
-      throw error;
+      throw data;
     }
 
     return {
-      data: response.json() as Promise<T>,
+      data: data as Promise<T>,
       headers: response.headers,
       status: response.status,
     };
@@ -165,18 +164,17 @@ export class FetchAdapter implements HttpClient {
       body: JSON.stringify(body),
       credentials: opts.credentials,
       next: opts.next,
+      cache: 'no-store',
     });
 
+    const data = (await response.json()) as T;
+
     if (!response.ok) {
-      const error = await response.json();
-      if (parsingErrorCapture.isServerError(error)) {
-        throw parsingErrorCapture.capture(error);
-      }
-      throw error;
+      throw data;
     }
 
     return {
-      data: response.json() as Promise<T>,
+      data: data as Promise<T>,
       headers: response.headers,
       status: response.status,
     };
@@ -195,18 +193,17 @@ export class FetchAdapter implements HttpClient {
       headers: { ...opts.headers },
       credentials: opts.credentials,
       next: opts.next,
+      cache: 'no-store',
     });
 
+    const data = (await response.json()) as T;
+
     if (!response.ok) {
-      const error = await response.json();
-      if (parsingErrorCapture.isServerError(error)) {
-        throw parsingErrorCapture.capture(error);
-      }
-      throw error;
+      throw data;
     }
 
     return {
-      data: response.json() as Promise<T>,
+      data: data as Promise<T>,
       headers: response.headers,
       status: response.status,
     };

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useMemo } from 'react';
 import {
   useReactTable,
@@ -5,6 +7,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
+  PaginationState,
 } from '@tanstack/react-table';
 
 // shared
@@ -16,6 +19,7 @@ import { Badge } from '@/shared/components/atomics/badge';
 // pages
 import { useFreeTrialStore } from '@/views/free-trial/models/store';
 import { FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS } from '@/views/free-trial/models/const/table';
+import HeaderNameCell from '@/views/free-trial/ui/components/HeaderBadgeCell';
 import type { FreeTrialTableUsecaseProps } from '@/views/free-trial/models/converter/interface';
 
 // TODO: 추후 dto 를 받아와 처리할 수 있도록 변경될 예정이며 현재는 mock data 로 임시 처리합니다.
@@ -23,7 +27,7 @@ export const useInitialFreeTrialTable = <TData, TValue>({
   columns,
   tableData,
 }: FreeTrialTableUsecaseProps<TData, TValue>) => {
-  const { columnFilters } = useFreeTrialStore();
+  const { columnFilters, pagination, setPagination } = useFreeTrialStore();
 
   const convertedColumns = useMemo(() => {
     const filteredSelectColumns = columns.filter((column) => column.id !== 'select' && column.id !== 'row-select');
@@ -61,36 +65,32 @@ export const useInitialFreeTrialTable = <TData, TValue>({
         if (col.id === 'status') {
           return {
             ...col,
-            cell: ({ getValue }: { getValue: () => unknown }) => {
-              const value = getValue();
-              return <Badge variant="outline">{String(value)}</Badge>;
+            cell: function ({ getValue }: { getValue: () => unknown }) {
+              return <HeaderNameCell getValue={getValue} />;
             },
           };
         }
         if (col.id === 'rental.status') {
           return {
             ...col,
-            cell: ({ getValue }: { getValue: () => unknown }) => {
-              const value = getValue();
-              return <Badge variant="outline">{String(value)}</Badge>;
+            cell: function ({ getValue }: { getValue: () => unknown }) {
+              return <HeaderNameCell getValue={getValue} />;
             },
           };
         }
         if (col.id === 'period.status') {
           return {
             ...col,
-            cell: ({ getValue }: { getValue: () => unknown }) => {
-              const value = getValue();
-              return <Badge variant="outline">{String(value)}</Badge>;
+            cell: function ({ getValue }: { getValue: () => unknown }) {
+              return <HeaderNameCell getValue={getValue} />;
             },
           };
         }
         if (col.id === 'inflow') {
           return {
             ...col,
-            cell: ({ getValue }: { getValue: () => unknown }) => {
-              const value = getValue();
-              return <Badge variant="outline">{String(value)}</Badge>;
+            cell: function ({ getValue }: { getValue: () => unknown }) {
+              return <HeaderNameCell getValue={getValue} />;
             },
           };
         }
@@ -102,13 +102,19 @@ export const useInitialFreeTrialTable = <TData, TValue>({
   const table = useReactTable({
     data: tableData,
     columns: convertedColumns,
+    manualPagination: true,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+
+    /** 수동 페이지내이션 처리 */
+    onPaginationChange: setPagination,
+
     enableRowSelection: true,
     state: {
       columnFilters,
+      pagination,
     },
   });
 

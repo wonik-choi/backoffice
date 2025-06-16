@@ -18,16 +18,8 @@ export const useDeterminUserSchedule = () => {
   /**
    * @description 선택된 요일과 시간 스케줄을 이전 데이터가 있으면 적용시킵니다.
    */
-  const [selectedWeekDays, setSelectedWeekDays] = useState<DayOfWeek[]>(
-    freeTrial.schedules?.map((s) => s.dayOfWeek) || []
-  );
-  const [selectedTimes, setSelectedTimes] = useState<FreeTrial['schedules']>(
-    freeTrial.schedules.map((schedule) => ({
-      dayOfWeek: schedule.dayOfWeek,
-      startAt: schedule.startAt,
-      todayLearningTime: schedule.todayLearningTime,
-    })) || []
-  );
+  const [selectedWeekDays, setSelectedWeekDays] = useState<DayOfWeek[]>([]);
+  const [selectedTimes, setSelectedTimes] = useState<FreeTrial['schedules']>([]);
 
   /**
    * @description 무료체험 시간 범위

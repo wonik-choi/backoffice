@@ -1,10 +1,13 @@
 import * as Sentry from '@sentry/nextjs';
 
-export interface ServerError extends Error {
+export interface SimplifiedServerErrorPayload {
   status: number;
   message: string;
   error: string;
-  debug: {
+}
+
+export interface ServerErrorPayload extends SimplifiedServerErrorPayload {
+  debug?: {
     exception: string;
     message: string;
   };
@@ -20,23 +23,16 @@ export abstract class CustomError extends Error {
 }
 
 /**
- * @description 서버 내 에러 클래스
+ * @description 간략화 된 서버 에러 클래스
  */
-export class ServerCustomError extends CustomError {
-  public status: number;
-  public message: string;
-  public error: string;
-  public debug: {
-    exception: string;
-    message: string;
-  };
+export class SimplifiedServerCustomError extends CustomError {
+  public readonly status: number;
+  public readonly error: string;
 
-  constructor(payload: ServerError, skipCapture = false) {
-    super(payload.message, 'ServerCustomError');
+  constructor(payload: SimplifiedServerErrorPayload, skipCapture = false) {
+    super(payload.message, 'SimplifiedServerCustomError');
     this.status = payload.status;
-    this.message = payload.message;
     this.error = payload.error;
-    this.debug = payload.debug;
 
     if (!skipCapture) {
       this.captureSentry();
@@ -49,7 +45,46 @@ export class ServerCustomError extends CustomError {
         errorType: this.name,
         status: this.status,
         error: this.error,
-        message: this.debug.message,
+        message: this.message,
+        environment: process.env.NODE_ENV,
+      },
+      level: 'error',
+    });
+  }
+}
+
+/**
+ * @description 서버 내 에러 클래스
+ */
+export class ServerCustomError extends SimplifiedServerCustomError {
+  public readonly debug?: {
+    exception: string;
+    message: string;
+  };
+
+  constructor(payload: ServerErrorPayload, skipCapture = false) {
+    // SlimplifiedServerCustomError의 생성자 호출
+    super(
+      {
+        status: payload.status,
+        message: payload.message,
+        error: payload.error,
+      },
+      skipCapture
+    );
+
+    // ServerCustomError만의 추가 속성
+    this.debug = payload.debug;
+    this.name = 'ServerCustomError'; // 이름 재정의
+  }
+
+  protected override captureSentry() {
+    Sentry.captureException(this, {
+      tags: {
+        errorType: this.name,
+        status: this.status,
+        error: this.error,
+        message: this.debug ? this.debug.message : this.message, // debug.message 사용
         environment: process.env.NODE_ENV,
       },
       level: 'error',
@@ -58,10 +93,9 @@ export class ServerCustomError extends CustomError {
 }
 
 export class UnauthorizedError extends ServerCustomError {
-  constructor(payload: ServerError) {
-    super({ ...payload, status: 401 }, true);
+  constructor(payload: string) {
+    super({ status: 401, error: payload, message: payload }, true);
     this.name = 'UnauthorizedError';
-    this.message = payload.debug.message;
 
     this.captureSentry();
   }
@@ -71,7 +105,7 @@ export class UnauthorizedError extends ServerCustomError {
       tags: {
         errorType: this.name,
         status: this.status,
-        message: this.debug.message,
+        message: this.debug ? this.debug.message : this.message,
         environment: process.env.NODE_ENV,
       },
       level: 'warning',
@@ -80,10 +114,9 @@ export class UnauthorizedError extends ServerCustomError {
 }
 
 export class ForbiddenError extends ServerCustomError {
-  constructor(payload: ServerError) {
+  constructor(payload: ServerErrorPayload) {
     super({ ...payload, status: 403 }, true);
     this.name = 'ForbiddenError';
-    this.message = payload.debug.message;
 
     this.captureSentry();
   }
@@ -93,7 +126,7 @@ export class ForbiddenError extends ServerCustomError {
       tags: {
         errorType: this.name,
         status: this.status,
-        message: this.debug.message,
+        message: this.debug ? this.debug.message : this.message,
         environment: process.env.NODE_ENV,
       },
       level: 'warning',
@@ -102,10 +135,9 @@ export class ForbiddenError extends ServerCustomError {
 }
 
 export class NotFoundError extends ServerCustomError {
-  constructor(payload: ServerError) {
+  constructor(payload: ServerErrorPayload) {
     super({ ...payload, status: 404 }, true);
     this.name = 'NotFoundError';
-    this.message = payload.debug.message;
 
     this.captureSentry();
   }
@@ -115,7 +147,7 @@ export class NotFoundError extends ServerCustomError {
       tags: {
         errorType: this.name,
         status: this.status,
-        message: this.debug.message,
+        message: this.debug ? this.debug.message : this.message,
         environment: process.env.NODE_ENV,
       },
       level: 'info',
@@ -124,10 +156,9 @@ export class NotFoundError extends ServerCustomError {
 }
 
 export class InternalServerError extends ServerCustomError {
-  constructor(payload: ServerError) {
+  constructor(payload: ServerErrorPayload) {
     super({ ...payload, status: 500 }, true);
     this.name = 'InternalServerError';
-    this.message = payload.debug.message;
 
     this.captureSentry();
   }
@@ -137,7 +168,7 @@ export class InternalServerError extends ServerCustomError {
       tags: {
         errorType: this.name,
         status: this.status,
-        message: this.debug.message,
+        message: this.debug ? this.debug.message : this.message,
         environment: process.env.NODE_ENV,
       },
       level: 'error',

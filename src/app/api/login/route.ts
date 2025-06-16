@@ -9,7 +9,7 @@ import { splitSession } from '@/app/api/splitSession';
 
 // shared
 import { parsingErrorCapture } from '@/shared/lib/errors/ParsingErrorCapture';
-import { ClientCustomError } from '@/shared/lib/errors/errors';
+import { ClientCustomError, UnauthorizedError } from '@/shared/lib/errors/errors';
 
 // features
 import { loginSchema } from '@/features/authentication/config/schema';
@@ -39,7 +39,8 @@ export async function POST(request: NextRequest) {
       const { sessionValue, httpOnly, secure, path, sameSite } = splitSession(session);
 
       if (!sessionValue) {
-        return NextResponse.json(new ClientCustomError('session has not found in response'));
+        const err = new ClientCustomError('session has not found in response');
+        return NextResponse.json(err, { status: 401 });
       }
 
       cookieStore.set('SESSION', sessionValue, {
@@ -52,13 +53,16 @@ export async function POST(request: NextRequest) {
     }
 
     // 3) 결과를 그대로 클라이언트에 반환
-    return NextResponse.json(result);
+    return NextResponse.json(result, { status: 200 });
   } catch (error: any) {
-    if (parsingErrorCapture.isServerError(error)) {
-      const serverError = parsingErrorCapture.capture(error);
-      return NextResponse.json(serverError);
+    if (parsingErrorCapture.isUnauthorizedError(error)) {
+      return NextResponse.json(error, { status: 401 });
     }
 
-    return NextResponse.json(error);
+    if (parsingErrorCapture.isSimplifiedServerError(error)) {
+      return NextResponse.json(error, { status: error.status });
+    }
+
+    return NextResponse.json(error, { status: 500 });
   }
 }

@@ -1,15 +1,53 @@
-import { ReactNode, Suspense } from 'react';
+'use client';
+
+import { useRouter, usePathname } from 'next/navigation';
+import { ReactNode, Suspense, useEffect, useState } from 'react';
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
+import { useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
+
+// shared
+import { httpAdaptor } from '@/shared/lib/https/HttpAdapter';
+import { UnauthorizedError } from '@/shared/lib/errors/errors';
 
 interface AsyncBoundaryProps {
   children: ReactNode;
   loadingFallback: ReactNode;
-  errorFallback: (props: FallbackProps) => ReactNode;
+  errorFallback?: (props: FallbackProps) => ReactNode;
 }
 
 export default function AsyncBoundary({ children, loadingFallback, errorFallback }: AsyncBoundaryProps) {
+  const [unauthorized, setUnauthorized] = useState<boolean>(false);
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  const pathname = usePathname();
+  const renderErrorFallback = (props: FallbackProps) => {
+    if (props.error instanceof UnauthorizedError) {
+      setUnauthorized(true);
+      return null;
+    }
+    return errorFallback?.(props);
+  };
+
+  useEffect(() => {
+    if (unauthorized) {
+      httpAdaptor
+        .post('api/logout', null, { credentials: 'include', headers: { 'Content-Type': 'application/json' } }, true)
+        .finally(() => {
+          // 일단은 여기서 캐시를 전체 제거해줍니다..
+          queryClient.clear();
+          toast.error('세션이 만료되어 로그아웃됩니다.');
+          router.replace('/login');
+        });
+    }
+
+    return () => {
+      setUnauthorized(false);
+    };
+  }, [router, unauthorized]);
+
   return (
-    <ErrorBoundary fallbackRender={errorFallback}>
+    <ErrorBoundary fallbackRender={renderErrorFallback} resetKeys={[pathname]}>
       <Suspense fallback={loadingFallback}>{children}</Suspense>
     </ErrorBoundary>
   );

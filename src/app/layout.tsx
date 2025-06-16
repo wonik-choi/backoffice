@@ -8,9 +8,6 @@ import { Analytics } from '@vercel/analytics/next';
 // script
 import MetaPixel from '@/app/(script)/MetaPixel';
 
-// toast
-import { Toaster } from '@/shared/components/atomics/sonner';
-
 export const metadata: Metadata = {
   title: {
     template: '%s | 수심달',
@@ -59,9 +56,8 @@ export default function RootLayout({
       </head>
       <body className={`font-pretendard antialiased`}>
         <Providers>
-          {children}
           <Analytics />
-          <Toaster />
+          {children}
         </Providers>
         <MetaPixel />
       </body>

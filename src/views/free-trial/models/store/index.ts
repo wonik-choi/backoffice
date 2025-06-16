@@ -10,10 +10,15 @@ import { PeriodType } from '@/entities/free-trial-user/models/enums';
 
 // views
 import { FreeTrialState } from '@/views/free-trial/models/store/interface';
+import { PaginationState } from '@tanstack/react-table';
 
 export const useFreeTrialStore = create<FreeTrialState>((set, get) => ({
   userKeyword: '',
   columnFilters: [],
+  pagination: {
+    pageIndex: 0,
+    pageSize: 10,
+  },
   page: 0,
   periodType: PeriodType.MONTH,
   baseDate: formatKoreanTitle(new Date(), 'yyyy-MM-dd'),
@@ -21,6 +26,18 @@ export const useFreeTrialStore = create<FreeTrialState>((set, get) => ({
   setKeyword: (keyword: string) => {
     set({ userKeyword: keyword });
   },
+
+  /**
+   * @description 페이지내이션 업데이트
+   */
+  setPagination: (updater) =>
+    set((state) => {
+      const next =
+        typeof updater === 'function'
+          ? (updater as (old: PaginationState) => PaginationState)(state.pagination)
+          : updater;
+      return { pagination: next };
+    }),
 
   /**
    * @description 다음 페이지 이동

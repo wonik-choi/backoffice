@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 // shared
 import { wrapperSentry } from '@/shared/lib/errors/wrapperSentry';
 import { SENTRY_OP_GUIDE } from '@/shared/lib/errors/config';
+import { parsingErrorCapture } from '@/shared/lib/errors/ParsingErrorCapture';
 
 // entities
 import { freeTrialUserRepository } from '@/entities/free-trial-user/services/FreeTrialUserRepositoryImpl';
@@ -40,8 +41,8 @@ export const usePostFreeTrialUserForm = ({ store, onSuccessCallback, onErrorCall
 
             return response;
           } catch (error) {
-            console.error('Form submission error:', error);
-            throw error;
+            const customError = parsingErrorCapture.capture(error);
+            throw customError;
           }
         },
         'submitFreeTrialFormUsecase',
@@ -49,6 +50,9 @@ export const usePostFreeTrialUserForm = ({ store, onSuccessCallback, onErrorCall
       );
     },
     throwOnError: false,
+    meta: {
+      skipCapture: true,
+    },
     onSuccess: () => {
       if (onSuccessCallback) {
         onSuccessCallback();
