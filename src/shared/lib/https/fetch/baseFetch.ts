@@ -196,10 +196,34 @@ export class FetchAdapter implements HttpClient {
       cache: 'no-store',
     });
 
-    const data = (await response.json()) as T;
-
+    // 응답이 성공이 아닌 경우 에러 처리
     if (!response.ok) {
-      throw data;
+      let errorData;
+      try {
+        errorData = await response.json();
+        throw errorData;
+      } catch {
+        // JSON 파싱 실패 시 기본 에러 메시지
+        errorData = { message: `HTTP ${response.status}: ${response.statusText}` };
+        throw errorData;
+      }
+    }
+
+    // 응답 본문이 있는지 확인
+    let data: T;
+    const contentLength = response.headers.get('content-length');
+    const contentType = response.headers.get('content-type');
+
+    if (contentLength === '0' || !contentType?.includes('application/json')) {
+      // 빈 응답이거나 JSON이 아닌 경우
+      data = null as T;
+    } else {
+      try {
+        data = (await response.json()) as T;
+      } catch {
+        // JSON 파싱 실패 시 null 반환
+        data = null as T;
+      }
     }
 
     return {

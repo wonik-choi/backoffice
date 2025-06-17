@@ -120,20 +120,12 @@ export enum PeriodType {
 }
 
 export enum AdChannel {
-  /** 페이스북 */
-  FACEBOOK = 'FACEBOOK',
-  /** 네이버검색 */
-  NAVER_SEARCH = 'NAVER_SEARCH',
-  /** 네이버(블로그) */
-  NAVER_BLOG = 'NAVER_BLOG',
-  /** 인스타그램 스토리 */
-  INSTAGRAM_STORY = 'INSTAGRAM_STORY',
-  /** 링크트리 */
-  LINK_TREE = 'LINK_TREE',
-  /** 인스타그램 피드 */
-  INSTAGRAM_FEED = 'INSTAGRAM_FEED',
-  /** 카카오플러스친구 */
-  KAKAO_PLUS_FRIEND = 'KAKAO_PLUS_FRIEND',
+  /** AD */
+  AD = 'AD',
+  /** 홈페이지 유입 */
+  HOMEPAGE = 'HOMEPAGE',
+  /** DL */
+  DIRECT_LINK = 'DIRECT_LINK',
 }
 
 export enum ReferrerType {

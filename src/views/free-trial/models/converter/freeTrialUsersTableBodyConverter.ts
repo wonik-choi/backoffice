@@ -51,7 +51,7 @@ export const freeTrialUsersTableBodyConverter = (data: FreeTrialUserDto[]): Expa
     return {
       id,
       name,
-      phone,
+      phone: phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'),
       status: freeTrialUserBehavior.mapFreeTrialUserEventToStatus(latestEvent),
       latestRecord: formatISOStringToKoreanTitle(latestRecordAt, 'yyyy-MM-dd'),
       registrationDate: formatISOStringToKoreanTitle(registrationAt, 'yyyy-MM-dd'),

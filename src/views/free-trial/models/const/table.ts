@@ -1,8 +1,9 @@
+import { ColumnDef } from '@tanstack/react-table';
+
 import {
   ExpandedFreeTrialUsersTableRowData,
   FreeTrialUsersTableColumnGroup,
 } from '@/views/free-trial/models/interface';
-import { ColumnDef } from '@tanstack/react-table';
 
 export const FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS: FreeTrialUsersTableColumnGroup[] = [
   {
@@ -25,14 +26,14 @@ export const FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS: FreeTrialUsersTableColumnGrou
       { id: 'period.status', label: '진행상태' },
     ],
   },
-  {
-    name: '아이패드 대여',
-    colSpan: 2,
-    columns: [
-      { id: 'rental.status', label: '대여상태' },
-      { id: 'rental.returnDate', label: '반납일' },
-    ],
-  },
+  // {
+  //   name: '아이패드 대여',
+  //   colSpan: 2,
+  //   columns: [
+  //     { id: 'rental.status', label: '대여상태' },
+  //     { id: 'rental.returnDate', label: '반납일' },
+  //   ],
+  // },
 ];
 
 export const FREE_TRIAL_USERS_TABLE_COLUMNS: ColumnDef<ExpandedFreeTrialUsersTableRowData>[] = [
@@ -79,15 +80,21 @@ export const FREE_TRIAL_USERS_TABLE_COLUMNS: ColumnDef<ExpandedFreeTrialUsersTab
     cell: ({ row }) => row.original.period?.status || '-',
   },
   {
-    id: 'rental.status',
-    accessorFn: (row) => row.rental?.status,
-    header: '대여상태',
-    cell: ({ row }) => row.original.rental?.status || '미대여',
+    id: 'period.duration',
+    accessorFn: (row) => row.period?.duration,
+    header: '체험기간',
+    cell: ({ row }) => row.original.period?.duration || '-',
   },
-  {
-    id: 'rental.returnDate',
-    accessorFn: (row) => row.rental?.returnDate,
-    header: '반납일',
-    cell: ({ row }) => row.original.rental?.returnDate || '-',
-  },
+  // {
+  //   id: 'rental.status',
+  //   accessorFn: (row) => row.rental?.status,
+  //   header: '대여상태',
+  //   cell: ({ row }) => row.original.rental?.status || '미대여',
+  // },
+  // {
+  //   id: 'rental.returnDate',
+  //   accessorFn: (row) => row.rental?.returnDate,
+  //   header: '반납일',
+  //   cell: ({ row }) => row.original.rental?.returnDate || '-',
+  // },
 ];
