@@ -16,7 +16,7 @@ export const useNavigationContext = () => {
     onErrorCallback: (error) => {
       if (error instanceof ServerCustomError) {
         toast.error(`[${error ? error.status : 'ERROR'}]이런! 로그아웃에 실패했어요`, {
-          description: error ? error.debug.message : '개발자 문의 필요',
+          description: error ? (error.debug ? error.debug.message : error.message) : '개발자 문의 필요',
           duration: 6000,
         });
       } else {

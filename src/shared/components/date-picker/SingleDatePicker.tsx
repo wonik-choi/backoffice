@@ -21,7 +21,7 @@ const SingleDatePicker = ({ dateLabel, selectedDate, onSelect, disabled }: Singl
   }, []);
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={setOpen} modal={true}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"

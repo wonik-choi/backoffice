@@ -47,48 +47,47 @@ const ChangeUserStateButton = ({ row }: { row: Row<any> }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[19.2rem]">
         <DropdownMenuItem
-          className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 cursor-pointer text-[1.2rem]"
+          className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 cursor-pointer text-[1.3rem]"
           onSelect={(e) => {
             e.preventDefault();
-            handleDeleteStudent(String(row.original.id));
           }}
           title="학생의 무료체험 신청을 취소하고 데이터를 삭제합니다."
         >
-          <Trash className="mr-[0.8rem] size-[1.2rem]" />
+          <Trash className="mr-[0.8rem] size-[1.3rem]" />
           신청 취소
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="text-amber-600 hover:text-amber-700 hover:bg-amber-50 cursor-pointer  text-[1.2rem]"
+          className="text-amber-600 hover:text-amber-700 hover:bg-amber-50 cursor-pointer  text-[1.3rem]"
           onSelect={(e) => {
             e.preventDefault();
             handleStatusChange(row.original, '신청보류');
           }}
           title="학생의 무료체험 신청을 보류 상태로 변경합니다."
         >
-          <StaticSpinner className="mr-[0.8rem] size-[1.2rem]" />
+          <StaticSpinner className="mr-[0.8rem] size-[1.3rem]" />
           신청 보류
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="text-red-600 hover:text-red-700 hover:bg-red-50 cursor-pointer  text-[1.2rem]"
+          className="text-red-600 hover:text-red-700 hover:bg-red-50 cursor-pointer  text-[1.3rem]"
           onSelect={(e) => {
             e.preventDefault();
             handleStatusChange(row.original, '체험 중단');
           }}
           title="학생의 무료체험을 중단 처리합니다."
         >
-          <XIcon className="mr-[0.8rem] size-[1.2rem]" />
+          <XIcon className="mr-[0.8rem] size-[1.3rem]" />
           체험 중단
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
-          className="text-violet-600 hover:text-violet-700 hover:bg-violet-50 cursor-pointer  text-[1.2rem]"
+          className="text-violet-600 hover:text-violet-700 hover:bg-violet-50 cursor-pointer text-[1.3rem]"
           onSelect={(e) => {
             e.preventDefault();
             handleStatusChange(row.original, '유료 전환');
           }}
           title="학생의 상태를 유료 전환으로 변경합니다."
         >
-          <ArrowRight className="mr-[0.8rem] size-[1.2rem]" />
+          <ArrowRight className="mr-[0.8rem] size-[1.3rem]" />
           유료 전환
         </DropdownMenuItem>
       </DropdownMenuContent>

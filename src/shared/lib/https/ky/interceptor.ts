@@ -3,7 +3,7 @@ import { REFRESH_URL } from '@/shared/lib/https/config';
 import { RequestOptions } from '@/shared/lib/https/interface';
 
 // errors
-import { ServerError } from '@/shared/lib/errors/errors';
+import { ServerErrorPayload } from '@/shared/lib/errors/errors';
 import { parsingErrorCapture } from '@/shared/lib/errors/ParsingErrorCapture';
 
 /**
@@ -32,9 +32,9 @@ export const extendKyErrorAfterResponse = async (
   response: KyResponse
 ) => {
   if (!response.ok) {
-    let payload: ServerError;
+    let payload: ServerErrorPayload;
     try {
-      payload = await response.json<ServerError>();
+      payload = await response.json<ServerErrorPayload>();
     } catch (error) {
       throw new HTTPError(response, request, options);
     }

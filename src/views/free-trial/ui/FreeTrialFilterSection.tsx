@@ -1,4 +1,5 @@
-import AddFreeTrialStudentDialog from '@/features/add-new-free-trial-student/ui/AddFreeTrialStudentDialog';
+import AddFreeTrialStudentDialog from '@/features/register-free-trial/ui/AddFreeTrialStudentDialog';
+
 import SearchFreeTrial from '@/views/free-trial/ui/SearchFreeTrial';
 import TableFilter from '@/views/free-trial/ui/TableFilter';
 

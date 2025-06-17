@@ -21,27 +21,34 @@ export async function GET(request: NextRequest) {
     };
 
     const session = request.cookies.get('SESSION')?.value;
-    console.log('free-trial-users', session);
 
+    /**
+     * session 존재 여부에 따라 message 와 status 를 직접적으로 반환
+     */
     if (!session) {
-      return NextResponse.json(new ClientCustomError('session 이 존재하지 않습니다'));
+      const err = new ClientCustomError('session 이 존재하지 않습니다');
+      return NextResponse.json(err, { status: 401 });
     }
 
     const headers = {
       'Content-Type': 'application/json',
       Cookie: `SESSION=${session}`,
+      'Cache-Control': 'no-store',
     };
 
     const result = await freeTrialUserRepository.getFreeTrialUsers(requestDto, { headers });
 
     // 3) 결과를 그대로 클라이언트에 반환
-    return NextResponse.json(result);
+    return NextResponse.json(result, { status: 200 });
   } catch (error: any) {
-    if (parsingErrorCapture.isServerError(error)) {
-      const serverError = parsingErrorCapture.capture(error);
-      return NextResponse.json(serverError);
+    if (parsingErrorCapture.isUnauthorizedError(error)) {
+      return NextResponse.json(error, { status: 401 });
     }
 
-    return NextResponse.json(error);
+    if (parsingErrorCapture.isSimplifiedServerError(error)) {
+      return NextResponse.json(error, { status: error.status });
+    }
+
+    return NextResponse.json(error, { status: 500 });
   }
 }

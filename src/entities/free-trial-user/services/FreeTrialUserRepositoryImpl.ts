@@ -10,6 +10,7 @@ import {
   FreeTrialUserRepository,
   FreeTrialUserRequestDto,
   GetFreeTrialUsersRequestDto,
+  DeleteFreeTrialUserRequestDto,
 } from '@/entities/free-trial-user/models/repository';
 
 export class FreeTrialUserRepositoryImpl implements FreeTrialUserRepository {
@@ -68,6 +69,20 @@ export class FreeTrialUserRepositoryImpl implements FreeTrialUserRepository {
   public getPromotions = async () => {
     const response = await this.httpAdaptor.get<GetFreeTrialPromotionsResponseDto>(
       `back-office/free-trial-application/promotions`
+    );
+
+    return response.data;
+  };
+
+  public deleteFreeTrialUser = async (
+    request: DeleteFreeTrialUserRequestDto,
+    options?: { headers?: Record<string, string> }
+  ) => {
+    const response = await this.httpAdaptor.delete(
+      `back-office/free-trial-application?freeTrialUserId=${request.freeTrialUserId}`,
+      {
+        ...options,
+      }
     );
 
     return response.data;

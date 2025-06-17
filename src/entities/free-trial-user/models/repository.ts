@@ -58,6 +58,10 @@ export interface GetFreeTrialUsersRequestDto {
   size: number;
 }
 
+export interface DeleteFreeTrialUserRequestDto {
+  freeTrialUserId: string;
+}
+
 /** repository */
 
 export interface FreeTrialUserRepository {
@@ -67,4 +71,5 @@ export interface FreeTrialUserRepository {
     options?: { headers?: Record<string, string> }
   ) => Promise<GetFreeTrialUsersResponseDto>;
   getPromotions: () => Promise<GetFreeTrialPromotionsResponseDto>;
+  deleteFreeTrialUser: (request: DeleteFreeTrialUserRequestDto) => Promise<unknown>;
 }

@@ -18,13 +18,9 @@ export class FreeTrialUserBehavior {
 
   public mapFreeTrialUserInflowToStatus(adChannel: AdChannel) {
     const statusMap = {
-      [AdChannel.FACEBOOK]: '페이스북/인스타그램',
-      [AdChannel.NAVER_SEARCH]: '네이버 검색',
-      [AdChannel.NAVER_BLOG]: '네이버 블로그',
-      [AdChannel.INSTAGRAM_STORY]: '인스타그램 스토리',
-      [AdChannel.LINK_TREE]: '링크트리',
-      [AdChannel.INSTAGRAM_FEED]: '인스타그램 피드',
-      [AdChannel.KAKAO_PLUS_FRIEND]: '카카오플러스친구',
+      [AdChannel.AD]: '광고',
+      [AdChannel.HOMEPAGE]: '홈페이지',
+      [AdChannel.DIRECT_LINK]: '직접 링크',
     };
 
     return statusMap[adChannel] || '알 수 없음';
