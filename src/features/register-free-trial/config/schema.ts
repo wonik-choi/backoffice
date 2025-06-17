@@ -85,6 +85,16 @@ export const freeTrialUserRequestBodySchema = z.object({
   promotions: z.array(promotionSchema).optional(),
 });
 
+export const freeTrialUserRequestDtoSchema = z.object({
+  user: userSchema,
+  freeTrial: freeTrialSchema,
+  rental: rentalSchema,
+  promotions: z.array(promotionSchema).optional(),
+  inflow: z.object({
+    code: z.string().min(1, { message: '유입 코드를 넣어주세요' }),
+  }),
+});
+
 export type FreeTrialUserRequestBody = z.infer<typeof freeTrialUserRequestBodySchema>;
 
 /** 전역 store 를 위한 얕은 조건의 schema */
@@ -98,7 +108,71 @@ export const freeTrialSchemaInStore = freeTrialSchema.extend({
   semester: z.nativeEnum(Semester, { message: '학기를 선택해주세요' }).nullable(),
 });
 
+export const freeTrialSchemaInOptional = z.object({
+  user: userSchemaInStore,
+  freeTrial: z.object({
+    startDate: z.string().min(1, { message: '시작일을 입력해주세요' }),
+    schedules: z
+      .array(
+        z.object({
+          dayOfWeek: z.nativeEnum(DayOfWeek, { message: '요일을 선택해주세요' }),
+          startAt: z.object({
+            hour: z.number(),
+            minute: z.number(),
+            timezone: z.string(),
+          }),
+          todayLearningTime: z.number(),
+        })
+      )
+      .min(1, { message: '최소 1개 이상의 스케줄을 등록해주세요' }),
+    semester: z.nativeEnum(Semester, { message: '학기를 선택해주세요' }).nullable(),
+  }),
+  rental: z
+    .object({
+      zonecode: z.string(),
+      address: z.string(),
+      addressType: z.enum(['R', 'J']),
+      detailAddress: z.string(),
+      terms: z.array(z.any()),
+    })
+    .refine(
+      (data) => {
+        // 주소 관련 필드가 모두 비어있으면 통과
+        if (!data.address && !data.zonecode && !data.detailAddress) {
+          return true;
+        }
+        // 하나라도 입력되었으면 모든 필수 필드 검증
+        return data.address && data.zonecode && data.detailAddress;
+      },
+      { message: '주소를 완전히 입력해주세요' }
+    ),
+
+  promotions: z
+    .array(
+      z.object({
+        promotionCode: z.string(),
+        optionIds: z.array(z.number()),
+        terms: z.array(z.any()),
+      })
+    )
+    .refine(
+      (data) => {
+        // 프로모션이 비어있거나 optionIds가 비어있으면 통과
+        if (!data || data.length === 0 || data.every((item) => item.optionIds.length === 0)) {
+          return true;
+        }
+        // 프로모션이 비어있지 않고 optionIds가 비어있으면 통과
+        return data.every((item) => item.optionIds.length > 0);
+      },
+      { message: '프로모션을 올바르게 선택해주세요' }
+    ),
+  inflow: z.object({
+    code: z.string().min(1, { message: '유입 코드를 넣어주세요' }),
+  }),
+});
+
 export type FreeTrialInStore = z.infer<typeof freeTrialSchemaInStore>;
+export type FreeTrialInOptional = z.infer<typeof freeTrialSchemaInOptional>;
 
 /** optional 속성 내 canSubmit 을 조절하기 위한 schema */
 

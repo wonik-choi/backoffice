@@ -10,6 +10,7 @@ import { decodeISOString } from '@/shared/lib/date-fns/utls';
 
 // features
 import EditFreeTrialStudentDialog from '@/features/edit-free-trial-student/ui/EditFreeTrialStudentDialog';
+import { DeleteFreeTrialUserButton } from '@/features/delete-free-trial-user/ui/DeleteFreeTrialUserButton';
 
 // pages
 import ChangeUserStateButton from '@/views/free-trial/ui/buttons/change-user-state-button/ChangeUserStateButton';
@@ -130,6 +131,7 @@ const ExpandedRowContent = <TData extends ExpandedFreeTrialUsersTableRowData>({
         <ExpandedRowContentNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
         <div className="flex items-center gap-[0.8rem]">
           <EditFreeTrialStudentDialog student={exampleStudent} />
+          <DeleteFreeTrialUserButton freeTrialUserId={userId} />
           <ChangeUserStateButton row={row} />
         </div>
       </div>
