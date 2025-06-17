@@ -20,6 +20,7 @@ import FreeTrialTable from '@/views/free-trial/ui/FreeTrialTable';
 const FreeTrial = async () => {
   const queryClient = getQueryClient();
 
+  /** SSR */
   await queryClient.prefetchQuery({
     ...FreeTrialUsersQueryKeys.free_trial_users.lists({
       periodType: PeriodType.MONTH,

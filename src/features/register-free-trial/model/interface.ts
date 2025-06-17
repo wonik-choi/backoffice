@@ -1,9 +1,15 @@
 // entities
-import { FreeTrialUserRepository } from '@/entities/free-trial-user/models/repository';
+import { FreeTrialUserRepository, FreeTrialUserRequestDto } from '@/entities/free-trial-user/models/repository';
 
 // store
 import { FreeTrialUserState } from '@/features/register-free-trial/model/store/interface';
-import { FreeTrialInStore, Promotion, Rental, UserInStore } from '@/features/register-free-trial/config/schema';
+import {
+  FreeTrialInStore,
+  FreeTrialUserRequestBody,
+  Promotion,
+  Rental,
+  UserInStore,
+} from '@/features/register-free-trial/config/schema';
 
 export interface PostFreeTrialUserFormProps {
   store: FreeTrialUserState;
@@ -23,4 +29,9 @@ export interface ActionSubmitFreeTrialFormProps {
   formData: FreeTrialFormData;
   repository: FreeTrialUserRepository;
   inflowCode?: string;
+}
+
+export interface ManualPostFreeTrialUserProps {
+  onSuccessCallback?: () => void;
+  onErrorCallback?: (error: Error) => void;
 }
