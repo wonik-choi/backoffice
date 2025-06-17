@@ -53,8 +53,10 @@ export const useFilterFreeTrialUsers = (filter: GetFreeTrialUsersRequestDto) => 
       );
     },
     retry: false,
-    refetchOnMount: true,
     throwOnError: true,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
     initialData: queryClient.getQueryData(
       FreeTrialUsersQueryKeys.free_trial_users.lists({
         periodType: filter.periodType,
