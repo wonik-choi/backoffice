@@ -11,6 +11,7 @@ import {
   FreeTrialUserRequestDto,
   GetFreeTrialUsersRequestDto,
   DeleteFreeTrialUserRequestDto,
+  PatchFreeTrialUserRequestDto,
 } from '@/entities/free-trial-user/models/repository';
 
 export class FreeTrialUserRepositoryImpl implements FreeTrialUserRepository {
@@ -69,6 +70,22 @@ export class FreeTrialUserRepositoryImpl implements FreeTrialUserRepository {
   public getPromotions = async () => {
     const response = await this.httpAdaptor.get<GetFreeTrialPromotionsResponseDto>(
       `back-office/free-trial-application/promotions`
+    );
+
+    return response.data;
+  };
+
+  public patchFreeTrialUser = async (
+    request: PatchFreeTrialUserRequestDto,
+    freeTrialUserId: string,
+    options?: { headers?: Record<string, string> }
+  ) => {
+    const response = await this.httpAdaptor.patch<FreeTrialApplicationsResponseDto>(
+      `back-office/free-trial-application?freeTrialUserId=${freeTrialUserId}`,
+      request,
+      {
+        ...options,
+      }
     );
 
     return response.data;

@@ -1,29 +1,41 @@
 import { Row } from '@tanstack/react-table';
 
+import { AdChannel } from '@/entities/free-trial-user/models/enums';
+import { FreeTrialUserDto } from '@/entities/free-trial-user/models/dtos';
+
 /**
  * @description
  * 무료체험 테이블 Row 데이터 타입
  */
 export interface ExpandedFreeTrialUsersTableRowData {
-  id: string;
-  name?: string;
-  phone?: string;
-  status?: string;
-  latestRecord?: string;
-  registrationDate?: string;
-  inflow?: string;
-  period?: {
-    startDate?: string;
-    endDate?: string;
-    duration?: string;
+  /** 내부 데이터
+   * 내부 데이터를 freeTrialUserDto 로 통일
+   */
+  freeTrialUserDto: FreeTrialUserDto;
+  id: string; // 편의를 위해 추가;
+
+  // inflowCode?: string;
+  // parentName: string;
+  // rental?: {
+  //   returnDate?: string;
+  //   startDate?: string;
+  //   address: string;
+  //   detailAddress?: string;
+  //   zonecode: string;
+  // };
+
+  /** 외부 데이터 */
+  name: string;
+  phone: string;
+  status: string;
+  latestRecord: string;
+  registrationDate: string;
+  inflow: string;
+  period: {
+    startDate: string;
+    endDate: string;
+    duration: string;
     status?: string;
-  };
-  rental?: {
-    status: string;
-    returnDate?: string;
-    startDate?: string;
-    deviceRentalAddress?: string;
-    detailAddress?: string;
   };
 }
 
@@ -35,6 +47,30 @@ type NestedKeyOf<T> = T extends object
   : never;
 
 export type ExpandedRowDataKeys = NestedKeyOf<ExpandedFreeTrialUsersTableRowData>;
+
+/**
+ * @description
+ * ExpandedRowInformation
+ */
+export interface ExpandedRowInformation {
+  user: {
+    name: string;
+    phone: string;
+    registrationDate: string;
+  };
+  period: {
+    startDate: string;
+    endDate: string;
+    duration: string;
+    status: string;
+  };
+  rental: {
+    address: string;
+    detailAddress: string;
+    startDate: string;
+    returnDate: string;
+  };
+}
 
 /**
  * @description

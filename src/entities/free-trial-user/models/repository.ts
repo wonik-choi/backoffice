@@ -62,6 +62,50 @@ export interface DeleteFreeTrialUserRequestDto {
   freeTrialUserId: string;
 }
 
+export interface PatchFreeTrialUserRequestDto {
+  user?: {
+    name?: string;
+    phoneNumber?: string;
+    parentName?: string;
+    parentPhoneNumber?: string;
+    grade?: FreeTrialUserGrade;
+  };
+  freeTrial?: {
+    startDate?: string;
+    schedules?: {
+      dayOfWeek?: DayOfWeek;
+      startAt?: {
+        hour?: number;
+        minute?: number;
+        timezone?: string;
+      };
+      todayLearningTime?: number;
+    }[];
+    semester?: Semester;
+  };
+  rental?: {
+    zonecode?: string;
+    address?: string;
+    detailAddress?: string;
+    addressType?: string;
+    terms?: {
+      termCode: RentalTermCode;
+      agreed: boolean;
+    }[];
+  };
+  promotions?: {
+    promotionCode?: string;
+    optionIds?: number[];
+    terms?: {
+      termCode: PromotionTermCode;
+      agreed: boolean;
+    }[];
+  }[];
+  inflow?: {
+    code?: string;
+  };
+}
+
 /** repository */
 
 export interface FreeTrialUserRepository {
@@ -72,4 +116,9 @@ export interface FreeTrialUserRepository {
   ) => Promise<GetFreeTrialUsersResponseDto>;
   getPromotions: () => Promise<GetFreeTrialPromotionsResponseDto>;
   deleteFreeTrialUser: (request: DeleteFreeTrialUserRequestDto) => Promise<unknown>;
+  patchFreeTrialUser: (
+    request: PatchFreeTrialUserRequestDto,
+    freeTrialUserId: string,
+    options?: { headers?: Record<string, string> }
+  ) => Promise<FreeTrialApplicationsResponseDto>;
 }

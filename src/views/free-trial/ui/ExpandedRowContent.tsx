@@ -5,11 +5,8 @@ import Message from '@/shared/components/svgs/message/Message';
 import PeopleTop from '@/shared/components/svgs/people-top/PeopleTop';
 import { UserRoundCheck } from 'lucide-react';
 
-// shared
-import { decodeISOString } from '@/shared/lib/date-fns/utls';
-
 // features
-import EditFreeTrialStudentDialog from '@/features/edit-free-trial-student/ui/EditFreeTrialStudentDialog';
+import EditFreeTrialUserDialog from '@/features/edit-free-trial-student/ui/EditFreeTrialUserDialog';
 import { DeleteFreeTrialUserButton } from '@/features/delete-free-trial-user/ui/DeleteFreeTrialUserButton';
 
 // pages
@@ -109,28 +106,12 @@ const ExpandedRowContent = <TData extends ExpandedFreeTrialUsersTableRowData>({
   const userInfo = row.original;
   const userId = userInfo.id.toString();
 
-  // TODO: 추후 정책이 정해지면 변경 예정
-  const exampleStudent = {
-    name: userInfo.name,
-    phone: userInfo.phone,
-    registrationDate: userInfo.registrationDate ? decodeISOString(userInfo.registrationDate) : undefined,
-    period: {
-      startDate: userInfo.period?.startDate ? decodeISOString(userInfo.period?.startDate) : undefined,
-      endDate: userInfo.period?.endDate ? decodeISOString(userInfo.period?.endDate) : undefined,
-    },
-    rental: {
-      deviceRentalAddress: userInfo.rental?.deviceRentalAddress,
-      rentalDate: userInfo.rental?.startDate ? decodeISOString(userInfo.rental?.startDate) : undefined,
-      returnDate: userInfo.rental?.returnDate ? decodeISOString(userInfo.rental?.returnDate) : undefined,
-    },
-  };
-
   return (
     <div className="p-[1.6rem] bg-gray-50">
       <div className="flex justify-between items-center pb-[0.8rem] border-b border-gray-200 mb-[2.4rem]">
         <ExpandedRowContentNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
         <div className="flex items-center gap-[0.8rem]">
-          <EditFreeTrialStudentDialog student={exampleStudent} />
+          <EditFreeTrialUserDialog user={userInfo} />
           <DeleteFreeTrialUserButton freeTrialUserId={userId} />
           <ChangeUserStateButton row={row} />
         </div>

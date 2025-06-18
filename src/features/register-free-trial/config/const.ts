@@ -63,4 +63,5 @@ export const inflowOptions = [
   { value: 'AD_ZQPWX7', label: '인스타그램 스토리' },
   { value: 'DL_GOM001', label: '책 읽는 곰' },
   { value: 'DL_CARROT1', label: '인플루언서(캐롯맘)' },
+  { value: 'DL_DONGASCI001', label: '동아사이언스 유입' },
 ];

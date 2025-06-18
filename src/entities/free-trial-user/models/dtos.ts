@@ -95,7 +95,7 @@ export interface FreeTrial {
   endDate: string;
   trialDays: number;
   semester: Semester;
-  schedule: Schedule[];
+  schedules: Schedule[];
 }
 
 export interface Notification {
@@ -131,6 +131,7 @@ export interface FreeTrialUserDto {
   name: string;
   parentPhoneNumber: string;
   parentName: string;
+  phoneNumber?: string;
   grade: FreeTrialUserGrade;
   createdAt: string;
   inflow: Inflow;
