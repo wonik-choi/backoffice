@@ -16,7 +16,7 @@ import { Button, Label } from '@/shared/components/ui';
 import { ServerCustomError } from '@/shared/lib/errors/errors';
 
 // entities
-import { PromotionTermCode } from '@/entities/free-trial-user/models/enums';
+import { PromotionTermCode } from '@/entities/promotion/models/enums';
 
 // features
 import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';

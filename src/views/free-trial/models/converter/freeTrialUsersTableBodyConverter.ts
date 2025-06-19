@@ -3,7 +3,8 @@ import { formatISOStringToKoreanTitle } from '@/shared/lib/date-fns/utls';
 
 // entities
 import type { FreeTrialUserDto } from '@/entities/free-trial-user/models/dtos';
-import { freeTrialUserBehavior } from '@/entities/free-trial-user/models/behaviors/FreeTrialUserBehavior';
+import { inflowBehavior } from '@/entities/inflow/models/behaviors/InflowBehavior';
+import { eventHistoryBehavior } from '@/entities/event-history/models/behaviors/EventHistoryBehavior';
 
 // views
 import { ExpandedFreeTrialUsersTableRowData } from '@/views/free-trial/models/interface';
@@ -19,11 +20,11 @@ export const freeTrialUsersTableBodyConverter = (data: FreeTrialUserDto[]): Expa
 
       /** 외부 데이터 */
       name: user.name,
-      status: freeTrialUserBehavior.mapFreeTrialUserEventToStatus(user.latestEventHistory.userEvent),
+      status: eventHistoryBehavior.mapFreeTrialUserEventToStatus(user.latestEventHistory.userEvent),
       phone: user.parentPhoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'),
       latestRecord: formatISOStringToKoreanTitle(user.latestEventHistory.createdAt, 'yyyy-MM-dd'),
       registrationDate: formatISOStringToKoreanTitle(user.createdAt, 'yyyy-MM-dd'),
-      inflow: freeTrialUserBehavior.mapFreeTrialUserInflowToStatus(user.inflow.inflowSource),
+      inflow: inflowBehavior.mapInflowToStatus(user.inflow.inflowSource),
       period: {
         startDate: formatISOStringToKoreanTitle(user.freeTrial.startDate, 'yyyy-MM-dd'),
         endDate: formatISOStringToKoreanTitle(user.freeTrial.endDate, 'yyyy-MM-dd'),

@@ -34,7 +34,8 @@ import { ButtonInput } from '@/shared/components/ui/views/ButtonInput';
 import { ClientCustomError, ServerCustomError } from '@/shared/lib/errors/errors';
 
 // entities
-import { DayOfWeek, FreeTrialUserGrade, PromotionTermCode, Semester } from '@/entities/free-trial-user/models/enums';
+import { DayOfWeek, FreeTrialUserGrade, Semester } from '@/entities/free-trial-user/models/enums';
+import { PromotionTermCode } from '@/entities/promotion/models/enums';
 
 // features
 import {

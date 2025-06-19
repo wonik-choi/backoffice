@@ -1,11 +1,7 @@
 import { HttpAdaptor, httpAdaptor } from '@/shared/lib/https/HttpAdapter';
 
 // entities
-import {
-  FreeTrialApplicationsResponseDto,
-  GetFreeTrialPromotionsResponseDto,
-  GetFreeTrialUsersResponseDto,
-} from '@/entities/free-trial-user/models/dtos';
+import { FreeTrialApplicationsResponseDto, GetFreeTrialUsersResponseDto } from '@/entities/free-trial-user/models/dtos';
 import {
   FreeTrialUserRepository,
   FreeTrialUserRequestDto,
@@ -63,14 +59,6 @@ export class FreeTrialUserRepositoryImpl implements FreeTrialUserRepository {
     const response = await this.httpAdaptor.get<GetFreeTrialUsersResponseDto>(url, {
       ...options,
     });
-
-    return response.data;
-  };
-
-  public getPromotions = async () => {
-    const response = await this.httpAdaptor.get<GetFreeTrialPromotionsResponseDto>(
-      `back-office/free-trial-application/promotions`
-    );
 
     return response.data;
   };

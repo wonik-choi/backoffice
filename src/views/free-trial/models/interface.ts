@@ -1,6 +1,6 @@
 import { Row } from '@tanstack/react-table';
 
-import { AdChannel } from '@/entities/free-trial-user/models/enums';
+import { AdChannel } from '@/entities/inflow/models/enums';
 import { FreeTrialUserDto } from '@/entities/free-trial-user/models/dtos';
 
 /**

@@ -1,9 +1,7 @@
-import {
-  FreeTrialApplicationsResponseDto,
-  GetFreeTrialPromotionsResponseDto,
-  GetFreeTrialUsersResponseDto,
-} from './dtos';
-import { FreeTrialUserGrade, DayOfWeek, Semester, RentalTermCode, PromotionTermCode, PeriodType } from './enums';
+import { FreeTrialApplicationsResponseDto, GetFreeTrialUsersResponseDto } from './dtos';
+import { RentalTermCode } from '@/entities/rental/models/enums';
+import { PromotionTermCode } from '@/entities/promotion/models/enums';
+import { FreeTrialUserGrade, DayOfWeek, Semester, PeriodType } from './enums';
 
 export interface FreeTrialUserRequestDto {
   user: {
@@ -114,7 +112,6 @@ export interface FreeTrialUserRepository {
     request: GetFreeTrialUsersRequestDto,
     options?: { headers?: Record<string, string> }
   ) => Promise<GetFreeTrialUsersResponseDto>;
-  getPromotions: () => Promise<GetFreeTrialPromotionsResponseDto>;
   deleteFreeTrialUser: (request: DeleteFreeTrialUserRequestDto) => Promise<unknown>;
   patchFreeTrialUser: (
     request: PatchFreeTrialUserRequestDto,

@@ -1,6 +1,6 @@
-import { FreeTrialUserEvent, AdChannel } from '@/entities/free-trial-user/models/enums';
+import { FreeTrialUserEvent } from '@/entities/event-history/models/enums';
 
-export class FreeTrialUserBehavior {
+export class EventHistoryBehavior {
   public mapFreeTrialUserEventToStatus(status: FreeTrialUserEvent) {
     const statusMap = {
       [FreeTrialUserEvent.SUBMIT_DETAIL_APPLICATION_FORM]: '무료체험 신청완료',
@@ -15,16 +15,6 @@ export class FreeTrialUserBehavior {
 
     return statusMap[status] || '알 수 없음';
   }
-
-  public mapFreeTrialUserInflowToStatus(adChannel: AdChannel) {
-    const statusMap = {
-      [AdChannel.AD]: '광고',
-      [AdChannel.HOMEPAGE]: '홈페이지',
-      [AdChannel.DIRECT_LINK]: '직접 링크',
-    };
-
-    return statusMap[adChannel] || '알 수 없음';
-  }
 }
 
-export const freeTrialUserBehavior = new FreeTrialUserBehavior();
+export const eventHistoryBehavior = new EventHistoryBehavior();

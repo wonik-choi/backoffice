@@ -12,7 +12,7 @@ import { Button, Label, Input } from '@/shared/components/ui';
 import { ButtonInput } from '@/shared/components/ui/views/ButtonInput';
 
 // entities
-import { RentalTermCode } from '@/entities/free-trial-user/models/enums';
+import { RentalTermCode } from '@/entities/rental/models/enums';
 
 // features
 import { rentalSchema } from '@/features/register-free-trial/config/schema';
