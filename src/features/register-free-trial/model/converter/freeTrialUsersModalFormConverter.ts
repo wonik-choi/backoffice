@@ -1,4 +1,5 @@
-import { PromotionTermCode, RentalTermCode } from '@/entities/free-trial-user/models/enums';
+import { PromotionTermCode } from '@/entities/promotion/models/enums';
+import { RentalTermCode } from '@/entities/rental/models/enums';
 import { FreeTrialUserRequestDto } from '@/entities/free-trial-user/models/repository';
 
 import { FreeTrialInOptional, FreeTrialUserRequestBody } from '@/features/register-free-trial/config/schema';

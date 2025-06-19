@@ -21,9 +21,17 @@ export default function AsyncBoundary({ children, loadingFallback, errorFallback
   const queryClient = useQueryClient();
   const router = useRouter();
   const pathname = usePathname();
+
+  // 1) onError에서만 한 번 처리
+  const handleError = (error: Error) => {
+    if (error instanceof UnauthorizedError) {
+      setUnauthorized(true);
+    }
+  };
+
+  // 2) renderErrorFallback은 오직 UI만 담당
   const renderErrorFallback = (props: FallbackProps) => {
     if (props.error instanceof UnauthorizedError) {
-      setUnauthorized(true);
       return null;
     }
     return errorFallback?.(props);
@@ -40,14 +48,10 @@ export default function AsyncBoundary({ children, loadingFallback, errorFallback
           router.replace('/login');
         });
     }
-
-    return () => {
-      setUnauthorized(false);
-    };
-  }, [router, unauthorized]);
+  }, [router, unauthorized, queryClient]);
 
   return (
-    <ErrorBoundary fallbackRender={renderErrorFallback} resetKeys={[pathname]}>
+    <ErrorBoundary fallbackRender={renderErrorFallback} resetKeys={[pathname]} onError={handleError}>
       <Suspense fallback={loadingFallback}>{children}</Suspense>
     </ErrorBoundary>
   );

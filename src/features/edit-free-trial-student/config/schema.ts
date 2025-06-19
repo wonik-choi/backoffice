@@ -1,43 +1,62 @@
+import { FreeTrialUserGrade, Semester } from '@/entities/free-trial-user/models/enums';
+import { DayOfWeek } from '@/entities/free-trial-user/models/enums';
 import { z } from 'zod';
 
-export const EditFreeTrialStudentSchema = z.object({
-  name: z.string().min(1, '학생 이름을 입력해주세요.').optional(),
-  phone: z
-    .string()
-    .regex(/^01[016789]-\d{3,4}-\d{4}$/, '전화번호 형식이 올바르지 않습니다.')
-    .optional(),
-  registrationDate: z.date().optional(),
-  period: z
-    .object({
-      startDate: z.date().optional(),
-      endDate: z.date().optional(),
-    })
-    .refine(
-      (data) => {
-        if (!data.startDate || !data.endDate) return true;
-        return data.endDate >= data.startDate;
-      },
-      {
-        message: '시작일이 종료일보다 이전일 수 없습니다.',
-        path: ['endDate'],
-      }
-    ),
+export const patchFreeTrialSchema = z.object({
+  user: z.object({
+    name: z.string().min(1, { message: '이름을 입력해주세요' }),
+    phoneNumber: z
+      .string()
+      .regex(/^(?=[0-9]+$)01([016789])\d{8}$/, {
+        message: '(010시작) 11자리 유효한 핸드폰 번호를 입력해주세요',
+      })
+      .optional()
+      .nullable(),
+    parentName: z.string().min(1, { message: '부모님 이름을 입력해주세요' }),
+    parentPhoneNumber: z.string().regex(/^(?=[0-9]+$)01([016789])\d{8}$/, {
+      message: '(010시작) 11자리 유효한 핸드폰 번호를 입력해주세요',
+    }),
+    grade: z.nativeEnum(FreeTrialUserGrade, { message: '학년을 선택해주세요' }),
+  }),
+  freeTrial: z.object({
+    startDate: z.string().min(1, { message: '시작일을 입력해주세요' }),
+    schedules: z
+      .array(
+        z.object({
+          dayOfWeek: z.nativeEnum(DayOfWeek, { message: '요일을 선택해주세요' }),
+          startAt: z.object({
+            hour: z.number(),
+            minute: z.number(),
+            timezone: z.string(),
+          }),
+          todayLearningTime: z.number(),
+        })
+      )
+      .min(1, { message: '최소 1개 이상의 스케줄을 등록해주세요' }),
+    semester: z.nativeEnum(Semester, { message: '학기를 선택해주세요' }).nullable(),
+  }),
   rental: z
     .object({
-      deviceRentalAddress: z.string().optional(),
-      rentalDate: z.date().optional(),
-      returnDate: z.date().optional(),
+      zonecode: z.string(),
+      address: z.string(),
+      addressType: z.enum(['R', 'J']),
+      detailAddress: z.string(),
+      terms: z.array(z.any()),
     })
     .refine(
       (data) => {
-        if (!data.rentalDate || !data.returnDate) return true;
-        return data.returnDate >= data.rentalDate;
+        // 주소 관련 필드가 모두 비어있으면 통과
+        if (!data.address && !data.zonecode && !data.detailAddress) {
+          return true;
+        }
+        // 하나라도 입력되었으면 모든 필수 필드 검증
+        return data.address && data.zonecode && data.detailAddress;
       },
-      {
-        message: '대여일이 반납일보다 이전일 수 없습니다.',
-        path: ['returnDate'],
-      }
+      { message: '주소를 완전히 입력해주세요' }
     ),
+  inflow: z.object({
+    code: z.string().min(1, { message: '유입 코드를 넣어주세요' }),
+  }),
 });
 
-export type EditFreeTrialStudentForm = z.infer<typeof EditFreeTrialStudentSchema>;
+export type PatchFreeTrialSchema = z.infer<typeof patchFreeTrialSchema>;

@@ -5,6 +5,7 @@ import ClockCircle from '@/shared/components/svgs/clock-circle/ClockCircle';
 import Pad from '@/shared/components/svgs/pad/Pad';
 
 import { ExpandedFreeTrialUsersTableRowData } from '@/views/free-trial/models/interface';
+import { expandedRowInformationConverter } from '@/views/free-trial/models/converter/expandedRowInformationConverter';
 
 interface UserInfoCardProps {
   title: string;
@@ -47,23 +48,26 @@ const ExpandedRowUserInfo = <TData extends ExpandedFreeTrialUsersTableRowData>({
 }: ExpandedRowUserInfoProps<TData>) => {
   const userInfo = row.original;
 
+  // 전달받은 데이터를 변경해줍니다.
+  const rowInformation = expandedRowInformationConverter(userInfo);
+
   const basicInfo: UserInfoCardProps = {
     title: '기본 정보',
     lists: [
       {
         id: '0',
         label: '이름',
-        value: userInfo.name || '-',
+        value: rowInformation.user.name || '-',
       },
       {
         id: '1',
         label: '전화번호',
-        value: userInfo.phone || '-',
+        value: rowInformation.user.phone || '-',
       },
       {
         id: '2',
         label: '등록일',
-        value: userInfo.registrationDate || '-',
+        value: rowInformation.user.registrationDate || '-',
       },
     ],
     titleIcon: <PeopleTop className="text-blue-500" />,
@@ -75,22 +79,22 @@ const ExpandedRowUserInfo = <TData extends ExpandedFreeTrialUsersTableRowData>({
       {
         id: '0',
         label: '시작일',
-        value: userInfo.period?.startDate || '-',
+        value: rowInformation.period.startDate || '-',
       },
       {
         id: '1',
         label: '종료일',
-        value: userInfo.period?.endDate || '-',
+        value: rowInformation.period.endDate || '-',
       },
       {
         id: '2',
         label: '진행일수',
-        value: userInfo.period?.duration || '-',
+        value: rowInformation.period.duration || '-',
       },
       {
         id: '3',
         label: '상태',
-        value: userInfo.period?.status || '-',
+        value: rowInformation.period.status || '-',
       },
     ],
     titleIcon: <ClockCircle className="text-emerald-500" />,
@@ -101,18 +105,23 @@ const ExpandedRowUserInfo = <TData extends ExpandedFreeTrialUsersTableRowData>({
     lists: [
       {
         id: '0',
-        label: '수령지',
-        value: userInfo.rental?.deviceRentalAddress || '-',
+        label: '주소',
+        value: rowInformation.rental.address || '-',
       },
       {
         id: '1',
-        label: '대여일자',
-        value: userInfo.rental?.startDate || '-',
+        label: '상세주소',
+        value: rowInformation.rental.detailAddress || '-',
       },
       {
         id: '2',
+        label: '대여일자',
+        value: rowInformation.rental.startDate || '-',
+      },
+      {
+        id: '3',
         label: '반납일',
-        value: userInfo.rental?.returnDate || '-',
+        value: rowInformation.rental.returnDate || '-',
       },
     ],
     titleIcon: <Pad className="text-violet-500" />,

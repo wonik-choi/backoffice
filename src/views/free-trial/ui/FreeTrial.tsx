@@ -10,10 +10,12 @@ import { PeriodType } from '@/entities/free-trial-user/models/enums';
 // features
 import AsyncBoundary from '@/features/authentication/ui/AsyncBoundary';
 import { FreeTrialUsersQueryKeys } from '@/features/free-trial-users/config/query-keys';
+import { SkeletonExportButton } from '@/features/export-csv-free-trial-student/ui/ExportButton';
 
 // views
 import FreeTrialFilterSection from '@/views/free-trial/ui/FreeTrialFilterSection';
 import WrappingExportButton from '@/views/free-trial/ui/buttons/wrapping-export-button/WrappingExportButton';
+import SkeletonFreeTrialTable from '@/views/free-trial/ui/components/SkeletonFreeTrialTable';
 
 import FreeTrialTable from '@/views/free-trial/ui/FreeTrialTable';
 
@@ -42,14 +44,14 @@ const FreeTrial = async () => {
             </p>
           </div>
           <div className="w-fit h-full">
-            <AsyncBoundary loadingFallback={<div>Loading...</div>}>
+            <AsyncBoundary loadingFallback={<SkeletonExportButton />}>
               <WrappingExportButton fileName="무료체험 고객관리" />
             </AsyncBoundary>
           </div>
         </div>
 
         <FreeTrialFilterSection />
-        <AsyncBoundary loadingFallback={<div>Loading...</div>}>
+        <AsyncBoundary loadingFallback={<SkeletonFreeTrialTable />}>
           <FreeTrialTable />
         </AsyncBoundary>
       </section>

@@ -1,16 +1,13 @@
 import { HttpAdaptor, httpAdaptor } from '@/shared/lib/https/HttpAdapter';
 
 // entities
-import {
-  FreeTrialApplicationsResponseDto,
-  GetFreeTrialPromotionsResponseDto,
-  GetFreeTrialUsersResponseDto,
-} from '@/entities/free-trial-user/models/dtos';
+import { FreeTrialApplicationsResponseDto, GetFreeTrialUsersResponseDto } from '@/entities/free-trial-user/models/dtos';
 import {
   FreeTrialUserRepository,
   FreeTrialUserRequestDto,
   GetFreeTrialUsersRequestDto,
   DeleteFreeTrialUserRequestDto,
+  PatchFreeTrialUserRequestDto,
 } from '@/entities/free-trial-user/models/repository';
 
 export class FreeTrialUserRepositoryImpl implements FreeTrialUserRepository {
@@ -66,9 +63,17 @@ export class FreeTrialUserRepositoryImpl implements FreeTrialUserRepository {
     return response.data;
   };
 
-  public getPromotions = async () => {
-    const response = await this.httpAdaptor.get<GetFreeTrialPromotionsResponseDto>(
-      `back-office/free-trial-application/promotions`
+  public patchFreeTrialUser = async (
+    request: PatchFreeTrialUserRequestDto,
+    freeTrialUserId: string,
+    options?: { headers?: Record<string, string> }
+  ) => {
+    const response = await this.httpAdaptor.patch<FreeTrialApplicationsResponseDto>(
+      `back-office/free-trial-application?freeTrialUserId=${freeTrialUserId}`,
+      request,
+      {
+        ...options,
+      }
     );
 
     return response.data;
