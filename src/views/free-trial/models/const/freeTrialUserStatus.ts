@@ -1,4 +1,4 @@
-import { FreeTrialUserEvent } from '@/entities/free-trial-user/models/enums';
+import { FreeTrialUserEvent, PeriodType } from '@/entities/free-trial-user/models/enums';
 import { freeTrialUserBehavior } from '@/entities/free-trial-user/models/behaviors/FreeTrialUserBehavior';
 
 /**
@@ -20,3 +20,8 @@ export type FreeTrialUserDeviceRentalOption = (typeof freeTrialUserDeviceRentalO
 
 export const FREE_TRIAL_USER_STATUS = 'status' as const;
 export const FREE_TRIAL_USER_DEVICE_RENTAL_STATUS = 'upgrade.completionStatus' as const;
+
+export const FREE_TRIAL_USER_PERIOD_TYPE = Object.values(PeriodType).map((periodType) => ({
+  value: periodType,
+  label: periodType,
+}));
