@@ -17,6 +17,7 @@ export const initialEditDialogFormConverter = (rowData: ExpandedFreeTrialUsersTa
       phoneNumber: rowData.freeTrialUserDto.phoneNumber,
     },
     freeTrial: {
+      id: rowData.freeTrialUserDto.freeTrial.id,
       startDate: rowData.freeTrialUserDto.freeTrial.startDate,
       schedules: rowData.freeTrialUserDto.freeTrial.schedules.map((schedule) => {
         const startDate = decodeISOString(schedule.startTime);
@@ -24,6 +25,7 @@ export const initialEditDialogFormConverter = (rowData: ExpandedFreeTrialUsersTa
         const startMinute = startDate.getMinutes();
 
         return {
+          id: schedule.id,
           dayOfWeek: schedule.dayOfWeek,
           startAt: {
             hour: startHour,
@@ -43,6 +45,7 @@ export const initialEditDialogFormConverter = (rowData: ExpandedFreeTrialUsersTa
       terms: [],
     },
     inflow: {
+      id: rowData.freeTrialUserDto.inflow.id,
       code: rowData.freeTrialUserDto.inflow.code,
     },
   };
@@ -50,6 +53,7 @@ export const initialEditDialogFormConverter = (rowData: ExpandedFreeTrialUsersTa
   // rental 존재
   if (rowData.freeTrialUserDto.rental) {
     initialValues.rental = {
+      id: rowData.freeTrialUserDto.rental.id,
       address: rowData.freeTrialUserDto.rental.address,
       detailAddress: rowData.freeTrialUserDto.rental.detailAddress,
       zonecode: rowData.freeTrialUserDto.rental.zonecode,
