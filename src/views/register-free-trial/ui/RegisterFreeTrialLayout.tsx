@@ -1,10 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 // shared
 import { SusimdalLogo } from '@/shared/components/svgs/susimdal-logo/SusimdalLogo';
 import { Progress } from '@/shared/components/atomics/progress';
+import Kakaotalk from '@/shared/components/svgs/kakaotalk/Kakaotalk';
 
 // features
 import { useStepTracker } from '@/features/tracking-register-free-trial/services/useStepTracker';
@@ -48,11 +50,21 @@ const RegisterFreeTrialLayout = ({
     <div className="flex flex-col h-dvh w-full">
       <nav className="mb-[8px] w-full bg-susimdal-element-primary-light">
         <div className="flex h-[32px] p-[8px] justify-center items-center self-stretch">
-          <div className="flex justify-center items-center gap-[4px]">
-            <div className="w-[16px] h-[16px]">
-              <SusimdalLogo />
+          <div className="flex justify-between items-center gap-[4px] w-full">
+            <div className="flex justify-center items-center gap-[4px]">
+              <div className="w-[16px] h-[16px]">
+                <SusimdalLogo />
+              </div>
+              <p className="text-[12px] font-normal text-black">수심달 무료체험을 환영합니다!</p>
             </div>
-            <p className="text-[12px] font-normal text-black">수심달 무료체험을 환영합니다!</p>
+            <div className="flex justify-center items-center gap-[4px]">
+              <Link href="https://naver.com" target="_blank">
+                <div className="bg-[#FAE100] rounded-[0.4rem] py-[0.2rem] px-[0.6rem] flex justify-center items-center gap-[0.2rem] active:bg-[#FAE100]/60 transition-colors duration-200 cursor-pointer">
+                  <p className="text-susimdal-text-basic font-normal text-[1.2rem]">카카오채널 문의</p>
+                  <Kakaotalk className="w-[1.6rem] h-[1.6rem] text-susimdal-text-basic" />
+                </div>
+              </Link>
+            </div>
           </div>
         </div>
       </nav>
