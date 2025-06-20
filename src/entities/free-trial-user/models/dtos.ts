@@ -1,85 +1,9 @@
-import {
-  AdChannel,
-  AddressType,
-  DayOfWeek,
-  DeviceType,
-  FreeTrialUserEvent,
-  FreeTrialUserGrade,
-  NotificationType,
-  Semester,
-} from './enums';
+import { DayOfWeek, FreeTrialUserGrade, Semester } from './enums';
 
-export interface FreeTrialApplicationsResponseDto {
-  freeTrialUserEventUserId: string;
-  freeTrialUserEventHistoryId: number;
-  freeTrialId: number;
-  rentalId: number;
-  promotionParticipantIds: number[];
-  userTermAgreementIds: number[];
-}
-
-export interface PromotionOptionDto {
-  id: number;
-  payload: {
-    title: string;
-    copies: number;
-    months: number;
-    magazineType: string;
-  };
-  createdAt: string | null;
-}
-
-export interface PromotionDto {
-  id: number;
-  promotionCode: string;
-  name: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  options: PromotionOptionDto[];
-}
-
-export interface GetFreeTrialPromotionsResponseDto {
-  promotions: PromotionDto[];
-}
-
-/** getFreeTrialUserList */
-
-// 아마 entity
-export interface Referrer {
-  id: number;
-  name: string;
-  phoneNumber: string;
-}
-
-export interface InflowDetail {
-  type: string;
-  groupName: string;
-  referrer: Referrer;
-}
-
-// 아마 entity
-export interface Inflow {
-  id: number;
-  code: string;
-  inflowSource: AdChannel;
-  detail: InflowDetail;
-}
-
-export interface Rental {
-  id: number;
-  zonecode: string;
-  address: string;
-  addressType: AddressType;
-  detailAddress: string;
-  rentalStartDate: string;
-  rentalEndDate: string;
-  rentalReturnDate: string;
-  deviceType: DeviceType;
-  deviceModel: string;
-  deviceNumber: string;
-  createdAt: string;
-}
+import { InflowDto } from '@/entities/inflow/models/dtos';
+import { NotificationDto } from '@/entities/notification/models/dtos';
+import { EventHistoryDto } from '@/entities/event-history/models/dtos';
+import { RentalDto } from '@/entities/rental/models/dtos';
 
 export interface Schedule {
   id: number;
@@ -95,20 +19,7 @@ export interface FreeTrial {
   endDate: string;
   trialDays: number;
   semester: Semester;
-  schedule: Schedule[];
-}
-
-export interface Notification {
-  id: number;
-  type: NotificationType;
-  isSuccess: boolean;
-  createdAt: string;
-}
-
-export interface EventHistory {
-  id: number;
-  userEvent: FreeTrialUserEvent;
-  createdAt: string;
+  schedules: Schedule[];
 }
 
 export interface SortObject {
@@ -131,14 +42,17 @@ export interface FreeTrialUserDto {
   name: string;
   parentPhoneNumber: string;
   parentName: string;
+  phoneNumber?: string;
   grade: FreeTrialUserGrade;
   createdAt: string;
-  inflow: Inflow;
-  rental?: Rental;
+  inflow: InflowDto;
+  rental?: RentalDto;
   freeTrial: FreeTrial;
-  latestNotifictaion: Notification;
-  latestEventHistory: EventHistory;
+  latestNotifictaion: NotificationDto;
+  latestEventHistory: EventHistoryDto;
 }
+
+// response
 
 export interface PageFreeTrialUsersResponseDto {
   totalPages: number;
@@ -155,4 +69,13 @@ export interface PageFreeTrialUsersResponseDto {
 
 export interface GetFreeTrialUsersResponseDto {
   freeTrialUsers: PageFreeTrialUsersResponseDto;
+}
+
+export interface FreeTrialApplicationsResponseDto {
+  freeTrialUserEventUserId: string;
+  freeTrialUserEventHistoryId: number;
+  freeTrialId: number;
+  rentalId: number;
+  promotionParticipantIds: number[];
+  userTermAgreementIds: number[];
 }

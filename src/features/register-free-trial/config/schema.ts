@@ -1,13 +1,9 @@
 import { z } from 'zod';
 
 // entitis
-import {
-  FreeTrialUserGrade,
-  DayOfWeek,
-  Semester,
-  PromotionTermCode,
-  RentalTermCode,
-} from '@/entities/free-trial-user/models/enums';
+import { FreeTrialUserGrade, DayOfWeek, Semester } from '@/entities/free-trial-user/models/enums';
+import { PromotionTermCode } from '@/entities/promotion/models/enums';
+import { RentalTermCode } from '@/entities/rental/models/enums';
 
 export const userSchema = z.object({
   name: z.string().min(1, { message: '이름을 입력해주세요' }),

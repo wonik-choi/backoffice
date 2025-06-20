@@ -126,10 +126,10 @@ export const FREE_TRIAL_TIME_OPTIONS: Omit<FreeTrialPageBadge<number>, 'onClick'
 
 /** 무료체험 학기 옵션 */
 export const SEMESTER_OPTIONS = [
-  { value: Semester.MIDDLE_FIRST_H1, label: '1학년 1학기' },
-  { value: Semester.MIDDLE_FIRST_H2, label: '1학년 2학기' },
-  { value: Semester.MIDDLE_SECOND_H1, label: '2학년 1학기' },
-  { value: Semester.MIDDLE_SECOND_H2, label: '2학년 2학기' },
-  { value: Semester.MIDDLE_THIRD_H1, label: '3학년 1학기' },
-  { value: Semester.MIDDLE_THIRD_H2, label: '3학년 2학기' },
+  { value: Semester.MIDDLE_FIRST_H1, label: '중학교 1학년 1학기' },
+  { value: Semester.MIDDLE_FIRST_H2, label: '중학교 1학년 2학기' },
+  { value: Semester.MIDDLE_SECOND_H1, label: '중학교 2학년 1학기' },
+  { value: Semester.MIDDLE_SECOND_H2, label: '중학교 2학년 2학기' },
+  { value: Semester.MIDDLE_THIRD_H1, label: '중학교 3학년 1학기' },
+  { value: Semester.MIDDLE_THIRD_H2, label: '중학교 3학년 2학기' },
 ];

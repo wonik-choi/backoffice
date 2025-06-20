@@ -1,12 +1,13 @@
-import { FreeTrialUserEvent } from '@/entities/free-trial-user/models/enums';
-import { freeTrialUserBehavior } from '@/entities/free-trial-user/models/behaviors/FreeTrialUserBehavior';
+import { PeriodType } from '@/entities/free-trial-user/models/enums';
+import { FreeTrialUserEvent } from '@/entities/event-history/models/enums';
+import { eventHistoryBehavior } from '@/entities/event-history/models/behaviors/EventHistoryBehavior';
 
 /**
  * @description
  * 무료체험 유저의 상태 필터 옵션
  */
 export const freeTrialUserStatusOptions = Object.values(FreeTrialUserEvent).map((event) =>
-  freeTrialUserBehavior.mapFreeTrialUserEventToStatus(event)
+  eventHistoryBehavior.mapFreeTrialUserEventToStatus(event)
 );
 export type FreeTrialUserStatusOption = (typeof freeTrialUserStatusOptions)[number];
 
@@ -20,3 +21,8 @@ export type FreeTrialUserDeviceRentalOption = (typeof freeTrialUserDeviceRentalO
 
 export const FREE_TRIAL_USER_STATUS = 'status' as const;
 export const FREE_TRIAL_USER_DEVICE_RENTAL_STATUS = 'upgrade.completionStatus' as const;
+
+export const FREE_TRIAL_USER_PERIOD_TYPE = Object.values(PeriodType).map((periodType) => ({
+  value: periodType,
+  label: periodType,
+}));

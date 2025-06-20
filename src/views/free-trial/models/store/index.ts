@@ -83,7 +83,7 @@ export const useFreeTrialStore = create<FreeTrialState>((set, get) => ({
    */
   setBaseDate: (baseDate: Date) => {
     set(() => {
-      const baseDateString = formatKoreanTitle(baseDate);
+      const baseDateString = formatKoreanTitle(baseDate, 'yyyy-MM-dd');
 
       return {
         baseDate: baseDateString,
