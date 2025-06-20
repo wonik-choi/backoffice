@@ -19,10 +19,12 @@ export const patchFreeTrialSchema = z.object({
     grade: z.nativeEnum(FreeTrialUserGrade, { message: '학년을 선택해주세요' }),
   }),
   freeTrial: z.object({
+    id: z.number().optional(),
     startDate: z.string().min(1, { message: '시작일을 입력해주세요' }),
     schedules: z
       .array(
         z.object({
+          id: z.number().optional(),
           dayOfWeek: z.nativeEnum(DayOfWeek, { message: '요일을 선택해주세요' }),
           startAt: z.object({
             hour: z.number(),
@@ -37,6 +39,7 @@ export const patchFreeTrialSchema = z.object({
   }),
   rental: z
     .object({
+      id: z.number().optional(),
       zonecode: z.string(),
       address: z.string(),
       addressType: z.enum(['R', 'J']),
@@ -55,6 +58,7 @@ export const patchFreeTrialSchema = z.object({
       { message: '주소를 완전히 입력해주세요' }
     ),
   inflow: z.object({
+    id: z.number().optional(),
     code: z.string().min(1, { message: '유입 코드를 넣어주세요' }),
   }),
 });
