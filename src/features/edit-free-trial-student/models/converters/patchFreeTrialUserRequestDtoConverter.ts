@@ -30,6 +30,7 @@ export const patchFreeTrialUserRequestDtoConverter = (
 
   if (data.freeTrial) {
     const freeTrialFields = pickDefined({
+      id: data.freeTrial.id,
       startDate: data.freeTrial.startDate,
       schedules: data.freeTrial.schedules,
       semester: data.freeTrial.semester ? data.freeTrial.semester : undefined,
@@ -42,6 +43,7 @@ export const patchFreeTrialUserRequestDtoConverter = (
 
   if (data.rental) {
     const rentalFields = pickDefined({
+      id: data.rental.id,
       zonecode: data.rental.zonecode,
       address: data.rental.address,
       detailAddress: data.rental.detailAddress,
@@ -56,6 +58,7 @@ export const patchFreeTrialUserRequestDtoConverter = (
 
   if (data.inflow) {
     const inflowFields = pickDefined({
+      id: data.inflow.id,
       code: data.inflow.code,
     });
 
