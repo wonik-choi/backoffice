@@ -58,7 +58,7 @@ const RegisterFreeTrialLayout = ({
               <p className="text-[12px] font-normal text-black">수심달 무료체험을 환영합니다!</p>
             </div>
             <div className="flex justify-center items-center gap-[4px]">
-              <Link href="https://naver.com" target="_blank">
+              <Link href="http://pf.kakao.com/_GAxhUG" target="_blank">
                 <div className="bg-[#FAE100] rounded-[0.4rem] py-[0.2rem] px-[0.6rem] flex justify-center items-center gap-[0.2rem] active:bg-[#FAE100]/60 transition-colors duration-200 cursor-pointer">
                   <p className="text-susimdal-text-basic font-normal text-[1.2rem]">카카오채널 문의</p>
                   <Kakaotalk className="w-[1.6rem] h-[1.6rem] text-susimdal-text-basic" />
