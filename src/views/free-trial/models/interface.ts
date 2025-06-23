@@ -13,6 +13,7 @@ export interface ExpandedFreeTrialUsersTableRowData {
    */
   freeTrialUserDto: FreeTrialUserDto;
   id: string; // 편의를 위해 추가;
+  daysLeft: number; // 편의를 위해 추가;
 
   // inflowCode?: string;
   // parentName: string;
@@ -36,6 +37,7 @@ export interface ExpandedFreeTrialUsersTableRowData {
     endDate: string;
     duration: string;
     status?: string;
+    daysLeft: string;
   };
 }
 

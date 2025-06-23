@@ -3,12 +3,13 @@
 import React from 'react';
 import { flexRender, Row } from '@tanstack/react-table';
 
+// shared
+import { TableCell, TableRow } from '@/shared/components/atomics/table';
+import { cn } from '@/shared/lib/utils';
+
 // pages
 import ExpandedRowContent from '@/views/free-trial/ui/ExpandedRowContent';
 import type { ExpandedFreeTrialUsersTableRowData } from '@/views/free-trial/models/interface';
-
-// shared
-import { TableCell, TableRow } from '@/shared/components/atomics/table';
 
 const FreeTrialTableBodyRow = ({ row }: { row: Row<ExpandedFreeTrialUsersTableRowData> }) => {
   const [expanded, setExpanded] = React.useState(false);
@@ -17,13 +18,16 @@ const FreeTrialTableBodyRow = ({ row }: { row: Row<ExpandedFreeTrialUsersTableRo
     setExpanded((prev) => !prev);
   }, []);
 
-  // 추후에는 row 데이터 자체 내 counselingRecords 가 추가될 것이 아닐까 싶다.
-
   return (
     <React.Fragment key={row.id}>
       <TableRow
         data-state={row.getIsSelected() && 'selected'}
-        className="hover:bg-gray-50/50 cursor-pointer transition-colors group"
+        className={cn(
+          'hover:bg-gray-50/50 cursor-pointer transition-colors group',
+          row.original.daysLeft <= 3 && 'bg-violet-50',
+          row.original.daysLeft === 0 && 'bg-blue-50',
+          row.original.daysLeft < 0 && 'bg-white'
+        )}
         onClick={toggleExpandedUserInfo}
       >
         {row.getVisibleCells().map((cell) => {
