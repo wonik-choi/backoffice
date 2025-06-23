@@ -1,4 +1,4 @@
-import { addDays, format, subDays, startOfMonth, formatISO, parseISO } from 'date-fns';
+import { addDays, format, subDays, startOfMonth, formatISO, parseISO, differenceInDays } from 'date-fns';
 import { TZDate } from '@date-fns/tz';
 import { ko } from 'date-fns/locale';
 
@@ -65,4 +65,10 @@ export const formatISOStringToKoreanTitle = (date: string, formatString: string 
   const formattedDate = format(decodedDate, formatString);
 
   return formattedDate;
+};
+
+export const getDifferenceInDays = (laterDate: Date, earlierDate: Date): number => {
+  const difference = differenceInDays(laterDate, earlierDate);
+
+  return difference;
 };

@@ -19,11 +19,13 @@ export const FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS: FreeTrialUsersTableColumnGrou
   },
   {
     name: '체험기간',
-    colSpan: 4,
+    colSpan: 5,
     columns: [
       { id: 'period.startDate', label: '시작일' },
       { id: 'period.endDate', label: '종료일' },
       { id: 'period.status', label: '진행상태' },
+      { id: 'period.duration', label: '체험기간' },
+      { id: 'period.daysLeft', label: '남은일수' },
     ],
   },
   // {
@@ -84,6 +86,12 @@ export const FREE_TRIAL_USERS_TABLE_COLUMNS: ColumnDef<ExpandedFreeTrialUsersTab
     accessorFn: (row) => row.period?.duration,
     header: '체험기간',
     cell: ({ row }) => row.original.period?.duration || '-',
+  },
+  {
+    id: 'period.daysLeft',
+    accessorFn: (row) => row.period?.daysLeft,
+    header: '시작전',
+    cell: ({ row }) => row.original.period?.daysLeft || '-',
   },
   // {
   //   id: 'rental.status',
