@@ -1,5 +1,5 @@
 // shared
-import { formatISOStringToKoreanTitle } from '@/shared/lib/date-fns/utls';
+import { formatISOStringToKoreanTitle, getDifferenceInDays } from '@/shared/lib/date-fns/utls';
 
 // entities
 import type { FreeTrialUserDto } from '@/entities/free-trial-user/models/dtos';
@@ -17,6 +17,7 @@ export const freeTrialUsersTableBodyConverter = (data: FreeTrialUserDto[]): Expa
       /** 내부 데이터 */
       id: user.id,
       freeTrialUserDto: user,
+      daysLeft: 0,
 
       /** 외부 데이터 */
       name: user.name,
@@ -30,6 +31,7 @@ export const freeTrialUsersTableBodyConverter = (data: FreeTrialUserDto[]): Expa
         endDate: formatISOStringToKoreanTitle(user.freeTrial.endDate, 'yyyy-MM-dd'),
         duration: `${user.freeTrial.trialDays}일`,
         status: '',
+        daysLeft: '',
       },
     };
 
@@ -43,6 +45,17 @@ export const freeTrialUsersTableBodyConverter = (data: FreeTrialUserDto[]): Expa
       rowData.period.status = '진행중';
     } else {
       rowData.period.status = '종료';
+    }
+
+    // 시작일까지 남은 일수 계산
+    const daysLeft = getDifferenceInDays(periodStart, now);
+    rowData.daysLeft = daysLeft;
+    if (daysLeft > 0) {
+      rowData.period.daysLeft = `${daysLeft}일`;
+    } else if (daysLeft === 0) {
+      rowData.period.daysLeft = '오늘';
+    } else {
+      rowData.period.daysLeft = '초과';
     }
 
     return rowData;

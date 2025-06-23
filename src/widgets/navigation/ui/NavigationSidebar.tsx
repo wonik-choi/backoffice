@@ -25,6 +25,11 @@ const navigationList = [
     icon: Home,
   },
   {
+    label: '1차 신청 무료체험 고객관리',
+    href: '/temp-free-trial',
+    icon: Inbox,
+  },
+  {
     label: '무료체험 고객관리',
     href: '/free-trial',
     icon: Inbox,

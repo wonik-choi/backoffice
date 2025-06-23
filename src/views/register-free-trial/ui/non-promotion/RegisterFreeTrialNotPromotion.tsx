@@ -2,10 +2,9 @@
 
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
-import { toast } from 'sonner';
 
 // lib
-import { ServerCustomError } from '@/shared/lib/errors/errors';
+import { alertError } from '@/shared/lib/errors/queryOnErrorCallback';
 import * as fbq from '@/shared/lib/meta-pixel/fpixel';
 
 // features
@@ -41,21 +40,7 @@ const RegisterFreeTrial = () => {
       goToStep(FormStep.Completion);
     },
     onErrorCallback: (error: Error) => {
-      if (error instanceof ServerCustomError) {
-        toast.error(`[${error ? error.status : 'ERROR'}]이런! 폼 제출에 실패했어요`, {
-          description: error
-            ? error.debug
-              ? error.debug.message
-              : error.message
-            : '관리자에게 문의해주세요 (1899-3884)',
-          duration: 6000,
-        });
-      } else {
-        toast.error(`[ERROR]이런! 폼 제출에 실패했어요`, {
-          description: '관리자에게 문의해주세요 (1899-3884)',
-          duration: 6000,
-        });
-      }
+      alertError(error);
     },
   });
 

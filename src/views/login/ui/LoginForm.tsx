@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 
 // shared
 import { Button, Em, Input, Label } from '@/shared/components/ui';
-import { ServerCustomError } from '@/shared/lib/errors/errors';
+import { alertError } from '@/shared/lib/errors/queryOnErrorCallback';
 
 // features
 import { loginSchema, LoginSchema } from '@/features/authentication/config/schema';
@@ -25,18 +25,7 @@ const LoginForm = () => {
       router.replace('/home');
     },
     onErrorCallback: (error: Error) => {
-      if (error instanceof ServerCustomError) {
-        toast.error(`[${error ? error.status : 'ERROR'}]이런! 로그인에 실패했어요`, {
-          description: error ? (error.debug ? error.debug.message : error.message) : '개발자 문의 필요',
-          duration: 6000,
-        });
-      } else {
-        console.log('error', error);
-        toast.error(`[ERROR]이런! 로그인에 실패했어요`, {
-          description: error ? error.message : `개발자 문의 필요`,
-          duration: 6000,
-        });
-      }
+      alertError(error);
     },
   });
 

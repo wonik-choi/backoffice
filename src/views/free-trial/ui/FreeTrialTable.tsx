@@ -92,7 +92,7 @@ const FreeTrialTable = () => {
             이전
           </Button>
           <span className="text-[1.4rem] font-medium text-gray-900">
-            {table.getState().pagination.pageIndex + 1} / {totalPages}
+            {totalPages ? table.getState().pagination.pageIndex + 1 : 0} / {totalPages}
           </span>
           <Button
             variant="outline"
@@ -100,7 +100,7 @@ const FreeTrialTable = () => {
             onClick={() => {
               table.nextPage();
             }}
-            disabled={table.getState().pagination.pageIndex === totalPages - 1}
+            disabled={table.getState().pagination.pageIndex === totalPages - 1 || !totalPages}
             className="h-[3.2rem] px-[1.6rem] text-[1.2rem] bg-white hover:bg-gray-50/80"
           >
             다음
