@@ -1,7 +1,7 @@
 'use client';
 
 // features
-import AddFreeTrialStudentDialog from '@/features/register-free-trial/ui/AddFreeTrialStudentDialog';
+import PostTempFreeTrialUserDialog from '@/features/temp-free-trial-user/ui/PostTempFreeTrialUserDialog';
 
 // views
 import { useTempFreeTrialStore } from '@/views/temp-free-trial/models/store';
@@ -20,7 +20,7 @@ const TempFreeTrialFilterSection = () => {
         <PeriodTypeFilterSelector periodType={periodType} onChangePeriodType={setPeriodType} />
       </div>
       <div className="size-fit">
-        <AddFreeTrialStudentDialog />
+        <PostTempFreeTrialUserDialog />
       </div>
     </section>
   );

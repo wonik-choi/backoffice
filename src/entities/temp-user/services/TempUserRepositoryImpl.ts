@@ -5,7 +5,12 @@ import {
   GetTempFreeTrialUsersResponseDto,
   TempSelfFreeTrialApplicationResponseDto,
 } from '@/entities/temp-user/models/dtos';
-import { GetTempUsersRequestDto, TempUserRepository, TempUserRequestDto } from '@/entities/temp-user/models/repository';
+import {
+  DeleteTempUserRequestDto,
+  GetTempUsersRequestDto,
+  TempUserRepository,
+  TempUserRequestDto,
+} from '@/entities/temp-user/models/repository';
 
 export class TempUserRepositoryImpl implements TempUserRepository {
   constructor(private readonly httpAdaptor: HttpAdaptor) {}
@@ -51,6 +56,15 @@ export class TempUserRepositoryImpl implements TempUserRepository {
     });
 
     return response.data;
+  };
+
+  public deleteTempUser = async (request: DeleteTempUserRequestDto, options?: { headers?: Record<string, string> }) => {
+    return await this.httpAdaptor.delete(
+      `back-office/temp-free-trial-users?tempFreeTrialUserId=${request.tempFreeTrialUserId}`,
+      {
+        ...options,
+      }
+    );
   };
 }
 

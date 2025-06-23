@@ -5,6 +5,9 @@ import Message from '@/shared/components/svgs/message/Message';
 import PeopleTop from '@/shared/components/svgs/people-top/PeopleTop';
 import { UserRoundCheck } from 'lucide-react';
 
+// features
+import { DeleteTempFreeTrialUserButton } from '@/features/temp-free-trial-user/ui/DeleteTempFreeTrialUserButton';
+
 // pages
 import ChangeUserStateButton from '@/views/temp-free-trial/ui/buttons/change-user-state-button/ChangeUserStateButton';
 import ExpandedRowUserInfo from '@/views/temp-free-trial/ui/TempExpandedRowUserInfo';
@@ -107,6 +110,7 @@ const TempExpandedRowContent = <TData extends ExpandedFreeTrialUsersTableRowData
       <div className="flex justify-between items-center pb-[0.8rem] border-b border-gray-200 mb-[2.4rem]">
         <ExpandedRowContentNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
         <div className="flex items-center gap-[0.8rem]">
+          <DeleteTempFreeTrialUserButton freeTrialUserId={userId} />
           <ChangeUserStateButton row={row} />
         </div>
       </div>

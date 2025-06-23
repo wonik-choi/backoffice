@@ -24,6 +24,10 @@ export interface GetTempUsersRequestDto {
   size: number;
 }
 
+export interface DeleteTempUserRequestDto {
+  tempFreeTrialUserId: string;
+}
+
 /** repository */
 
 export interface TempUserRepository {
@@ -32,4 +36,5 @@ export interface TempUserRepository {
     request: GetTempUsersRequestDto,
     options?: { headers?: Record<string, string> }
   ) => Promise<GetTempFreeTrialUsersResponseDto>;
+  deleteTempUser: (request: DeleteTempUserRequestDto) => Promise<unknown>;
 }
