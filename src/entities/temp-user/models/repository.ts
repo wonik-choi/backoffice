@@ -4,6 +4,7 @@ import {
   TempSelfFreeTrialApplicationResponseDto,
   TempUserTermDto,
   PageTempFreeTrialUserResponseDto,
+  GetTempFreeTrialUsersResponseDto,
 } from '@/entities/temp-user/models/dtos';
 
 export interface TempUserRequestDto {
@@ -30,5 +31,5 @@ export interface TempUserRepository {
   getTempUsers: (
     request: GetTempUsersRequestDto,
     options?: { headers?: Record<string, string> }
-  ) => Promise<PageTempFreeTrialUserResponseDto>;
+  ) => Promise<GetTempFreeTrialUsersResponseDto>;
 }

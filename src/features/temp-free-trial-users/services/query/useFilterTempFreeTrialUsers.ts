@@ -9,7 +9,7 @@ import { useSuspenseLikeQuery } from '@/shared/hooks/useSuspenseLikeQuery';
 
 // entities
 import { GetTempUsersRequestDto } from '@/entities/temp-user/models/repository';
-import { PageTempFreeTrialUserResponseDto } from '@/entities/temp-user/models/dtos';
+import { GetTempFreeTrialUsersResponseDto } from '@/entities/temp-user/models/dtos';
 
 // features
 import { TempFreeTrialUsersQueryKeys } from '@/features/temp-free-trial-users/config/query-keys';
@@ -18,7 +18,7 @@ import { ServerCustomError, UnknownError } from '@/shared/lib/errors/errors';
 export const useFilterTempFreeTrialUsers = (filter: GetTempUsersRequestDto) => {
   const queryClient = useQueryClient();
 
-  const data = useSuspenseLikeQuery<PageTempFreeTrialUserResponseDto, ServerCustomError | UnknownError>({
+  const data = useSuspenseLikeQuery<GetTempFreeTrialUsersResponseDto, ServerCustomError | UnknownError>({
     ...TempFreeTrialUsersQueryKeys.temp_free_trial_users.lists({
       periodType: filter.periodType,
       baseDate: filter.baseDate,
@@ -31,7 +31,7 @@ export const useFilterTempFreeTrialUsers = (filter: GetTempUsersRequestDto) => {
         async () => {
           try {
             // 서버 제출
-            const response = await httpAdaptor.get<PageTempFreeTrialUserResponseDto>(
+            const response = await httpAdaptor.get<GetTempFreeTrialUsersResponseDto>(
               `/api/temp-free-trial-users?periodType=${filter.periodType}&baseDate=${filter.baseDate}&timeZone=${filter.timeZone}&page=${filter.page}&size=${filter.size}`,
               {
                 headers: {

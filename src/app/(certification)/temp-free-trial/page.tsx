@@ -1,9 +1,9 @@
-import FreeTrial from '@/views/temp-free-trial/ui/FreeTrial';
+import TempFreeTrial from '@/views/temp-free-trial/ui/TempFreeTrial';
 
 export const dynamic = 'force-dynamic';
 
 const Page = () => {
-  return <FreeTrial />;
+  return <TempFreeTrial />;
 };
 
 export default Page;

@@ -4,13 +4,13 @@ import React from 'react';
 import { flexRender, Row } from '@tanstack/react-table';
 
 // pages
-import ExpandedRowContent from '@/views/free-trial/ui/ExpandedRowContent';
-import type { ExpandedFreeTrialUsersTableRowData } from '@/views/free-trial/models/interface';
+import ExpandedRowContent from '@/views/temp-free-trial/ui/TempExpandedRowContent';
+import type { ExpandedFreeTrialUsersTableRowData } from '@/views/temp-free-trial/models/interface';
 
 // shared
 import { TableCell, TableRow } from '@/shared/components/atomics/table';
 
-const FreeTrialTableBodyRow = ({ row }: { row: Row<ExpandedFreeTrialUsersTableRowData> }) => {
+const TempFreeTrialTableBodyRow = ({ row }: { row: Row<ExpandedFreeTrialUsersTableRowData> }) => {
   const [expanded, setExpanded] = React.useState(false);
 
   const toggleExpandedUserInfo = React.useCallback(() => {
@@ -50,4 +50,4 @@ const FreeTrialTableBodyRow = ({ row }: { row: Row<ExpandedFreeTrialUsersTableRo
   );
 };
 
-export default FreeTrialTableBodyRow;
+export default TempFreeTrialTableBodyRow;

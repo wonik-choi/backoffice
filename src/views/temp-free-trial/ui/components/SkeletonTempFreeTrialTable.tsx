@@ -1,27 +1,23 @@
 import { Table, TableHeader, TableRow, TableHead, TableCell, TableBody } from '@/shared/components/atomics/table';
 import { Skeleton } from '@/shared/components/atomics/skeleton';
-import { FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS } from '@/views/free-trial/models/const/table';
+import { TEMP_FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS } from '@/views/temp-free-trial/models/const/table';
 
-/**
- * 페이지 네비게이션과 본문에 표시할 스켈레톤 컬럼 정의
- */
+// 선택 체크박스 너비
 const ROW_SELECT_WIDTH = 'w-[4.8rem]';
-// 헤더 및 바디 컬럼 너비 정의 (학생명, 번호, 처리상태...) 순서대로
+// 컬럼별 스켈레톤 너비 (row-select 제외)
 const COLUMN_SKELETON_WIDTHS = [
   'w-[6rem]', // 학생명
   'w-[10rem]', // 연락가능번호
-  'w-[6rem]', // 처리상태
+  'w-[6rem]', // 학년
+  'w-[8rem]', // 신청일
   'w-[8rem]', // 유입경로
-  'w-[8rem]', // 시작일
-  'w-[8rem]', // 종료일
-  'w-[6rem]', // 진행상태
-  'w-[5rem]', // 체험기간
 ];
 
 /**
- * TableSkeleton 컴포넌트
+ * TEMP 무료체험 테이블 스켈레톤 컴포넌트
  */
-const SkeletonFreeTrialTable = () => {
+const SkeletonTempFreeTrialTable = () => {
+  // 원하는 스켈레톤 행 개수
   const skeletonRows = Array.from({ length: 10 }, (_, i) => i);
 
   return (
@@ -31,10 +27,7 @@ const SkeletonFreeTrialTable = () => {
           <TableHeader>
             {/* 그룹 헤더 */}
             <TableRow className="bg-gray-100/80 border-b border-gray-200">
-              <TableHead className="text-center py-[1.2rem] font-semibold text-gray-900 border-r">
-                <Skeleton className="h-[2.4rem] w-[3rem] mx-auto" />
-              </TableHead>
-              {FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS.map((group) => (
+              {TEMP_FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS.map((group) => (
                 <TableHead
                   key={group.name}
                   colSpan={group.colSpan}
@@ -48,13 +41,15 @@ const SkeletonFreeTrialTable = () => {
             {/* 컬럼 헤더 */}
             <TableRow className="bg-gray-50/80">
               {/* 선택 체크박스 */}
-              <TableHead className="text-center whitespace-nowrap py-[1.2rem] text-[1.4rem] font-medium text-gray-700 border-r">
+              <TableHead
+                className={`text-center whitespace-nowrap py-[1.2rem] text-[1.4rem] font-medium text-gray-700 border-r ${ROW_SELECT_WIDTH}`}
+              >
                 <div className="flex justify-center">
                   <Skeleton className="h-[2.4rem] w-[1.6rem]" />
                 </div>
               </TableHead>
 
-              {/* 나머지 컬럼 */}
+              {/* 나머지 컬럼 헤더 */}
               {COLUMN_SKELETON_WIDTHS.map((w, idx) => (
                 <TableHead
                   key={idx}
@@ -78,7 +73,7 @@ const SkeletonFreeTrialTable = () => {
                   </div>
                 </TableCell>
 
-                {/* 데이터 셀들 */}
+                {/* 데이터 셀 */}
                 {COLUMN_SKELETON_WIDTHS.map((w, i) => (
                   <TableCell key={i} className={`text-center py-[1.2rem] text-[1.4rem] border-r ${w}`}>
                     <div className="flex justify-center">
@@ -105,4 +100,4 @@ const SkeletonFreeTrialTable = () => {
   );
 };
 
-export default SkeletonFreeTrialTable;
+export default SkeletonTempFreeTrialTable;

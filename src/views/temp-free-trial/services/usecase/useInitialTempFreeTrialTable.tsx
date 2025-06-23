@@ -7,27 +7,23 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
-  PaginationState,
 } from '@tanstack/react-table';
 
 // shared
 import { Checkbox } from '@/shared/components/atomics/checkbox';
-import { Badge } from '@/shared/components/atomics/badge';
-
-// features
 
 // pages
-import { useFreeTrialStore } from '@/views/free-trial/models/store';
-import { FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS } from '@/views/free-trial/models/const/table';
+import { useTempFreeTrialStore } from '@/views/temp-free-trial/models/store';
+import { TEMP_FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS } from '@/views/temp-free-trial/models/const/table';
 import HeaderNameCell from '@/views/free-trial/ui/components/HeaderBadgeCell';
-import type { FreeTrialTableUsecaseProps } from '@/views/free-trial/models/converter/interface';
+import type { TempFreeTrialTableUsecaseProps } from '@/views/temp-free-trial/models/converter/interface';
 
 // TODO: 추후 dto 를 받아와 처리할 수 있도록 변경될 예정이며 현재는 mock data 로 임시 처리합니다.
-export const useInitialFreeTrialTable = <TData, TValue>({
+export const useInitialTempFreeTrialTable = <TData, TValue>({
   columns,
   tableData,
-}: FreeTrialTableUsecaseProps<TData, TValue>) => {
-  const { columnFilters, pagination, setPagination } = useFreeTrialStore();
+}: TempFreeTrialTableUsecaseProps<TData, TValue>) => {
+  const { columnFilters, pagination, setPagination } = useTempFreeTrialStore();
 
   const convertedColumns = useMemo(() => {
     const filteredSelectColumns = columns.filter((column) => column.id !== 'select' && column.id !== 'row-select');
@@ -70,22 +66,6 @@ export const useInitialFreeTrialTable = <TData, TValue>({
             },
           };
         }
-        if (col.id === 'rental.status') {
-          return {
-            ...col,
-            cell: function ({ getValue }: { getValue: () => unknown }) {
-              return <HeaderNameCell getValue={getValue} />;
-            },
-          };
-        }
-        if (col.id === 'period.status') {
-          return {
-            ...col,
-            cell: function ({ getValue }: { getValue: () => unknown }) {
-              return <HeaderNameCell getValue={getValue} />;
-            },
-          };
-        }
         if (col.id === 'inflow') {
           return {
             ...col,
@@ -121,6 +101,6 @@ export const useInitialFreeTrialTable = <TData, TValue>({
   return {
     convertedColumns,
     table,
-    FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS,
+    TEMP_FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS,
   };
 };

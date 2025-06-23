@@ -5,18 +5,14 @@ import Message from '@/shared/components/svgs/message/Message';
 import PeopleTop from '@/shared/components/svgs/people-top/PeopleTop';
 import { UserRoundCheck } from 'lucide-react';
 
-// features
-import EditFreeTrialUserDialog from '@/features/edit-free-trial-student/ui/EditFreeTrialUserDialog';
-import { DeleteFreeTrialUserButton } from '@/features/delete-free-trial-user/ui/DeleteFreeTrialUserButton';
-
 // pages
-import ChangeUserStateButton from '@/views/free-trial/ui/buttons/change-user-state-button/ChangeUserStateButton';
-import ExpandedRowUserInfo from '@/views/free-trial/ui/ExpandedRowUserInfo';
-import ExpandedRowCounselingRecord from '@/views/free-trial/ui/ExpandedRowCounselingRecord';
-import ExpandedRowMessageRecord from '@/views/free-trial/ui/ExpandedRowMessageRecord';
+import ChangeUserStateButton from '@/views/temp-free-trial/ui/buttons/change-user-state-button/ChangeUserStateButton';
+import ExpandedRowUserInfo from '@/views/temp-free-trial/ui/TempExpandedRowUserInfo';
+import ExpandedRowCounselingRecord from '@/views/temp-free-trial/ui/ExpandedRowCounselingRecord';
+import ExpandedRowMessageRecord from '@/views/temp-free-trial/ui/ExpandedRowMessageRecord';
 
-import { ExpandedFreeTrialUsersTableRowData } from '@/views/free-trial/models/interface';
-import { ExpandedUserInfoProps } from '@/views/free-trial/models/interface';
+import { ExpandedFreeTrialUsersTableRowData } from '@/views/temp-free-trial/models/interface';
+import { ExpandedUserInfoProps } from '@/views/temp-free-trial/models/interface';
 
 interface ExpandedRowContentNavigationItemProps {
   label: string;
@@ -97,7 +93,7 @@ const ExpandedRowContentNavigation = ({ activeTab, setActiveTab }: ExpandedRowCo
   );
 };
 
-const ExpandedRowContent = <TData extends ExpandedFreeTrialUsersTableRowData>({
+const TempExpandedRowContent = <TData extends ExpandedFreeTrialUsersTableRowData>({
   row,
   counselingRecords,
 }: ExpandedUserInfoProps<TData>): React.ReactNode => {
@@ -111,8 +107,6 @@ const ExpandedRowContent = <TData extends ExpandedFreeTrialUsersTableRowData>({
       <div className="flex justify-between items-center pb-[0.8rem] border-b border-gray-200 mb-[2.4rem]">
         <ExpandedRowContentNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
         <div className="flex items-center gap-[0.8rem]">
-          <EditFreeTrialUserDialog user={userInfo} />
-          <DeleteFreeTrialUserButton freeTrialUserId={userId} />
           <ChangeUserStateButton row={row} />
         </div>
       </div>
@@ -123,4 +117,4 @@ const ExpandedRowContent = <TData extends ExpandedFreeTrialUsersTableRowData>({
   );
 };
 
-export default ExpandedRowContent;
+export default TempExpandedRowContent;

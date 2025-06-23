@@ -4,8 +4,8 @@ import PeopleTop from '@/shared/components/svgs/people-top/PeopleTop';
 import ClockCircle from '@/shared/components/svgs/clock-circle/ClockCircle';
 import Pad from '@/shared/components/svgs/pad/Pad';
 
-import { ExpandedFreeTrialUsersTableRowData } from '@/views/free-trial/models/interface';
-import { expandedRowInformationConverter } from '@/views/free-trial/models/converter/expandedRowInformationConverter';
+import { ExpandedFreeTrialUsersTableRowData } from '@/views/temp-free-trial/models/interface';
+import { tempExpandedRowInformationConverter } from '@/views/temp-free-trial/models/converter/tempExpandedRowInformationConverter';
 
 interface UserInfoCardProps {
   title: string;
@@ -43,13 +43,13 @@ interface ExpandedRowUserInfoProps<TData> {
 }
 
 // TODO: 지금은 ExpandedRowData 를 extends 하지만 상황에 따라 어떤식으로 제네릭을 사용할지 정책을 고민해볼 필요가 있음
-const ExpandedRowUserInfo = <TData extends ExpandedFreeTrialUsersTableRowData>({
+const TempExpandedRowUserInfo = <TData extends ExpandedFreeTrialUsersTableRowData>({
   row,
 }: ExpandedRowUserInfoProps<TData>) => {
   const userInfo = row.original;
 
   // 전달받은 데이터를 변경해줍니다.
-  const rowInformation = expandedRowInformationConverter(userInfo);
+  const rowInformation = tempExpandedRowInformationConverter(userInfo);
 
   const basicInfo: UserInfoCardProps = {
     title: '기본 정보',
@@ -67,73 +67,50 @@ const ExpandedRowUserInfo = <TData extends ExpandedFreeTrialUsersTableRowData>({
       {
         id: '2',
         label: '등록일',
-        value: rowInformation.user.registrationDate || '-',
+        value: rowInformation.user.createdAt || '-',
+      },
+      {
+        id: '3',
+        label: '체험 기간',
+        value: `${rowInformation.user.trialDays}일` || '-',
+      },
+      {
+        id: '4',
+        label: '유입 경로',
+        value: rowInformation.user.inflow || '-',
       },
     ],
     titleIcon: <PeopleTop className="text-blue-500" />,
   };
 
-  const checkPeriodInfo: UserInfoCardProps = {
-    title: '체험 기간',
+  const referrerInfo: UserInfoCardProps = {
+    title: '추천인 정보',
     lists: [
       {
         id: '0',
-        label: '시작일',
-        value: rowInformation.period.startDate || '-',
+        label: '이름',
+        value: rowInformation.referrer.name || '-',
       },
       {
         id: '1',
-        label: '종료일',
-        value: rowInformation.period.endDate || '-',
+        label: '전화번호',
+        value: rowInformation.referrer.phone || '-',
       },
       {
         id: '2',
-        label: '진행일수',
-        value: rowInformation.period.duration || '-',
-      },
-      {
-        id: '3',
-        label: '상태',
-        value: rowInformation.period.status || '-',
+        label: '회사',
+        value: rowInformation.referrer.company || '-',
       },
     ],
     titleIcon: <ClockCircle className="text-emerald-500" />,
   };
 
-  const deviceRentalInfo: UserInfoCardProps = {
-    title: '아이패드 대여',
-    lists: [
-      {
-        id: '0',
-        label: '주소',
-        value: rowInformation.rental.address || '-',
-      },
-      {
-        id: '1',
-        label: '상세주소',
-        value: rowInformation.rental.detailAddress || '-',
-      },
-      {
-        id: '2',
-        label: '대여일자',
-        value: rowInformation.rental.startDate || '-',
-      },
-      {
-        id: '3',
-        label: '반납일',
-        value: rowInformation.rental.returnDate || '-',
-      },
-    ],
-    titleIcon: <Pad className="text-violet-500" />,
-  };
-
   return (
-    <section className="grid grid-cols-3 gap-[2.4rem]">
+    <section className="grid grid-cols-2 gap-[2.4rem]">
       <UserInfoCard {...basicInfo} />
-      <UserInfoCard {...checkPeriodInfo} />
-      <UserInfoCard {...deviceRentalInfo} />
+      <UserInfoCard {...referrerInfo} />
     </section>
   );
 };
 
-export default ExpandedRowUserInfo;
+export default TempExpandedRowUserInfo;

@@ -5,10 +5,10 @@ import Search from '@/shared/components/svgs/search/Search';
 import { Input } from '@/shared/components/atomics/input';
 
 // model
-import { useFreeTrialStore } from '@/views/free-trial/models/store';
+import { useTempFreeTrialStore } from '@/views/temp-free-trial/models/store';
 
 const SearchFreeTrial = () => {
-  const { userKeyword, setKeyword } = useFreeTrialStore();
+  const { userKeyword, setKeyword } = useTempFreeTrialStore();
 
   return (
     <div className="relative flex-1 min-w-[25rem]">

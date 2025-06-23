@@ -12,7 +12,7 @@ import { PeriodType } from '@/entities/free-trial-user/models/enums';
 import { FreeTrialState } from '@/views/free-trial/models/store/interface';
 import { PaginationState } from '@tanstack/react-table';
 
-export const useFreeTrialStore = create<FreeTrialState>((set, get) => ({
+export const useTempFreeTrialStore = create<FreeTrialState>((set, get) => ({
   userKeyword: '',
   columnFilters: [],
   pagination: {

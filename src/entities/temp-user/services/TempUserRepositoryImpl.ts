@@ -2,7 +2,7 @@ import { HttpAdaptor, httpAdaptor } from '@/shared/lib/https/HttpAdapter';
 
 // entities
 import {
-  PageTempFreeTrialUserResponseDto,
+  GetTempFreeTrialUsersResponseDto,
   TempSelfFreeTrialApplicationResponseDto,
 } from '@/entities/temp-user/models/dtos';
 import { GetTempUsersRequestDto, TempUserRepository, TempUserRequestDto } from '@/entities/temp-user/models/repository';
@@ -46,7 +46,7 @@ export class TempUserRepositoryImpl implements TempUserRepository {
       url += `size=${request.size}&`;
     }
 
-    const response = await this.httpAdaptor.get<PageTempFreeTrialUserResponseDto>(url, {
+    const response = await this.httpAdaptor.get<GetTempFreeTrialUsersResponseDto>(url, {
       ...options,
     });
 
@@ -55,4 +55,4 @@ export class TempUserRepositoryImpl implements TempUserRepository {
 }
 
 // singleton
-export const tempUserRepository = new TempUserRepositoryImpl(httpAdaptor);
+export const tempUserRepository = Object.freeze(new TempUserRepositoryImpl(httpAdaptor));

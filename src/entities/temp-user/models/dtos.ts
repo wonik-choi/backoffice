@@ -38,3 +38,7 @@ export interface PageTempFreeTrialUserResponseDto {
   numberOfElements: number;
   empty: boolean;
 }
+
+export interface GetTempFreeTrialUsersResponseDto {
+  tempFreeTrialUsers: PageTempFreeTrialUserResponseDto;
+}

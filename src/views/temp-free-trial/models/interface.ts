@@ -1,7 +1,6 @@
 import { Row } from '@tanstack/react-table';
 
-import { AdChannel } from '@/entities/inflow/models/enums';
-import { FreeTrialUserDto } from '@/entities/free-trial-user/models/dtos';
+import { TempUserDto } from '@/entities/temp-user/models/dtos';
 
 /**
  * @description
@@ -11,32 +10,15 @@ export interface ExpandedFreeTrialUsersTableRowData {
   /** 내부 데이터
    * 내부 데이터를 freeTrialUserDto 로 통일
    */
-  freeTrialUserDto: FreeTrialUserDto;
+  tempFreeTrialUserDto: TempUserDto;
   id: string; // 편의를 위해 추가;
-
-  // inflowCode?: string;
-  // parentName: string;
-  // rental?: {
-  //   returnDate?: string;
-  //   startDate?: string;
-  //   address: string;
-  //   detailAddress?: string;
-  //   zonecode: string;
-  // };
 
   /** 외부 데이터 */
   name: string;
   phone: string;
-  status: string;
-  latestRecord: string;
-  registrationDate: string;
+  grade: string;
+  createdAt: string;
   inflow: string;
-  period: {
-    startDate: string;
-    endDate: string;
-    duration: string;
-    status?: string;
-  };
 }
 
 // 객체의 모든 가능한 경로를 추출하는 타입
@@ -56,19 +38,14 @@ export interface ExpandedRowInformation {
   user: {
     name: string;
     phone: string;
-    registrationDate: string;
+    createdAt: string;
+    trialDays: number;
+    inflow: string;
   };
-  period: {
-    startDate: string;
-    endDate: string;
-    duration: string;
-    status: string;
-  };
-  rental: {
-    address: string;
-    detailAddress: string;
-    startDate: string;
-    returnDate: string;
+  referrer: {
+    name: string;
+    phone: string;
+    company: string;
   };
 }
 

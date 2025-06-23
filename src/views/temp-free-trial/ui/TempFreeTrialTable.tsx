@@ -1,22 +1,23 @@
 'use client';
 
 // pages
-import FreeTrialTableBodyRow from '@/views/free-trial/ui/FreeTrialTableBodyRow';
-import { useInitialFreeTrialTable } from '@/views/free-trial/services/usecase/useInitialFreeTrialTable';
+import TempFreeTrialTableBodyRow from '@/views/temp-free-trial/ui/TempFreeTrialTableBodyRow';
+import { useInitialTempFreeTrialTable } from '@/views/temp-free-trial/services/usecase/useInitialTempFreeTrialTable';
 
 // shared
 import { Table, TableHeader, TableRow, TableHead, TableCell, TableBody } from '@/shared/components/atomics/table';
 import { flexRender } from '@tanstack/react-table';
 import { Button } from '@/shared/components/atomics/button';
-import { useGetFreeTrialUsersBody } from '../services/query/useGetFreeTrialUsersBody';
+
+import { useGetTempFreeTrialUsersBody } from '@/views/temp-free-trial/services/query/useGetTempFreeTrialUsersBody';
 
 // views
-import { FREE_TRIAL_USERS_TABLE_COLUMNS } from '@/views/free-trial/models/const/table';
+import { TEMP_FREE_TRIAL_USERS_TABLE_COLUMNS } from '@/views/temp-free-trial/models/const/table';
 
 const FreeTrialTable = () => {
-  const { tableData, totalCount, totalPages } = useGetFreeTrialUsersBody();
-  const { table, FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS } = useInitialFreeTrialTable({
-    columns: FREE_TRIAL_USERS_TABLE_COLUMNS,
+  const { tableData, totalCount, totalPages } = useGetTempFreeTrialUsersBody();
+  const { table, TEMP_FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS } = useInitialTempFreeTrialTable({
+    columns: TEMP_FREE_TRIAL_USERS_TABLE_COLUMNS,
     tableData,
   });
 
@@ -26,7 +27,7 @@ const FreeTrialTable = () => {
         <Table>
           <TableHeader>
             <TableRow className="bg-gray-100/80 border-b border-gray-200">
-              {FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS.map((group) => {
+              {TEMP_FREE_TRIAL_USERS_TABLE_COLUMN_GROUPS.map((group) => {
                 return (
                   <TableHead
                     key={group.name}
@@ -62,7 +63,7 @@ const FreeTrialTable = () => {
           <TableBody>
             {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => {
-                return <FreeTrialTableBodyRow key={row.id} row={row} />;
+                return <TempFreeTrialTableBodyRow key={row.id} row={row} />;
               })
             ) : (
               <TableRow>
@@ -92,7 +93,7 @@ const FreeTrialTable = () => {
             이전
           </Button>
           <span className="text-[1.4rem] font-medium text-gray-900">
-            {table.getState().pagination.pageIndex + 1} / {totalPages}
+            {totalPages ? table.getState().pagination.pageIndex + 1 : 0} / {totalPages}
           </span>
           <Button
             variant="outline"
@@ -100,7 +101,7 @@ const FreeTrialTable = () => {
             onClick={() => {
               table.nextPage();
             }}
-            disabled={table.getState().pagination.pageIndex === totalPages - 1}
+            disabled={table.getState().pagination.pageIndex === totalPages - 1 || !totalPages}
             className="h-[3.2rem] px-[1.6rem] text-[1.2rem] bg-white hover:bg-gray-50/80"
           >
             다음
