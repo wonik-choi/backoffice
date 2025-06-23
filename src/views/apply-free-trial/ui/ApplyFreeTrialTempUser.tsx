@@ -16,6 +16,7 @@ import { Checkbox } from '@/shared/components/ui/views/Checkbox';
 import { useTopNavigation } from '@/shared/hooks/useTopNavigation';
 
 import { Input, Em, Button } from '@/shared/components/ui';
+import { alertError } from '@/shared/lib/errors/queryOnErrorCallback';
 
 // entities
 import { FreeTrialUserGrade } from '@/entities/free-trial-user/models/enums';
@@ -50,21 +51,7 @@ export function ApplyFreeTrialTempUser() {
       navigate('https://class.susimdal.com/consult_ending');
     },
     onErrorCallback: (error: Error) => {
-      if (error instanceof ServerCustomError) {
-        toast.error(`[${error ? error.status : 'ERROR'}]이런! 폼 제출에 실패했어요`, {
-          description: error
-            ? error.debug
-              ? error.debug.message
-              : error.message
-            : '관리자에게 문의해주세요 (1899-3884)',
-          duration: 6000,
-        });
-      } else {
-        toast.error(`[ERROR]이런! 폼 제출에 실패했어요`, {
-          description: error ? error.message : `관리자에게 문의해주세요 (1899-3884)`,
-          duration: 6000,
-        });
-      }
+      alertError(error);
     },
   });
 

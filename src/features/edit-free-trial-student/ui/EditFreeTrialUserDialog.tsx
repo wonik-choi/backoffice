@@ -32,7 +32,7 @@ import { Button } from '@/shared/components/atomics/button';
 import { convertISOString, formatISOStringToKoreanTitle } from '@/shared/lib/date-fns/utls';
 import SingleDatePicker from '@/shared/components/date-picker/SingleDatePicker';
 import { ButtonInput } from '@/shared/components/ui/views/ButtonInput';
-import { ClientCustomError, ServerCustomError } from '@/shared/lib/errors/errors';
+import { alertError } from '@/shared/lib/errors/queryOnErrorCallback';
 
 // entities
 import { DayOfWeek, FreeTrialUserGrade, Semester } from '@/entities/free-trial-user/models/enums';
@@ -66,26 +66,7 @@ const AddFreeTrialStudentDialog = ({ user }: { user: ExpandedFreeTrialUsersTable
       setOpenDialog(false);
     },
     onErrorCallback: (error: unknown) => {
-      if (error instanceof ServerCustomError) {
-        toast.error(`[${error ? error.status : 'ERROR'}]이런! 폼 제출에 실패했어요`, {
-          description: error
-            ? error.debug
-              ? error.debug.message
-              : error.message
-            : '관리자에게 문의해주세요 (1899-3884)',
-          duration: 6000,
-        });
-      } else if (error instanceof ClientCustomError) {
-        toast.error(`['ERROR'}]이런! 폼 제출에 실패했어요`, {
-          description: error.message ? error.message : '관리자에게 문의해주세요 (1899-3884)',
-          duration: 6000,
-        });
-      } else {
-        toast.error(`[ERROR]이런! 폼 제출에 실패했어요`, {
-          description: '관리자에게 문의해주세요 (1899-3884)',
-          duration: 6000,
-        });
-      }
+      alertError(error);
     },
   });
 

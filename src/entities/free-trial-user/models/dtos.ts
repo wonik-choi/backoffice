@@ -4,6 +4,7 @@ import { InflowDto } from '@/entities/inflow/models/dtos';
 import { NotificationDto } from '@/entities/notification/models/dtos';
 import { EventHistoryDto } from '@/entities/event-history/models/dtos';
 import { RentalDto } from '@/entities/rental/models/dtos';
+import { PageableObject, SortObject } from '@/entities/common/dtos';
 
 export interface Schedule {
   id: number;
@@ -20,21 +21,6 @@ export interface FreeTrial {
   trialDays: number;
   semester: Semester;
   schedules: Schedule[];
-}
-
-export interface SortObject {
-  sorted: boolean;
-  empty: boolean;
-  unsorted: boolean;
-}
-
-export interface PageableObject {
-  pageNumber: number;
-  pageSize: number;
-  offset: number;
-  sort: SortObject;
-  unpaged: boolean;
-  paged: boolean;
 }
 
 export interface FreeTrialUserDto {
@@ -59,6 +45,7 @@ export interface PageFreeTrialUsersResponseDto {
   totalElements: number;
   first: boolean;
   last: boolean;
+  pageable: PageableObject;
   size: number;
   content: FreeTrialUserDto[];
   number: number;

@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { ChevronRight } from 'lucide-react';
-import { toast } from 'sonner';
 import Image from 'next/image';
 
 // lib
@@ -13,7 +12,7 @@ import * as fbq from '@/shared/lib/meta-pixel/fpixel';
 import { RadioButton } from '@/shared/components/radio-button/RadioButton';
 import { RadioGroup, RadioGroupItem } from '@/shared/components/atomics/radio-group';
 import { Button, Label } from '@/shared/components/ui';
-import { ServerCustomError } from '@/shared/lib/errors/errors';
+import { alertError } from '@/shared/lib/errors/queryOnErrorCallback';
 
 // entities
 import { PromotionTermCode } from '@/entities/promotion/models/enums';
@@ -73,21 +72,7 @@ export const DongaSciencePromotion = ({ currentStep, totalSteps }: StepProps) =>
       nextStep();
     },
     onErrorCallback: (error: Error) => {
-      if (error instanceof ServerCustomError) {
-        toast.error(`[${error ? error.status : 'ERROR'}]이런! 폼 제출에 실패했어요`, {
-          description: error
-            ? error.debug
-              ? error.debug.message
-              : error.message
-            : '관리자에게 문의해주세요 (1899-3884)',
-          duration: 6000,
-        });
-      } else {
-        toast.error(`[ERROR]이런! 폼 제출에 실패했어요`, {
-          description: '관리자에게 문의해주세요 (1899-3884)',
-          duration: 6000,
-        });
-      }
+      alertError(error);
     },
   });
 
