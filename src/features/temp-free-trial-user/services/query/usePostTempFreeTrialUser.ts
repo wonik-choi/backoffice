@@ -31,6 +31,7 @@ export const usePostTempFreeTrialUser = ({ onSuccessCallback, onErrorCallback }:
         async () => {
           const formData = {
             ...tempFormData,
+            inflowCode: tempFormData.inflow.code,
             grade: tempFormData.grade ?? FreeTrialUserGrade.ElementarySchool3,
             terms: [
               {

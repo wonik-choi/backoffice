@@ -1,8 +1,7 @@
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 
 // shared
-import { ServerCustomError } from '@/shared/lib/errors/errors';
+import { alertError } from '@/shared/lib/errors/queryOnErrorCallback';
 
 // features
 import { usePostLogout } from '@/features/authentication/services/query/usePostLogout';
@@ -13,18 +12,8 @@ export const useNavigationContext = () => {
     onSuccessCallback: () => {
       router.replace('/login');
     },
-    onErrorCallback: (error) => {
-      if (error instanceof ServerCustomError) {
-        toast.error(`[${error ? error.status : 'ERROR'}]이런! 로그아웃에 실패했어요`, {
-          description: error ? (error.debug ? error.debug.message : error.message) : '개발자 문의 필요',
-          duration: 6000,
-        });
-      } else {
-        toast.error(`[ERROR]이런! 로그아웃에 실패했어요`, {
-          description: error ? error.message : '개발자 문의 필요',
-          duration: 6000,
-        });
-      }
+    onErrorCallback: (error: unknown) => {
+      alertError(error);
     },
   });
 

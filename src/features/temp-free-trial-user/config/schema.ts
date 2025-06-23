@@ -29,9 +29,7 @@ export const tempFreeTrialRequestSchema = z.object({
       agreed: z.boolean({ message: '약관에 동의해주세요' }),
     })
   ),
-  inflow: z.object({
-    code: z.string().min(1, { message: '유입 코드를 넣어주세요' }),
-  }),
+  inflowCode: z.string().min(1, { message: '유입 코드를 넣어주세요' }),
 });
 
 export type TempFreeTrialRequest = z.infer<typeof tempFreeTrialRequestSchema>;

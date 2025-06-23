@@ -20,7 +20,6 @@ export const useForcedLogout = () => {
         true
       );
       queryClient.clear();
-      toast.error('세션이 만료되어 로그아웃됩니다.');
       router.replace('/login');
     } catch (error) {
       throw new ClientCustomError('로그아웃에 실패했습니다.');
