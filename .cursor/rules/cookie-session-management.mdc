@@ -1,0 +1,353 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Cookie Session Management Rules
+
+## Overview
+This project implements cookie-based session management with Next.js acting as a proxy server. All session cookies are managed through Next.js API routes to ensure proper domain alignment and security.
+
+## Current Cookie Session Architecture
+
+### Why Next.js Proxy is Required
+Due to cookie domain restrictions, direct backend communication is not possible:
+```
+❌ Problem: Cross-domain cookies
+Client (localhost:3000) → Backend (api.example.com)
+Cookie domain: api.example.com
+Client cannot access cross-domain cookies
+
+✅ Solution: Next.js Proxy
+Client (localhost:3000) → Next.js API (localhost:3000) → Backend
+Cookie domain: localhost:3000
+All cookies accessible within same domain
+```
+
+### Current Session Flow
+1. **Login Request**: Client → `/api/login` → Backend
+2. **Backend Response**: Backend returns `Set-Cookie` header
+3. **Cookie Processing**: [splitSession.ts](mdc:src/app/api/splitSession.ts) parses cookie attributes
+4. **Cookie Setting**: Next.js sets cookie with proper domain alignment
+5. **Session Validation**: [middleware.ts](mdc:src/middleware.ts) validates session presence
+
+## Cookie Session Utilities
+
+### Session Parsing Logic
+Current implementation in [splitSession.ts](mdc:src/app/api/splitSession.ts):
+```typescript
+export const splitSession = (session: string) => {
+  const splitedSession = session.split(';');
+  const sessionValue = splitedSession.find((item) => item.includes('SESSION'))?.split('=')[1];
+  
+  return {
+    sessionValue,
+    httpOnly: Boolean(httpOnly),
+    secure: Boolean(secure),
+    path,
+    sameSite,
+  };
+};
+```
+
+### Recommended Improvements
+
+#### 1. Create Centralized Cookie Session Manager
+Replace scattered cookie logic with unified utility:
+
+```typescript
+// src/shared/lib/auth/cookie-session-manager.ts
+export class CookieSessionManager {
+  private static readonly DEFAULT_OPTIONS = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 60 * 60 * 24 * 30, // 30 days
+    path: '/',
+    sameSite: 'lax' as const,
+  };
+
+  static async handleSessionCookie(response: Response): Promise<void>
+  static async clearSessionCookie(): Promise<void>
+  static async setLoginCookie(response: Response): Promise<void>
+  static async setLogoutCookie(response: Response): Promise<void>
+  static async getSessionValue(): Promise<string | undefined>
+  static async hasSession(): Promise<boolean>
+}
+```
+
+#### 2. Standardize API Route Patterns
+Use consistent pattern across all authentication endpoints:
+
+```typescript
+// Pattern for authentication API routes
+export async function POST(request: NextRequest) {
+  try {
+    // 1. Validate input
+    const validatedBody = schema.safeParse(await request.json());
+    
+    // 2. Call repository
+    const result = await authenticationRepository.method(validatedBody.data);
+    
+    // 3. Handle session cookie
+    await CookieSessionManager.handleSessionCookie(result);
+    
+    // 4. Return response
+    return NextResponse.json(result, { status: 200 });
+  } catch (error) {
+    // Standardized error handling
+  }
+}
+```
+
+#### 3. Enhanced Session Validation
+Improve middleware with proper session validation:
+
+```typescript
+// src/middleware.ts improvements
+export default async function middleware(request: NextRequest) {
+  const session = request.cookies.get('SESSION')?.value;
+  
+  if (protectedRoutes.includes(pathname)) {
+    if (!session) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+    
+    // Add session validation
+    const isValid = await validateSession(session);
+    if (!isValid) {
+      const response = NextResponse.redirect(new URL('/login', request.url));
+      response.cookies.delete('SESSION');
+      return response;
+    }
+  }
+  
+  return NextResponse.next();
+}
+```
+
+## Cookie Security Configuration
+
+### Production Cookie Settings
+```typescript
+const productionCookieOptions = {
+  httpOnly: true,           // Prevent XSS attacks
+  secure: true,             // HTTPS only
+  sameSite: 'strict',       // Prevent CSRF attacks
+  maxAge: 60 * 60 * 24 * 7, // 7 days (shorter for security)
+  path: '/',                // Available to all routes
+  domain: process.env.COOKIE_DOMAIN, // Explicit domain setting
+};
+```
+
+### Development Cookie Settings
+```typescript
+const developmentCookieOptions = {
+  httpOnly: true,
+  secure: false,            // Allow HTTP in development
+  sameSite: 'lax',         // More permissive for development
+  maxAge: 60 * 60 * 24 * 30, // 30 days (longer for convenience)
+  path: '/',
+};
+```
+
+## Session Management Patterns
+
+### Login Session Handling
+```typescript
+// In login API route
+const result = await authenticationRepository.postLogin(credentials);
+await CookieSessionManager.setLoginCookie(result, {
+  maxAge: 60 * 60 * 24 * 30, // 30 days
+});
+```
+
+### Logout Session Handling
+```typescript
+// In logout API route
+const result = await authenticationRepository.postLogout();
+await CookieSessionManager.setLogoutCookie(result); // Clears session
+```
+
+### Session Refresh Pattern
+```typescript
+// For session refresh endpoint
+export async function POST(request: NextRequest) {
+  const currentSession = await CookieSessionManager.getSessionValue();
+  
+  if (!currentSession) {
+    return NextResponse.json({ error: 'No session' }, { status: 401 });
+  }
+  
+  const refreshedSession = await refreshSession(currentSession);
+  await CookieSessionManager.setLoginCookie(refreshedSession);
+  
+  return NextResponse.json({ success: true });
+}
+```
+
+## Authentication Helper Utilities
+
+### Server Component Helpers
+```typescript
+// src/shared/lib/auth/session-utils.ts
+export async function requireAuth(): Promise<string> {
+  const sessionValue = await CookieSessionManager.getSessionValue();
+  if (!sessionValue) {
+    throw new Error('Authentication required');
+  }
+  return sessionValue;
+}
+
+export async function getOptionalAuth(): Promise<string | null> {
+  return await CookieSessionManager.getSessionValue();
+}
+```
+
+### API Route Helpers
+```typescript
+export function withAuth<T extends any[]>(
+  handler: (sessionValue: string, ...args: T) => Promise<Response>
+) {
+  return async (...args: T): Promise<Response> => {
+    const sessionValue = await CookieSessionManager.getSessionValue();
+    
+    if (!sessionValue) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    
+    return handler(sessionValue, ...args);
+  };
+}
+```
+
+## Error Handling Patterns
+
+### Cookie-Related Errors
+```typescript
+export class CookieSessionError extends Error {
+  constructor(
+    message: string,
+    public code: 'MISSING_SESSION' | 'INVALID_SESSION' | 'EXPIRED_SESSION' | 'PARSE_ERROR'
+  ) {
+    super(message);
+    this.name = 'CookieSessionError';
+  }
+}
+```
+
+### Session Validation Errors
+```typescript
+async function validateSession(sessionId: string): Promise<boolean> {
+  try {
+    const response = await fetch(`${process.env.BACKEND_URL}/validate-session`, {
+      headers: { 'Cookie': `SESSION=${sessionId}` },
+    });
+    return response.ok;
+  } catch (error) {
+    console.error('Session validation failed:', error);
+    return false;
+  }
+}
+```
+
+## Performance Optimizations
+
+### Session Caching
+```typescript
+// Cache session validation results
+const sessionCache = new Map<string, { valid: boolean; expiry: number }>();
+
+async function validateSessionWithCache(sessionId: string): Promise<boolean> {
+  const cached = sessionCache.get(sessionId);
+  
+  if (cached && Date.now() < cached.expiry) {
+    return cached.valid;
+  }
+  
+  const isValid = await validateSession(sessionId);
+  sessionCache.set(sessionId, {
+    valid: isValid,
+    expiry: Date.now() + (5 * 60 * 1000), // 5 minutes cache
+  });
+  
+  return isValid;
+}
+```
+
+### Middleware Optimization
+```typescript
+// Skip session validation for static files
+export const config = {
+  matcher: [
+    '/((?!api|_next/static|_next/image|favicon.ico|static).*)',
+  ],
+};
+```
+
+## Migration Path
+
+### Phase 1: Centralize Cookie Management
+1. Create `CookieSessionManager` utility
+2. Replace `splitSession.ts` usage
+3. Update login/logout API routes
+
+### Phase 2: Enhance Security
+1. Add session validation to middleware
+2. Implement CSRF protection
+3. Add session timeout handling
+
+### Phase 3: Performance Improvements
+1. Add session caching
+2. Optimize middleware performance
+3. Implement session refresh mechanism
+
+## Testing Strategies
+
+### Cookie Testing
+```typescript
+// Test cookie setting
+it('should set session cookie on login', async () => {
+  const response = await POST(mockRequest);
+  expect(response.headers.get('set-cookie')).toContain('SESSION=');
+});
+
+// Test cookie clearing
+it('should clear session cookie on logout', async () => {
+  const response = await POST(mockLogoutRequest);
+  expect(response.headers.get('set-cookie')).toContain('Max-Age=0');
+});
+```
+
+### Middleware Testing
+```typescript
+// Test route protection
+it('should redirect unauthenticated users', async () => {
+  const request = new NextRequest('http://localhost:3000/home');
+  const response = await middleware(request);
+  expect(response.status).toBe(307); // Redirect
+});
+```
+
+## Troubleshooting Guide
+
+### Common Cookie Issues
+1. **Cookie not set**: Check `Set-Cookie` header in network tab
+2. **Cookie not sent**: Verify domain and path settings
+3. **Session not persisting**: Check cookie expiration settings
+4. **CORS issues**: Ensure all requests go through Next.js proxy
+
+### Debug Commands
+```bash
+# Check cookie in browser console
+document.cookie
+
+# Test API endpoint
+curl -X POST http://localhost:3000/api/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"test","password":"test"}' \
+  -c cookies.txt
+
+# Test with cookie
+curl http://localhost:3000/api/protected \
+  -b cookies.txt
+```

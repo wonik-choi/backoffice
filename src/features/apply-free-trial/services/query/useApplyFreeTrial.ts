@@ -2,6 +2,8 @@ import { useMutation } from '@tanstack/react-query';
 
 // shared
 import { wrapperSentry } from '@/shared/lib/errors/wrapperSentry';
+import { SENTRY_OP_GUIDE } from '@/shared/lib/errors/config';
+import { parsingErrorCapture } from '@/shared/lib/errors/ParsingErrorCapture';
 
 // entities
 import { tempUserRepository } from '@/entities/temp-user/services/TempUserRepositoryImpl';
@@ -13,7 +15,6 @@ import { PostTempUserFormProps, ApplyFreeTrialFormData } from '@/features/apply-
 import { RegisterFreeTrialQueryKeys } from '@/features/register-free-trial/config/query-keys';
 import { applyFreeTrialRequestSchema } from '../../config/schema';
 import { TempUserRequestDto } from '@/entities/temp-user/models/repository';
-import { SENTRY_OP_GUIDE } from '@/shared/lib/errors/config';
 
 export const useApplyFreeTrial = ({ onSuccessCallback, onErrorCallback }: PostTempUserFormProps) => {
   const {
@@ -37,7 +38,8 @@ export const useApplyFreeTrial = ({ onSuccessCallback, onErrorCallback }: PostTe
 
             return response;
           } catch (error) {
-            throw error;
+            const customError = parsingErrorCapture.capture(error);
+            throw customError;
           }
         },
         'applyFreeTrialFormUsecase',
@@ -51,7 +53,6 @@ export const useApplyFreeTrial = ({ onSuccessCallback, onErrorCallback }: PostTe
       }
     },
     onError: (error: Error) => {
-      console.log('useApplyFreeTrial onError', error);
       if (onErrorCallback) {
         onErrorCallback(error);
       }
