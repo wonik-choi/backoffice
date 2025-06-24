@@ -1,0 +1,168 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Project Architecture Rules - Feature-Sliced Design (FSD)
+
+## Core Architecture Principles
+- Follow Feature-Sliced Design (FSD) architecture with strict unidirectional dependency flow
+- Dependency direction: `shared` ← `entities` ← `features` ← `widgets` ← `views` ← `app`
+- Never import from higher layers to lower layers
+- Each layer should only import from layers below it
+
+## Layer Structure and Responsibilities
+
+### 1. `app/` - Application Layer (Next.js App Router)
+- Contains Next.js App Router configuration, layouts, and global providers
+- Route groups: `(certification)`, `(non-certification)`, `(script)`
+- Files: `layout.tsx`, `page.tsx`, `global-error.tsx`, `not-found.tsx`, `Providers.tsx`
+- API routes in `api/` directory
+- Global styles in `globals.css`
+
+### 2. `views/` - View Layer (Page Components)
+- Contains page-level components that compose features and widgets
+- Each view represents a complete page or screen
+- Views should primarily orchestrate features and widgets, not contain business logic
+- Directory structure mirrors the application's main pages
+
+### 3. `widgets/` - Widget Layer (Composite UI Components)
+- Contains complex UI components that combine multiple features
+- Examples: navigation bars, complex layouts, composite forms
+- Should not contain business logic, only UI composition
+
+### 4. `features/` - Feature Layer (Business Logic)
+- Contains business logic organized by feature/use case
+- Each feature directory structure:
+  ```
+  feature-name/
+  ├── ui/           # Feature-specific UI components
+  ├── config/       # Configuration, schemas, query keys
+  ├── models/       # Feature-specific types and interfaces
+  └── services/     # Business logic, API calls, React Query hooks
+      └── query/    # React Query hooks (useQuery, useMutation)
+  ```
+- Feature naming: use kebab-case, be descriptive of the business capability
+- React Query hooks should be prefixed with `use` and suffixed with action type
+
+### 5. `entities/` - Entity Layer (Domain Models)
+- Contains domain entities and their associated business logic
+- Each entity directory structure:
+  ```
+  entity-name/
+  ├── models/       # Data models, DTOs, enums, repository interfaces
+  │   ├── dtos.ts
+  │   ├── repository.ts
+  │   └── enums.ts
+  └── services/     # Repository implementations, domain services
+  ```
+- Entities represent core business concepts (user, product, order, etc.)
+- Should be framework-agnostic and contain pure business logic
+
+### 6. `shared/` - Shared Layer (Common Utilities)
+- Contains reusable code shared across the application
+- Structure:
+  ```
+  shared/
+  ├── components/   # Reusable UI components (buttons, inputs, etc.)
+  │   ├── ui/       # Basic UI components
+  │   └── atomics/  # Atomic design components
+  ├── lib/          # Third-party library configurations and wrappers
+  ├── hooks/        # Common React hooks
+  ├── utils/        # Pure utility functions
+  └── lotties/      # Animation assets
+  ```
+
+## Naming Conventions
+
+### Directories
+- Use kebab-case for all directory names
+- Be descriptive and business-focused for features and entities
+- Use plural forms for collections (e.g., `components`, `services`, `models`)
+
+### Files
+- React components: PascalCase (e.g., `UserProfile.tsx`)
+- Hooks: camelCase with `use` prefix (e.g., `usePostTempFreeTrialUser.ts`)
+- Utilities: camelCase (e.g., `formatDate.ts`)
+- Configuration: camelCase (e.g., `queryKeys.ts`, `schema.ts`)
+- Types/Interfaces: camelCase (e.g., `types.ts`, `interfaces.ts`)
+
+### React Query Hooks
+- Pattern: `use[Action][Entity][Purpose]`
+- Examples: `usePostTempFreeTrialUser`, `useGetFreeTrialUsers`, `useDeleteTempFreeTrialUser`
+- Place in `features/[feature-name]/services/query/`
+
+## Import Rules
+
+### Allowed Import Patterns
+```typescript
+// ✅ Lower layer to same or higher layer
+import { Button } from '@/shared/components/ui'
+import { tempUserRepository } from '@/entities/temp-user/services'
+import { usePostTempFreeTrialUser } from '@/features/temp-free-trial-user/services/query'
+
+// ✅ Absolute imports using path aliases
+import { Component } from '@/shared/components'
+import { Entity } from '@/entities/entity-name'
+```
+
+### Forbidden Import Patterns
+```typescript
+// ❌ Higher layer to lower layer
+import { Feature } from '@/features/some-feature' // from shared layer
+import { Widget } from '@/widgets/some-widget' // from entities layer
+
+// ❌ Relative imports across layers
+import { Component } from '../../../shared/components'
+```
+
+## File Organization Rules
+
+### Feature Structure
+- Each feature must have a clear single responsibility
+- UI components specific to a feature go in `ui/`
+- Business logic goes in `services/`
+- Configuration and schemas go in `config/`
+- Types specific to the feature go in `models/`
+
+### Entity Structure
+- Models should define clear interfaces and DTOs
+- Repository interfaces in `models/repository.ts`
+- Enums in `models/enums.ts`
+- Implementation in `services/`
+
+## Code Quality Rules
+
+### React Query Integration
+- All server state management should use React Query
+- Query keys should be defined in `config/query-keys.ts` using `@lukemorales/query-key-factory`
+- Error handling should use `wrapperSentry` for mutations
+- Use `throwOnError: false` for mutations with custom error handling
+
+### Type Safety
+- Use Zod schemas for runtime validation
+- Define clear TypeScript interfaces for all data structures
+- Prefer `parse()` over `safeParse()` when you want automatic error throwing
+
+### Error Handling
+- Use Sentry for error tracking and monitoring
+- Wrap async operations with `wrapperSentry`
+- Provide meaningful error messages and proper error boundaries
+
+## Best Practices
+
+1. **Single Responsibility**: Each module should have one clear purpose
+2. **Dependency Injection**: Use repository pattern for data access
+3. **Type Safety**: Leverage TypeScript and runtime validation
+4. **Reusability**: Keep shared components generic and configurable
+5. **Testability**: Structure code to be easily testable
+6. **Performance**: Use React Query for efficient data fetching and caching
+
+## When Adding New Code
+
+1. **Identify the correct layer** based on the code's responsibility
+2. **Check dependency direction** - ensure you're not violating the import rules
+3. **Follow naming conventions** consistently
+4. **Use existing patterns** - look at similar implementations in the codebase
+5. **Update related configuration** (query keys, schemas, types) when needed
+
