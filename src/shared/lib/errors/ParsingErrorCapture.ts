@@ -43,7 +43,7 @@ export class ParsingErrorCapture {
       this.statusErrorMap[payload.status] || (payload.status >= 500 ? InternalServerError : ServerCustomError);
 
     // 에러 클래스를 생성하고 던집니다.
-    return new ErrorClass(payload, true);
+    return payload.status >= 500 ? new ErrorClass(payload, true) : new ErrorClass(payload, false);
   };
 
   public isServerError(error: unknown): error is ServerErrorPayload {
@@ -55,7 +55,7 @@ export class ParsingErrorCapture {
   }
 
   public isUnauthorizedError(error: unknown): error is { error: string } {
-    return typeof error === 'object' && error !== null && 'error' in error;
+    return typeof error === 'object' && error !== null && 'error' in error && error.error === 'Unauthorized';
   }
 }
 
