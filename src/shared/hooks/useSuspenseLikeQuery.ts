@@ -13,8 +13,17 @@ export function useSuspenseLikeQuery<TData, TError>(opts: UseQueryOptions<TData,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
+    initialDataUpdatedAt: () => {
+      const query = qc.getQueryCache().find({ queryKey: queryKey! });
+      return query?.state.dataUpdateCount ?? 0;
+    },
     ...options,
   });
+
+  const cachedQuery = qc.getQueryCache().find({ queryKey: queryKey! });
+  if (cachedQuery?.state.data && isLoading) {
+    return cachedQuery.state.data as TData;
+  }
 
   if (isLoading) {
     // 이미 진행 중인 Promise가 있으면 그걸, 없으면 새로 생성
