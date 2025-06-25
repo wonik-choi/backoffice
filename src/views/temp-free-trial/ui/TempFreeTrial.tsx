@@ -1,16 +1,18 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import { cookies } from 'next/headers';
 
 // shared
 import { getQueryClient } from '@/shared/lib/tanstack/getQueryClient';
-import { formatKoreanTitle } from '@/shared/lib/date-fns/utls';
-
-// entities
-import { PeriodType } from '@/entities/common/enums';
+import { ClientCustomError } from '@/shared/lib/errors/errors';
 
 // features
 import AsyncBoundary from '@/features/authentication/ui/AsyncBoundary';
 import { TempFreeTrialUsersQueryKeys } from '@/features/temp-free-trial-users/config/query-keys';
 import { SkeletonExportButton } from '@/features/export-csv-free-trial-student/ui/ExportButton';
+import {
+  prefetchTempFreeTrialUsers,
+  prefetchTempFreeTrialUsersInitialFilter,
+} from '@/features/temp-free-trial-users/services/prefetch/prefetchTempFreeTrialUsers';
 
 // views
 import TempFreeTrialFilterSection from '@/views/temp-free-trial/ui/TempFreeTrialFilterSection';
@@ -21,16 +23,17 @@ import TempFreeTrialTable from '@/views/temp-free-trial/ui/TempFreeTrialTable';
 
 const TempFreeTrial = async () => {
   const queryClient = getQueryClient();
+  const cookieStore = await cookies(); // 해당 쿠키는 request 에 포함하는 쿠키이지 브라우저의 쿠키가 아닙니다.
+  const session = cookieStore.get('SESSION')?.value;
+
+  if (!session) {
+    throw new ClientCustomError('not found session on temp free trial request');
+  }
 
   /** SSR */
   await queryClient.prefetchQuery({
-    ...TempFreeTrialUsersQueryKeys.temp_free_trial_users.lists({
-      periodType: PeriodType.MONTH,
-      baseDate: formatKoreanTitle(new Date(), 'yyyy-MM-dd'),
-      timeZone: 'Asia/Seoul',
-      page: 0,
-      size: 10,
-    }),
+    ...TempFreeTrialUsersQueryKeys.temp_free_trial_users.lists(prefetchTempFreeTrialUsersInitialFilter),
+    queryFn: () => prefetchTempFreeTrialUsers(session),
   });
 
   return (

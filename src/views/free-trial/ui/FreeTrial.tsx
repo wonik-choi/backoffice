@@ -1,16 +1,18 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import { cookies } from 'next/headers';
 
 // shared
 import { getQueryClient } from '@/shared/lib/tanstack/getQueryClient';
-import { formatKoreanTitle } from '@/shared/lib/date-fns/utls';
-
-// entities
-import { PeriodType } from '@/entities/free-trial-user/models/enums';
+import { ClientCustomError } from '@/shared/lib/errors/errors';
 
 // features
 import AsyncBoundary from '@/features/authentication/ui/AsyncBoundary';
 import { FreeTrialUsersQueryKeys } from '@/features/free-trial-users/config/query-keys';
 import { SkeletonExportButton } from '@/features/export-csv-free-trial-student/ui/ExportButton';
+import {
+  prefetchFreeTrialUsers,
+  prefetchFreeTrialUsersInitialFilter,
+} from '@/features/free-trial-users/services/prefetch/prefetchFreeTrialUsers';
 
 // views
 import FreeTrialFilterSection from '@/views/free-trial/ui/FreeTrialFilterSection';
@@ -21,16 +23,17 @@ import FreeTrialTable from '@/views/free-trial/ui/FreeTrialTable';
 
 const FreeTrial = async () => {
   const queryClient = getQueryClient();
+  const cookieStore = await cookies(); // 해당 쿠키는 request 에 포함하는 쿠키이지 브라우저의 쿠키가 아닙니다.
+  const session = cookieStore.get('SESSION')?.value;
+
+  if (!session) {
+    throw new ClientCustomError('not found session on free trialrequest');
+  }
 
   /** SSR */
   await queryClient.prefetchQuery({
-    ...FreeTrialUsersQueryKeys.free_trial_users.lists({
-      periodType: PeriodType.MONTH,
-      baseDate: formatKoreanTitle(new Date(), 'yyyy-MM-dd'),
-      timeZone: 'Asia/Seoul',
-      page: 0,
-      size: 10,
-    }),
+    ...FreeTrialUsersQueryKeys.free_trial_users.lists(prefetchFreeTrialUsersInitialFilter),
+    queryFn: () => prefetchFreeTrialUsers(session),
   });
 
   return (
