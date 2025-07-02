@@ -14,6 +14,7 @@ export const useNavigationContext = () => {
     },
     onErrorCallback: (error: unknown) => {
       alertError(error);
+      unhandledFunction();
     },
   });
 
