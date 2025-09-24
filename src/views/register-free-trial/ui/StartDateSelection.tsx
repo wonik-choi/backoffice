@@ -23,6 +23,7 @@ import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/
 
 // views
 import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFreeTrialLayout';
+import { useExcludeSpecificDatesInSchedule } from '@/views/register-free-trial/services/useExcludeSpecificDatesInSchedule';
 import { StepProps } from '@/views/register-free-trial/model/interface';
 
 export function StartDateSelection({ currentStep, totalSteps }: StepProps) {
@@ -45,6 +46,13 @@ export function StartDateSelection({ currentStep, totalSteps }: StepProps) {
     .map(([_, normalizedNumber]) => Number(normalizedNumber));
 
   const isDateValid = date instanceof Date && !isNaN(date.getTime());
+
+  /**
+   * @description
+   * 2025년 추석 연휴 disabled 처리 (추석이 지난 이후 삭제될 예정입니다.)
+   */
+  const excludedChuseokDatesString = ['2025-10-03', '2025-10-06', '2025-10-07', '2025-10-08', '2025-10-09'];
+  const excludedChuseokDates = useExcludeSpecificDatesInSchedule(excludedChuseokDatesString);
 
   /**
    * @description
@@ -93,7 +101,7 @@ export function StartDateSelection({ currentStep, totalSteps }: StepProps) {
             selected={date}
             onSelect={setDate as (date?: Date) => void}
             locale={ko}
-            disabled={[{ dayOfWeek: excludedFromScheduleDates }, { before: addDayToToday(3) }]}
+            disabled={[{ dayOfWeek: excludedFromScheduleDates }, { before: addDayToToday(3) }, ...excludedChuseokDates]}
             showOutsideDays={false}
             isSelectedBookedDate={date?.getDay() === 1}
             defaultMonth={tryPossibleStartDate}
