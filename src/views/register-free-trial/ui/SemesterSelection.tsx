@@ -1,26 +1,32 @@
-'use client';
-import React from 'react';
-import { motion } from 'framer-motion';
-import { z } from 'zod';
-import { useForm } from '@tanstack/react-form';
+"use client";
+import React from "react";
+import { motion } from "framer-motion";
+import { z } from "zod";
+import { useForm } from "@tanstack/react-form";
+
+// lib
+import * as fbq from "@/shared/lib/meta-pixel/fpixel";
 
 // shared
-import { RadioGroup, RadioGroupItem } from '@/shared/components/atomics/radio-group';
-import { Label } from '@/shared/components/atomics/label';
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from "@/shared/components/atomics/radio-group";
+import { Label } from "@/shared/components/atomics/label";
 
-import { Button, RadioItem } from '@/shared/components/ui';
+import { Button, RadioItem } from "@/shared/components/ui";
 
 // entities
-import { Semester } from '@/entities/free-trial-user/models/enums';
+import { Semester } from "@/entities/free-trial-user/models/enums";
 
 // features
-import { freeTrialSchemaInStore } from '@/features/register-free-trial/config/schema';
-import { useRegisterFreeTrialStore } from '@/features/register-free-trial/model/store';
-import RegisterFreeTrialLayout from '@/views/register-free-trial/ui/RegisterFreeTrialLayout';
+import { freeTrialSchemaInStore } from "@/features/register-free-trial/config/schema";
+import { useRegisterFreeTrialStore } from "@/features/register-free-trial/model/store";
+import RegisterFreeTrialLayout from "@/views/register-free-trial/ui/RegisterFreeTrialLayout";
 
 // view
-import { SEMESTER_OPTIONS } from '@/views/register-free-trial/config/const';
-import { StepProps } from '@/views/register-free-trial/model/interface';
+import { SEMESTER_OPTIONS } from "@/views/register-free-trial/config/const";
+import { StepProps } from "@/views/register-free-trial/model/interface";
 
 // Zod 스키마 정의
 const semesterSchema = freeTrialSchemaInStore.pick({
@@ -29,23 +35,44 @@ const semesterSchema = freeTrialSchemaInStore.pick({
 
 type SemesterFormValues = z.infer<typeof semesterSchema>;
 
-export function SemesterSelection({ currentStep, totalSteps }: StepProps) {
-  const { freeTrial, setSemester, nextStep, prevStep } = useRegisterFreeTrialStore();
+export function SemesterSelection({
+  currentStep,
+  totalSteps,
+  onCompleteSubmitForm,
+  onPendingSubmitForm,
+}: StepProps) {
+  const { freeTrial, setSemester, prevStep } = useRegisterFreeTrialStore();
 
   const defaultValue: SemesterFormValues = {
     semester: freeTrial.semester,
+  };
+
+  const submitUserDetailForm = async (semester: Semester) => {
+    if (onPendingSubmitForm) return;
+    const promise = new Promise((resolve) => {
+      setSemester(semester);
+      resolve(true);
+    });
+
+    await promise;
+    if (onCompleteSubmitForm) {
+      onCompleteSubmitForm();
+    }
   };
 
   const form = useForm({
     defaultValues: defaultValue,
     onSubmit: async ({ value }) => {
       if (!value.semester) return;
-      setSemester(value.semester);
-      nextStep();
+      /**
+       * @description
+       * 학기 선택후 바로 제출 진행
+       */
+      await submitUserDetailForm(value.semester);
     },
     validators: {
       onChange: z.object({
-        semester: z.nativeEnum(Semester, { message: '학기를 선택해주세요' }),
+        semester: z.nativeEnum(Semester, { message: "학기를 선택해주세요" }),
       }),
     },
   });
@@ -56,8 +83,8 @@ export function SemesterSelection({ currentStep, totalSteps }: StepProps) {
 
   return (
     <RegisterFreeTrialLayout
-      title={'어떤 학기를\n공부할까요?'}
-      eventName={'상세폼진입-학기선택'}
+      title={"어떤 학기를\n공부할까요?"}
+      eventName={"상세폼진입-학기선택"}
       progressStep={currentStep}
       totalSteps={totalSteps}
     >
@@ -66,46 +93,54 @@ export function SemesterSelection({ currentStep, totalSteps }: StepProps) {
           e.preventDefault();
           form.handleSubmit();
         }}
-        className="space-y-8 w-full h-full"
+        className='space-y-8 w-full h-full'
       >
-        <div className="flex flex-1 flex-col justify-start items-start h-full relative">
+        <div className='flex flex-1 flex-col justify-start items-start h-full relative'>
           <motion.div
-            className="w-full space-y-8"
+            className='w-full space-y-8'
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4 }}
             tabIndex={-1}
           >
-            <form.Field name="semester">
+            <form.Field name='semester'>
               {(field) => (
                 <motion.div
                   initial={{ y: -20, opacity: 0 }}
                   animate={{
                     y: 0,
                     opacity: 1,
-                    pointerEvents: 'auto',
+                    pointerEvents: "auto",
                   }}
-                  transition={{ duration: 0.3, ease: 'easeIn', delay: 0.4 }}
-                  className="space-y-2 w-full"
+                  transition={{ duration: 0.3, ease: "easeIn", delay: 0.4 }}
+                  className='space-y-2 w-full'
                 >
                   <RadioGroup
                     name={field.name}
                     value={field.state.value}
-                    onValueChange={(value) => field.handleChange(value as unknown as Semester)}
-                    className="w-full mt-[1.8rem]"
+                    onValueChange={(value) =>
+                      field.handleChange(value as unknown as Semester)
+                    }
+                    className='w-full mt-[1.8rem]'
                   >
-                    <div className="grid grid-cols-2 w-full gap-x-[2rem] gap-y-[3rem] mobile:gap-y-[4rem]">
+                    <div className='grid grid-cols-2 w-full gap-x-[2rem] gap-y-[3rem] mobile:gap-y-[4rem]'>
                       {SEMESTER_OPTIONS.map((option) => (
                         <React.Fragment key={option.value}>
                           <RadioGroupItem
                             value={String(option.value)}
                             id={String(option.value)}
-                            className="peer sr-only"
+                            className='peer sr-only'
                           />
-                          <Label htmlFor={String(option.value)} className="block w-full cursor-pointer">
+                          <Label
+                            htmlFor={String(option.value)}
+                            className='block w-full cursor-pointer'
+                          >
                             <RadioItem
                               label={option.label}
-                              checked={String(field.state.value) === String(option.value)}
+                              checked={
+                                String(field.state.value) ===
+                                String(option.value)
+                              }
                             />
                           </Label>
                         </React.Fragment>
@@ -121,19 +156,31 @@ export function SemesterSelection({ currentStep, totalSteps }: StepProps) {
             initial={{ opacity: 0 }}
             animate={{
               opacity: 1,
-              pointerEvents: 'auto',
+              pointerEvents: "auto",
             }}
-            transition={{ duration: 0.3, ease: 'easeIn', delay: 0.7 }}
-            className="w-full mt-auto pt-6"
+            transition={{ duration: 0.3, ease: "easeIn", delay: 0.7 }}
+            className='w-full mt-auto pt-6'
           >
-            <form.Subscribe selector={(state) => [state.canSubmit, state.values.semester]}>
+            <form.Subscribe
+              selector={(state) => [state.canSubmit, state.values.semester]}
+            >
               {([canSubmit, semester]) => (
-                <div className="flex justify-center gap-[0.8rem] w-full">
-                  <Button variant="empty" type="button" onClick={prevStep} className="w-[7.8rem]">
+                <div className='flex justify-center gap-[0.8rem] w-full'>
+                  <Button
+                    variant='empty'
+                    type='button'
+                    onClick={prevStep}
+                    className='w-[7.8rem]'
+                  >
                     이전
                   </Button>
-                  <Button type="button" onClick={handleSubmit} disabled={!semester}>
-                    {'다음'}
+                  <Button
+                    type='button'
+                    onClick={handleSubmit}
+                    disabled={!semester}
+                    loading={onPendingSubmitForm}
+                  >
+                    {"다음"}
                   </Button>
                 </div>
               )}

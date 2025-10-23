@@ -1,19 +1,31 @@
 // entities
-import { FreeTrialUserGrade, Semester } from '@/entities/free-trial-user/models/enums';
+import {
+  FreeTrialUserGrade,
+  Semester,
+} from "@/entities/free-trial-user/models/enums";
 
 // features
-import { UserInStore, FreeTrialInStore, Rental, Promotion } from '@/features/register-free-trial/config/schema';
+import {
+  UserInStore,
+  FreeTrialInStore,
+  Rental,
+  Promotion,
+} from "@/features/register-free-trial/config/schema";
 
 export enum FormStep {
   ParentInfo = 0,
   StudentInfo = 1,
   Schedule = 2,
-  Semester = 3,
-  StartDate = 4,
-  DeviceSelection = 5,
-  AddressEntry = 6,
-  Promotion = 7,
-  Completion = 8,
+  Semester = 4,
+  StartDate = 3,
+  /**
+   * @description
+   * 기존 폼 구조에서 삭제된 단계
+   */
+  DeviceSelection = 6,
+  AddressEntry = 7,
+  Promotion = 8,
+  Completion = 5,
 }
 
 export interface FreeTrialUserState {
@@ -38,8 +50,8 @@ export interface FreeTrialUserState {
   setParentInformation: (parent: Partial<UserInStore>) => void;
   setStudentInformation: (student: Partial<UserInStore>) => void;
   setSchoolInformation: (school: Partial<UserInStore>) => void;
-  setFreeTrialStartDate: (date: FreeTrialInStore['startDate']) => void;
-  setFreeTrialSchedule: (schedule: FreeTrialInStore['schedules']) => void;
+  setFreeTrialStartDate: (date: FreeTrialInStore["startDate"]) => void;
+  setFreeTrialSchedule: (schedule: FreeTrialInStore["schedules"]) => void;
   setSemester: (semester: Semester) => void;
   setRental: (rental: Rental) => void;
   setPromotion: (promotion: Promotion[]) => void;
